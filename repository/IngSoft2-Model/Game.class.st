@@ -4,7 +4,10 @@ Class {
 	#instVars : [
 		'dices',
 		'size',
-		'position'
+		'position',
+		'players',
+		'currentShift',
+		'gameEnded'
 	],
 	#category : 'IngSoft2-Model',
 	#package : 'IngSoft2-Model'
@@ -31,6 +34,11 @@ Game class >> withDices: aCollectionOfDices withSize: aSize [
 	^self new initializeWithDices: aCollectionOfDices andSize: aSize.
 ]
 
+{ #category : 'as yet unclassified' }
+Game class >> withDices: aCollectionOfDices withSize: aSize withPlayers: aCollectionOfPlayersPositions [
+	^self new initializeWithDices: aCollectionOfDices andSize: aSize andPlayers: aCollectionOfPlayersPositions.
+]
+
 { #category : 'initialization' }
 Game >> initializeWithDices: aCollectionOfDices andSize: aSize [ 
 	dices := aCollectionOfDices .
@@ -38,13 +46,39 @@ Game >> initializeWithDices: aCollectionOfDices andSize: aSize [
 	position := 0.
 ]
 
+{ #category : 'initialization' }
+Game >> initializeWithDices: aCollectionOfDices andSize: aSize andPlayers: aNumberOfPlayers [ 
+	dices := aCollectionOfDices.
+	size := aSize.
+	players := OrderedCollection new.
+	position:=0.
+	currentShift := 1.
+	gameEnded := false.
+	aNumberOfPlayers timesRepeat: [players add: 0]
+]
+
+{ #category : 'as yet unclassified' }
+Game >> playTurn [
+	
+	| result currentPlayerPosition |
+	
+	gameEnded ifTrue: [ Error signal: 'You Cannot Throw, The Game Ended' ].
+	result:= self throwDices .
+	players at: currentShift incrementBy: result.
+	currentPlayerPosition := players at: currentShift.
+	gameEnded := size <= currentPlayerPosition.
+	currentShift := ((currentShift) \\ players size) + 1.
+	^currentPlayerPosition.
+]
+
 { #category : 'as yet unclassified' }
 Game >> throwDices [
 
-	(position > size) ifTrue: [Error signal:'You Cannot Throw, The Game Ended'  ].
-	position:= position + (dices inject: 0 into: [:suma :dado | suma + dado throw ]).
+	| sumaDados |
+	
+	sumaDados:= dices inject: 0 into: [:suma :dado | suma + dado throw ].
 
-	^position.
+	^sumaDados .
 	
 	
 ]

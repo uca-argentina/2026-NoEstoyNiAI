@@ -48,7 +48,7 @@ aCollectionOfDices add: (Dice withFaces: 15).
 aCollectionOfDices add: (Dice withFaces: 5).
 aGame := Game withDices: aCollectionOfDices .
 
-self assert: ((aGame throwDices) between: 3 and: 30).
+self assert: (aGame throwDices between: 3 and: 30).
 ]
 
 { #category : 'tests' }
@@ -58,10 +58,10 @@ aCollectionOfDices:= OrderedCollection new.
 aCollectionOfDices add: (FixedDice withFixedResult: 10).
 aCollectionOfDices add: (FixedDice withFixedResult: 10).
 aCollectionOfDices add: (FixedDice withFixedResult: 10).
-aGame := Game withDices: aCollectionOfDices withSize: 20.
-aGame throwDices.
+aGame := Game withDices: aCollectionOfDices withSize: 20 withPlayers: 1.
+aGame playTurn .
 self
-		should: [ aGame throwDices ]
+		should: [ aGame playTurn ]
 		raise: Error
 		withExceptionDo: [ :error |
 			self
@@ -121,4 +121,68 @@ self
 				equals: 'You Cannot Create A Game With No Dices' ]
 
 
+]
+
+{ #category : 'tests' }
+GameTest >> test009WhenTheGameIsCreatedWith3PlayersThenTheFirstPlayerCanPlayItsTurn [
+| aGame aCollectionOfDices |
+aCollectionOfDices:= OrderedCollection new.
+aCollectionOfDices add: (FixedDice withFixedResult: 10).
+aCollectionOfDices add: (FixedDice withFixedResult: 5).
+aCollectionOfDices add: (FixedDice withFixedResult: 15).
+
+aGame := Game withDices: aCollectionOfDices withSize: 40 withPlayers: 3.
+
+self assert: aGame playTurn equals: 30.
+]
+
+{ #category : 'tests' }
+GameTest >> test010WhenTheSecondPlayerPlaysItsTurnThenTheResultIsItsNewPosition [
+| aGame aCollectionOfDices |
+aCollectionOfDices:= OrderedCollection new.
+aCollectionOfDices add: (FixedDice withFixedResult: 10).
+aCollectionOfDices add: (FixedDice withFixedResult: 5).
+aCollectionOfDices add: (FixedDice withFixedResult: 15).
+
+aGame := Game withDices: aCollectionOfDices withSize: 40 withPlayers: 3.
+aGame playTurn.
+
+self assert: aGame playTurn equals: 30.
+]
+
+{ #category : 'tests' }
+GameTest >> test011WhenTheFirstPlayerPlaysTwiceThenItsPositionIsTheSumOfBothTurnsThrows [
+| aGame aCollectionOfDices |
+aCollectionOfDices:= OrderedCollection new.
+aCollectionOfDices add: (FixedDice withFixedResult: 10).
+aCollectionOfDices add: (FixedDice withFixedResult: 5).
+aCollectionOfDices add: (FixedDice withFixedResult: 15).
+
+aGame := Game withDices: aCollectionOfDices withSize: 40 withPlayers: 3.
+aGame playTurn.
+aGame playTurn.
+aGame playTurn.
+self assert: aGame playTurn equals: 60.
+]
+
+{ #category : 'tests' }
+GameTest >> test012WhenTheFirstPlayerReachesTheGoalThenTheSecondPlayerCannotPlayItsTurn [
+| aGame aCollectionOfDices |
+aCollectionOfDices:= OrderedCollection new.
+aCollectionOfDices add: (FixedDice withFixedResult: 10).
+aCollectionOfDices add: (FixedDice withFixedResult: 5).
+aCollectionOfDices add: (FixedDice withFixedResult: 15).
+
+aGame := Game withDices: aCollectionOfDices withSize: 40 withPlayers: 3.
+aGame playTurn.
+aGame playTurn.
+aGame playTurn.
+aGame playTurn.
+self
+		should: [ aGame playTurn ]
+		raise: Error
+		withExceptionDo: [ :error |
+			self
+				assert: error messageText
+				equals: 'You Cannot Throw, The Game Ended' ]
 ]

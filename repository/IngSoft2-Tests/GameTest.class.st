@@ -1,12 +1,16 @@
 Class {
-	#name : 'DummyTest',
+	#name : 'GameTest',
 	#superclass : 'TestCase',
 	#category : 'IngSoft2-Tests',
 	#package : 'IngSoft2-Tests'
 }
 
 { #category : 'tests' }
-DummyTest >> testDummy [
+GameTest >> test001 [
 
-	self assert: Dummy new isDummy
+| aGame |
+
+aGame := Game default.
+
+self assert: aGame throwDices equals: 10
 ]

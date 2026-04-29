@@ -10,6 +10,9 @@ Class {
 
 { #category : 'as yet unclassified' }
 FixedDice class >> withFixedResult: aFixedResult [ 
+
+	(aFixedResult isInteger) ifFalse: [Error signal: 'A Dice can not be created with a not integer type of faces'].
+	(aFixedResult < 4) ifTrue: [Error signal: 'A Dice can not be created with less than 4 faces'].
 	^self new initializeWithFixedResult: aFixedResult.
 ]
 

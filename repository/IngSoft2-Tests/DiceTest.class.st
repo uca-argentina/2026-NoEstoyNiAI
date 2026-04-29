@@ -36,3 +36,27 @@ DiceTest >> test003WhenADiceIsCreatedWithLessThan4FacesThenTheDiceCannotBeCreate
 				assert: error messageText
 				equals: 'A Dice can not be created with less than 4 faces' ]
 ]
+
+{ #category : 'tests' }
+DiceTest >> test004WhenADiceIsCreatedWithAFloatTypeOfFacesThenTheDiceCannotBeCreated [
+
+	self
+		should: [ Dice withFaces: 5.4 ]
+		raise: Error
+		withExceptionDo: [ :error |
+			self
+				assert: error messageText
+				equals: 'A Dice can not be created with a not integer type of faces' ]
+]
+
+{ #category : 'tests' }
+DiceTest >> test005WhenADiceIsCreatedWithAStringTypeOfFacesThenTheDiceCannotBeCreated [
+
+	self
+		should: [ Dice withFaces: '5' ]
+		raise: Error
+		withExceptionDo: [ :error |
+			self
+				assert: error messageText
+				equals: 'A Dice can not be created with a not integer type of faces' ]
+]

@@ -15,7 +15,12 @@ Dice class >> default [
 
 { #category : 'as yet unclassified' }
 Dice class >> withFaces: numberOfFaces [ 
+
+	(numberOfFaces isInteger) ifFalse: [Error signal: 'A Dice can not be created with a not integer type of faces'].
 	(numberOfFaces < 4) ifTrue: [Error signal: 'A Dice can not be created with less than 4 faces'].
+	
+	
+	
 	^(self new) initializeWithFaces: numberOfFaces.
 ]
 

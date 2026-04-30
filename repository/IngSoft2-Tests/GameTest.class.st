@@ -20,7 +20,7 @@ GameTest >> test002WhenAGameThrows1DiceThenTheGameReturnsTheSum [
 
 | aGame aCollectionOfDices|
 aCollectionOfDices:= OrderedCollection new.
-aCollectionOfDices add: (FixedDice withFixedResult: #(10)).
+aCollectionOfDices add: (FixedDice withFixedResults: #(10)).
 
 aGame := Game withDices: aCollectionOfDices .
 
@@ -31,9 +31,9 @@ self assert: aGame throwDices equals: 10
 GameTest >> test003WhenAGameThrows3FixedDicesOf10ThenTheGameReturnsTheSumOfThem [
 | aGame aCollectionOfDices|
 aCollectionOfDices:= OrderedCollection new.
-aCollectionOfDices add: (FixedDice withFixedResult: #(10)).
-aCollectionOfDices add: (FixedDice withFixedResult: #(10)).
-aCollectionOfDices add: (FixedDice withFixedResult: #(10)).
+aCollectionOfDices add: (FixedDice withFixedResults: #(10)).
+aCollectionOfDices add: (FixedDice withFixedResults: #(10)).
+aCollectionOfDices add: (FixedDice withFixedResults: #(10)).
 aGame := Game withDices: aCollectionOfDices .
 
 self assert: aGame throwDices equals: 30
@@ -55,9 +55,9 @@ self assert: (aGame throwDices between: 3 and: 30).
 GameTest >> test005WhenAGameIsEndedThenYouCannotThrowTheDices [
 | aGame aCollectionOfDices|
 aCollectionOfDices:= OrderedCollection new.
-aCollectionOfDices add: (FixedDice withFixedResult: #(10)).
-aCollectionOfDices add: (FixedDice withFixedResult: #(10)).
-aCollectionOfDices add: (FixedDice withFixedResult: #(10)).
+aCollectionOfDices add: (FixedDice withFixedResults: #(10)).
+aCollectionOfDices add: (FixedDice withFixedResults: #(10)).
+aCollectionOfDices add: (FixedDice withFixedResults: #(10)).
 aGame := Game withDices: aCollectionOfDices withSize: 20 withPlayers: 1.
 aGame playTurn .
 self
@@ -75,9 +75,9 @@ self
 GameTest >> test006WhenAGameIsCreatedWithLessThan2SquaresThenTheGameCannotBeCreated [
 | aCollectionOfDices|
 aCollectionOfDices:= OrderedCollection new.
-aCollectionOfDices add: (FixedDice withFixedResult: #(10)).
-aCollectionOfDices add: (FixedDice withFixedResult: #(10)).
-aCollectionOfDices add: (FixedDice withFixedResult: #(10)).
+aCollectionOfDices add: (FixedDice withFixedResults: #(10)).
+aCollectionOfDices add: (FixedDice withFixedResults: #(10)).
+aCollectionOfDices add: (FixedDice withFixedResults: #(10)).
 self
 		should: [Game withDices: aCollectionOfDices withSize: 0 ]
 		raise: Error
@@ -93,9 +93,9 @@ self
 GameTest >> test007WhenAGameIsCreatedWithNegativeSquaresThenTheGameCannotBeCreated [
 | aCollectionOfDices|
 aCollectionOfDices:= OrderedCollection new.
-aCollectionOfDices add: (FixedDice withFixedResult: #(10)).
-aCollectionOfDices add: (FixedDice withFixedResult: #(10)).
-aCollectionOfDices add: (FixedDice withFixedResult: #(10)).
+aCollectionOfDices add: (FixedDice withFixedResults: #(10)).
+aCollectionOfDices add: (FixedDice withFixedResults: #(10)).
+aCollectionOfDices add: (FixedDice withFixedResults: #(10)).
 self
 		should: [Game withDices: aCollectionOfDices withSize: -10 ]
 		raise: Error
@@ -127,9 +127,9 @@ self
 GameTest >> test009WhenTheGameIsCreatedWith3PlayersThenTheFirstPlayerCanPlayItsTurn [
 | aGame aCollectionOfDices |
 aCollectionOfDices:= OrderedCollection new.
-aCollectionOfDices add: (FixedDice withFixedResult: #(10)).
-aCollectionOfDices add: (FixedDice withFixedResult: #(5)).
-aCollectionOfDices add: (FixedDice withFixedResult: #(15)).
+aCollectionOfDices add: (FixedDice withFixedResults: #(10)).
+aCollectionOfDices add: (FixedDice withFixedResults: #(5)).
+aCollectionOfDices add: (FixedDice withFixedResults: #(15)).
 
 aGame := Game withDices: aCollectionOfDices withSize: 40 withPlayers: 3.
 
@@ -140,9 +140,9 @@ self assert: aGame playTurn equals: 30.
 GameTest >> test010WhenTheSecondPlayerPlaysItsTurnThenTheResultIsItsNewPosition [
 | aGame aCollectionOfDices |
 aCollectionOfDices:= OrderedCollection new.
-aCollectionOfDices add: (FixedDice withFixedResult: #(10)).
-aCollectionOfDices add: (FixedDice withFixedResult: #(5)).
-aCollectionOfDices add: (FixedDice withFixedResult: #(15)).
+aCollectionOfDices add: (FixedDice withFixedResults: #(10)).
+aCollectionOfDices add: (FixedDice withFixedResults: #(5)).
+aCollectionOfDices add: (FixedDice withFixedResults: #(15)).
 
 aGame := Game withDices: aCollectionOfDices withSize: 40 withPlayers: 3.
 aGame playTurn.
@@ -154,9 +154,9 @@ self assert: aGame playTurn equals: 30.
 GameTest >> test011WhenTheFirstPlayerPlaysTwiceThenItsPositionIsTheSumOfBothTurnsThrows [
 | aGame aCollectionOfDices |
 aCollectionOfDices:= OrderedCollection new.
-aCollectionOfDices add: (FixedDice withFixedResult: #(10)).
-aCollectionOfDices add: (FixedDice withFixedResult: #(5)).
-aCollectionOfDices add: (FixedDice withFixedResult: #(15)).
+aCollectionOfDices add: (FixedDice withFixedResults: #(10)).
+aCollectionOfDices add: (FixedDice withFixedResults: #(5)).
+aCollectionOfDices add: (FixedDice withFixedResults: #(15)).
 
 aGame := Game withDices: aCollectionOfDices withSize: 40 withPlayers: 3.
 aGame playTurn.
@@ -169,9 +169,9 @@ self assert: aGame playTurn equals: 60.
 GameTest >> test012WhenTheFirstPlayerReachesTheGoalThenTheSecondPlayerCannotPlayItsTurn [
 | aGame aCollectionOfDices |
 aCollectionOfDices:= OrderedCollection new.
-aCollectionOfDices add: (FixedDice withFixedResult: #(10)).
-aCollectionOfDices add: (FixedDice withFixedResult: #(5)).
-aCollectionOfDices add: (FixedDice withFixedResult: #(15)).
+aCollectionOfDices add: (FixedDice withFixedResults: #(10)).
+aCollectionOfDices add: (FixedDice withFixedResults: #(5)).
+aCollectionOfDices add: (FixedDice withFixedResults: #(15)).
 
 aGame := Game withDices: aCollectionOfDices withSize: 40 withPlayers: 3.
 aGame playTurn.
@@ -192,9 +192,9 @@ GameTest >> test013WhenTheGameStartsAndTheOnlyPlayerDidNotReachesTheGoalThenTheG
 
 | aGame aCollectionOfDices |
 aCollectionOfDices:= OrderedCollection new.
-aCollectionOfDices add: (FixedDice withFixedResult: #(10)).
-aCollectionOfDices add: (FixedDice withFixedResult: #(5)).
-aCollectionOfDices add: (FixedDice withFixedResult: #(15)).
+aCollectionOfDices add: (FixedDice withFixedResults: #(10)).
+aCollectionOfDices add: (FixedDice withFixedResults: #(5)).
+aCollectionOfDices add: (FixedDice withFixedResults: #(15)).
 
 aGame := Game withDices: aCollectionOfDices withSize: 40 withPlayers: 1.
 aGame playTurn.
@@ -207,9 +207,9 @@ GameTest >> test014WhenTheGameStartsAndThePlayersDidNotReachesTheGoalThenTheGame
 
 | aGame aCollectionOfDices |
 aCollectionOfDices:= OrderedCollection new.
-aCollectionOfDices add: (FixedDice withFixedResult: #(10)).
-aCollectionOfDices add: (FixedDice withFixedResult: #(5)).
-aCollectionOfDices add: (FixedDice withFixedResult: #(15)).
+aCollectionOfDices add: (FixedDice withFixedResults: #(10)).
+aCollectionOfDices add: (FixedDice withFixedResults: #(5)).
+aCollectionOfDices add: (FixedDice withFixedResults: #(15)).
 
 aGame := Game withDices: aCollectionOfDices withSize: 40 withPlayers: 2.
 aGame playTurn.
@@ -223,9 +223,9 @@ GameTest >> test015WhenTheGameStartsAndTheOnlyPlayerReachesTheGoalThenTheGameIsE
 
 | aGame aCollectionOfDices |
 aCollectionOfDices:= OrderedCollection new.
-aCollectionOfDices add: (FixedDice withFixedResult: #(10)).
-aCollectionOfDices add: (FixedDice withFixedResult: #(5)).
-aCollectionOfDices add: (FixedDice withFixedResult: #(15)).
+aCollectionOfDices add: (FixedDice withFixedResults: #(10)).
+aCollectionOfDices add: (FixedDice withFixedResults: #(5)).
+aCollectionOfDices add: (FixedDice withFixedResults: #(15)).
 
 aGame := Game withDices: aCollectionOfDices withSize: 40 withPlayers: 1.
 aGame playTurn.
@@ -239,9 +239,9 @@ GameTest >> test016WhenTheOnlyPlayerReachesTheGoalThenItsTheWinner [
 
 | aGame aCollectionOfDices |
 aCollectionOfDices:= OrderedCollection new.
-aCollectionOfDices add: (FixedDice withFixedResult: #(10)).
-aCollectionOfDices add: (FixedDice withFixedResult: #(5)).
-aCollectionOfDices add: (FixedDice withFixedResult: #(15)).
+aCollectionOfDices add: (FixedDice withFixedResults: #(10)).
+aCollectionOfDices add: (FixedDice withFixedResults: #(5)).
+aCollectionOfDices add: (FixedDice withFixedResults: #(15)).
 
 aGame := Game withDices: aCollectionOfDices withSize: 40 withPlayers: 1.
 aGame playTurn.
@@ -255,9 +255,9 @@ GameTest >> test017WhenTheSecondPlayerOfTheTwoReachesTheGoalFirtThenTheSecondPla
 
 | aGame aCollectionOfDices |
 aCollectionOfDices:= OrderedCollection new.
-aCollectionOfDices add: (FixedDice withFixedResult: #(5 10)).
+aCollectionOfDices add: (FixedDice withFixedResults: #(5 10)).
 
-aGame := Game withDices: aCollectionOfDices withSize: 20 withPlayers: 2.
+aGame := Game withDices: aCollectionOfDices withSize: 10 withPlayers: 2.
 aGame playTurn.
 aGame playTurn.
 
@@ -269,8 +269,8 @@ GameTest >> test018WhenTheThirdPlayerOfTheThreePlayersReachesTheGoalFirtThenTheT
 
 | aGame aCollectionOfDices |
 aCollectionOfDices:= OrderedCollection new.
-aCollectionOfDices add: (FixedDice withFixedResult: #(5 10 15)).
-aCollectionOfDices add: (FixedDice withFixedResult: #(5 7 15)).
+aCollectionOfDices add: (FixedDice withFixedResults: #(5 10 15)).
+aCollectionOfDices add: (FixedDice withFixedResults: #(5 7 15)).
 
 aGame := Game withDices: aCollectionOfDices withSize: 45 withPlayers: 3.
 aGame playTurn.
@@ -288,8 +288,8 @@ GameTest >> test019WhenTheSecondPlayerOfTheTreePlayersReachesTheGolsFirstThenThe
 
 | aGame aCollectionOfDices |
 aCollectionOfDices:= OrderedCollection new.
-aCollectionOfDices add: (FixedDice withFixedResult: #(5 20 15)).
-aCollectionOfDices add: (FixedDice withFixedResult: #(5 20 15)).
+aCollectionOfDices add: (FixedDice withFixedResults: #(5 20 15)).
+aCollectionOfDices add: (FixedDice withFixedResults: #(5 20 15)).
 
 aGame := Game withDices: aCollectionOfDices withSize: 50  withPlayers: 3.
 aGame playTurn.
@@ -302,12 +302,12 @@ self assert: aGame numberOfWinner equals: 2.
 ]
 
 { #category : 'tests' }
-GameTest >> test020 [ "no se como llamarlo pero se esta probando de que si hay mas naves que valores de los dados, se inicia a recorrer de nuevo la coleccion con los valores de los dados"
+GameTest >> test020WhenThePlayersPlayMoreShiftsThanFixedDiceResultsThenTheGameContinuesByReIteratingTheResults [
 
 | aGame aCollectionOfDices |
 aCollectionOfDices:= OrderedCollection new.
-aCollectionOfDices add: (FixedDice withFixedResult: #(5 20)). 
-aCollectionOfDices add: (FixedDice withFixedResult: #(5 20)).
+aCollectionOfDices add: (FixedDice withFixedResults: #(5 20)). 
+aCollectionOfDices add: (FixedDice withFixedResults: #(5 20)).
 
 aGame := Game withDices: aCollectionOfDices withSize: 50  withPlayers: 3.
 aGame playTurn. "nave 1 avanza a la posicion 10 --> suma 10" 
@@ -323,8 +323,8 @@ GameTest >> test021WhenTheGameIsNotFinishedThenThereIsNoWinnerYet [
 
 | aGame aCollectionOfDices |
 aCollectionOfDices:= OrderedCollection new.
-aCollectionOfDices add: (FixedDice withFixedResult: #(5 20)). 
-aCollectionOfDices add: (FixedDice withFixedResult: #(5 20)).
+aCollectionOfDices add: (FixedDice withFixedResults: #(5 20)). 
+aCollectionOfDices add: (FixedDice withFixedResults: #(5 20)).
 
 aGame := Game withDices: aCollectionOfDices withSize: 50  withPlayers: 3.
 aGame playTurn. "nave 1 avanza a la posicion 10 --> suma 10" 

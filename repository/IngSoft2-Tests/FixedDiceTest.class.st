@@ -6,47 +6,56 @@ Class {
 }
 
 { #category : 'tests' }
-FixedDiceTest >> test001WhenAFixedDiceIsThrowThenTheFixedDiceReturnANumberBetween1and6 [
+FixedDiceTest >> test001WhenAFixedDiceWithOneResultIsThrowThenTheFixedDiceReturnThatResult [
 
  | diceResult aDice |
 
-aDice:= FixedDice withFixedResult: 10.
+aDice:= FixedDice withFixedResults: #(10).
 diceResult:= aDice throw.
 self assert: diceResult equals: 10.
 ]
 
 { #category : 'tests' }
-FixedDiceTest >> test002WhenAFixedDiceIsCreatedWithLessThan4FacesThenTheDiceCannotBeCreated [
+FixedDiceTest >> test002WhenAFixedDiceHasMoreThanOneFixedResultThenTheSecondThrowReturnsTheSecondResult [
 
-	self
-		should: [ FixedDice withFixedResult: 3 ]
-		raise: Error
-		withExceptionDo: [ :error |
-			self
-				assert: error messageText
-				equals: 'A Dice can not be created with less than 4 faces' ]
+ | aDice |
+
+aDice:= FixedDice withFixedResults: #(10 5).
+aDice throw.
+aDice throw.
+self assert: aDice throw equals: 10.
 ]
 
 { #category : 'tests' }
-FixedDiceTest >> test003WhenAFixedDiceIsCreatedWithAFloatTypeOfFacesThenTheDiceCannotBeCreated [
+FixedDiceTest >> test003WhenAFixedDiceIsCreatedWithAFloatResultThenTheDiceCannotBeCreated [
 
 	self
-		should: [ FixedDice withFixedResult: 5.4 ]
+		should: [ FixedDice withFixedResults: #(5.4) ]
 		raise: Error
 		withExceptionDo: [ :error |
 			self
 				assert: error messageText
-				equals: 'A Dice can not be created with a not integer type of faces' ]
+				equals:  'A Fixed Dice can not be created with a not integer fixed result']
 ]
 
 { #category : 'tests' }
-FixedDiceTest >> test004WhenAFixedDiceIsCreatedWithAStringTypeOfFacesThenTheDiceCannotBeCreated [
+FixedDiceTest >> test004WhenAFixedDiceIsCreatedWithAStringResultThenTheDiceCannotBeCreated [
 
 	self
-		should: [ FixedDice withFixedResult: '5' ]
+		should: [ FixedDice withFixedResults: '5' ]
 		raise: Error
 		withExceptionDo: [ :error |
 			self
 				assert: error messageText
-				equals: 'A Dice can not be created with a not integer type of faces' ]
+				equals: 'A Fixed Dice can not be created with a not integer fixed result' ]
+]
+
+{ #category : 'tests' }
+FixedDiceTest >> test005WhenAFixedDiceHasTwoFixedResultThenTheThirdThrowReturnsTheFirstResult [
+
+ | diceResult aDice |
+
+aDice:= FixedDice withFixedResults: #(10 5).
+aDice throw.
+self assert: aDice throw equals: 5.
 ]

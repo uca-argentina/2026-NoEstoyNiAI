@@ -17,7 +17,7 @@ Class {
 Game class >> default [
 	| aCollectionOfDices |
 	aCollectionOfDices := OrderedCollection new.
-	aCollectionOfDices add: (FixedDice withFixedResult: #(10)).
+	aCollectionOfDices add: (FixedDice withFixedResults: #(10)).
 	^ (self new) initializeWithDices: aCollectionOfDices andSize: 30.
 ]
 
@@ -66,10 +66,10 @@ Game >> isEnded [
 
 { #category : 'as yet unclassified' }
 Game >> numberOfWinner [
-	| maximo |
+	| maximum |
 	gameEnded ifFalse: [ Error signal: 'There is no winner yet. The game is not finished' ].
-	maximo := players max.
-	^ players indexOf: maximo.
+	maximum := players max.
+	^ players indexOf: maximum.
 ]
 
 { #category : 'as yet unclassified' }
@@ -89,11 +89,11 @@ Game >> playTurn [
 { #category : 'as yet unclassified' }
 Game >> throwDices [
 
-	| sumaDados |
+	| sumOfDices |
 	
-	sumaDados:= dices inject: 0 into: [:suma :dado | suma + dado throw ].
+	sumOfDices:= dices inject: 0 into: [:sum :dice | sum + dice throw ].
 
-	^sumaDados .
+	^sumOfDices .
 	
 	
 ]

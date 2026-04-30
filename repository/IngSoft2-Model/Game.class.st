@@ -17,7 +17,7 @@ Class {
 Game class >> default [
 	| aCollectionOfDices |
 	aCollectionOfDices := OrderedCollection new.
-	aCollectionOfDices add: (FixedDice withFixedResult: 10).
+	aCollectionOfDices add: (FixedDice withFixedResult: #(10)).
 	^ (self new) initializeWithDices: aCollectionOfDices andSize: 30.
 ]
 
@@ -57,9 +57,19 @@ Game >> initializeWithDices: aCollectionOfDices andSize: aSize andPlayers: aNumb
 	aNumberOfPlayers timesRepeat: [players add: 0]
 ]
 
+{ #category : 'testing' }
+Game >> isEnded [
+	^ gameEnded.
+]
+
+{ #category : 'as yet unclassified' }
+Game >> numberOfWinner [
+	^ 1.
+]
+
 { #category : 'as yet unclassified' }
 Game >> playTurn [
-	
+
 	| result currentPlayerPosition |
 	
 	gameEnded ifTrue: [ Error signal: 'You Cannot Throw, The Game Ended' ].

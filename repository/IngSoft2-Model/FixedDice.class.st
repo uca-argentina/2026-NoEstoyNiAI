@@ -30,7 +30,7 @@ FixedDice >> initializeWithFixedResult: aFixedResult [
 FixedDice >> throw [
 	| valorASumar |
 	valorASumar := fixedResult at: contadorTiradas.
-	contadorTiradas:= (contadorTiradas \\ fixedResult size ) +1.
-	^valorASumar.
+	contadorTiradas := (contadorTiradas \\ fixedResult size ) + 1.
+	^ valorASumar.
 
 ]

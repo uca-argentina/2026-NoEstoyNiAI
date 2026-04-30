@@ -251,15 +251,91 @@ self assert: aGame numberOfWinner equals: 1.
 ]
 
 { #category : 'tests' }
-GameTest >> test017 [
+GameTest >> test017WhenTheSecondPlayerOfTheTwoReachesTheGoalFirtThenTheSecondPlayerIsTheWinner [
 
 | aGame aCollectionOfDices |
 aCollectionOfDices:= OrderedCollection new.
 aCollectionOfDices add: (FixedDice withFixedResult: #(5 10)).
 
-aGame := Game withDices: aCollectionOfDices withSize: 20 withPlayers: 1.
+aGame := Game withDices: aCollectionOfDices withSize: 20 withPlayers: 2.
 aGame playTurn.
 aGame playTurn.
 
 self assert: aGame numberOfWinner equals: 2.
+]
+
+{ #category : 'tests' }
+GameTest >> test018WhenTheThirdPlayerOfTheThreePlayersReachesTheGoalFirtThenTheThirdPlayerIsTheWinner [
+
+| aGame aCollectionOfDices |
+aCollectionOfDices:= OrderedCollection new.
+aCollectionOfDices add: (FixedDice withFixedResult: #(5 10 15)).
+aCollectionOfDices add: (FixedDice withFixedResult: #(5 7 15)).
+
+aGame := Game withDices: aCollectionOfDices withSize: 45 withPlayers: 3.
+aGame playTurn.
+aGame playTurn.
+aGame playTurn.
+aGame playTurn.
+aGame playTurn.
+aGame playTurn.
+
+self assert: aGame numberOfWinner equals: 3.
+]
+
+{ #category : 'tests' }
+GameTest >> test019WhenTheSecondPlayerOfTheTreePlayersReachesTheGolsFirstThenTheSecondPlayerIsTheWinner [
+
+| aGame aCollectionOfDices |
+aCollectionOfDices:= OrderedCollection new.
+aCollectionOfDices add: (FixedDice withFixedResult: #(5 20 15)).
+aCollectionOfDices add: (FixedDice withFixedResult: #(5 20 15)).
+
+aGame := Game withDices: aCollectionOfDices withSize: 50  withPlayers: 3.
+aGame playTurn.
+aGame playTurn.
+aGame playTurn.
+aGame playTurn.
+aGame playTurn.
+
+self assert: aGame numberOfWinner equals: 2.
+]
+
+{ #category : 'tests' }
+GameTest >> test020 [ "no se como llamarlo pero se esta probando de que si hay mas naves que valores de los dados, se inicia a recorrer de nuevo la coleccion con los valores de los dados"
+
+| aGame aCollectionOfDices |
+aCollectionOfDices:= OrderedCollection new.
+aCollectionOfDices add: (FixedDice withFixedResult: #(5 20)). 
+aCollectionOfDices add: (FixedDice withFixedResult: #(5 20)).
+
+aGame := Game withDices: aCollectionOfDices withSize: 50  withPlayers: 3.
+aGame playTurn. "nave 1 avanza a la posicion 10 --> suma 10" 
+aGame playTurn. "nave 2 avanza a la posicion 40 --> suma 40"
+aGame playTurn. "nave 3 avanza a la posicion 10 --> suma 10"
+aGame playTurn. "nave 1 avanza a la posicion 50 --> suma 40 --> aca ya gana"
+
+self assert: aGame numberOfWinner equals: 1.
+]
+
+{ #category : 'tests' }
+GameTest >> test021WhenTheGameIsNotFinishedThenThereIsNoWinnerYet [
+
+| aGame aCollectionOfDices |
+aCollectionOfDices:= OrderedCollection new.
+aCollectionOfDices add: (FixedDice withFixedResult: #(5 20)). 
+aCollectionOfDices add: (FixedDice withFixedResult: #(5 20)).
+
+aGame := Game withDices: aCollectionOfDices withSize: 50  withPlayers: 3.
+aGame playTurn. "nave 1 avanza a la posicion 10 --> suma 10" 
+aGame playTurn. "nave 2 avanza a la posicion 40 --> suma 40"
+aGame playTurn. "nave 3 avanza a la posicion 10 --> suma 10"
+
+self
+		should: [aGame numberOfWinner ]
+		raise: Error
+		withExceptionDo: [ :error |
+			self
+				assert: error messageText
+				equals: 'There is no winner yet. The game is not finished'  ]
 ]

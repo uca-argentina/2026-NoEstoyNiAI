@@ -36,6 +36,8 @@ Game class >> withDices: aCollectionOfDices withSize: aSize [
 
 { #category : 'as yet unclassified' }
 Game class >> withDices: aCollectionOfDices withSize: aSize withPlayers: aCollectionOfPlayersPositions [
+	aSize < 2 ifTrue: [ Error signal: 'You Cannot Create A Game With Less Than 2 Squares' ].
+	aCollectionOfDices isEmpty ifTrue: [ Error signal: 'You Cannot Create A Game With No Dices' ].
 	^self new initializeWithDices: aCollectionOfDices andSize: aSize andPlayers: aCollectionOfPlayersPositions.
 ]
 
@@ -64,7 +66,10 @@ Game >> isEnded [
 
 { #category : 'as yet unclassified' }
 Game >> numberOfWinner [
-	^ 1.
+	| maximo |
+	gameEnded ifFalse: [ Error signal: 'There is no winner yet. The game is not finished' ].
+	maximo := players max.
+	^ players indexOf: maximo.
 ]
 
 { #category : 'as yet unclassified' }

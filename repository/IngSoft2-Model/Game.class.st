@@ -45,10 +45,10 @@ Game class >> withDices: aCollectionOfDices withSize: aSize withPlayers: aNumber
 Game >> initializeWithDices: aCollectionOfDices andSize: aSize andPlayers: aNumberOfPlayers [ 
 	dices := aCollectionOfDices.
 	size := aSize.
-	players := OrderedCollection new.
+	
 	currentShift := 1.
 	gameEnded := false.
-	aNumberOfPlayers timesRepeat: [players add: 0]
+	players := (1 to: aNumberOfPlayers) collect: [ :index | Ship withName: index ].
 ]
 
 { #category : 'testing' }
@@ -58,10 +58,11 @@ Game >> isEnded [
 
 { #category : 'as yet unclassified' }
 Game >> numberOfWinner [
-	| maximum |
+	| maxPosition |
 	gameEnded ifFalse: [ Error signal: 'There is no winner yet. The game is not finished' ].
-	maximum := players max.
-	^ players indexOf: maximum.
+
+	maxPosition := players max: [:nave | nave returnPosition ].
+	^players indexOf: (players detect: [:nave | nave returnPosition = maxPosition]).
 ]
 
 { #category : 'as yet unclassified' }
@@ -71,11 +72,21 @@ Game >> playTurn [
 	
 	gameEnded ifTrue: [ Error signal: 'You Cannot Throw, The Game Ended' ].
 	result:= self throwDices .
-	players at: currentShift incrementBy: result.
-	currentPlayerPosition := players at: currentShift.
+	(players at: currentShift) moveFoward: result.
+	currentPlayerPosition := (players at: currentShift) returnPosition.
 	gameEnded := size <= currentPlayerPosition.
 	currentShift := ((currentShift) \\ players size) + 1.
 	^currentPlayerPosition.
+]
+
+{ #category : 'as yet unclassified' }
+Game >> showPositions [
+
+	| result |
+    result := String new writeStream.
+    players do: [:ship | result nextPutAll: '[Player ' , (ship returnName) printString , ' is on square ' , (ship returnPosition) printString, '] '].
+    ^result contents.
+    
 ]
 
 { #category : 'as yet unclassified' }

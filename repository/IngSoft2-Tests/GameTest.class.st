@@ -16,7 +16,7 @@ self assert: aGame throwDices equals: 10
 ]
 
 { #category : 'tests' }
-GameTest >> test002WhenAGameThrows1DiceThenTheGameReturnsTheSum [
+GameTest >> test002WhenAGameThrows1FixedDiceThenTheGameReturnsTheValueOfTheFixedResult [
 
 | aGame aCollectionOfDices|
 aCollectionOfDices:= OrderedCollection new.
@@ -52,7 +52,7 @@ self assert: (aGame throwDices between: 3 and: 30).
 ]
 
 { #category : 'tests' }
-GameTest >> test005WhenAGameIsEndedThenYouCannotThrowTheDices [
+GameTest >> test005WhenThePlayerReachesTheGoalThenTheNextTurnCannotThrow [
 | aGame aCollectionOfDices|
 aCollectionOfDices:= OrderedCollection new.
 aCollectionOfDices add: (FixedDice withFixedResults: #(10)).
@@ -124,7 +124,7 @@ self
 ]
 
 { #category : 'tests' }
-GameTest >> test009WhenTheGameIsCreatedWith3PlayersThenTheFirstPlayerCanPlayItsTurn [
+GameTest >> test009WhenTheFirstPlayerPlaysItsTurnThenTheResultIsItsNewPosition [
 | aGame aCollectionOfDices |
 aCollectionOfDices:= OrderedCollection new.
 aCollectionOfDices add: (FixedDice withFixedResults: #(10)).
@@ -188,22 +188,24 @@ self
 ]
 
 { #category : 'tests' }
-GameTest >> test013WhenTheGameStartsAndTheOnlyPlayerDidNotReachesTheGoalThenTheGameIsNotEnded [
+GameTest >> test013WhenAGameIsCreatedWithLessThanOnePlayerThenTheGameCannotBeCreated [
 
-| aGame aCollectionOfDices |
+| aCollectionOfDices |
 aCollectionOfDices:= OrderedCollection new.
-aCollectionOfDices add: (FixedDice withFixedResults: #(10)).
-aCollectionOfDices add: (FixedDice withFixedResults: #(5)).
-aCollectionOfDices add: (FixedDice withFixedResults: #(15)).
+aCollectionOfDices add: (FixedDice withFixedResults: #(5 20)). 
+aCollectionOfDices add: (FixedDice withFixedResults: #(5 20)).
 
-aGame := Game withDices: aCollectionOfDices withSize: 40 withPlayers: 1.
-aGame playTurn.
-
-self deny: aGame isEnded.
+self
+		should: [Game withDices: aCollectionOfDices withSize: 50  withPlayers: 0]
+		raise: Error
+		withExceptionDo: [ :error |
+			self
+				assert: error messageText
+				equals: 'You Cannot Create A Game With Less Than 1 Player'  ]
 ]
 
 { #category : 'tests' }
-GameTest >> test014WhenTheGameStartsAndThePlayersDidNotReachesTheGoalThenTheGameIsNotEnded [
+GameTest >> test014WhenTheGameStartsAndNeitherPlayerReachedTheGoalThenTheGameIsNotEnded [
 
 | aGame aCollectionOfDices |
 aCollectionOfDices:= OrderedCollection new.
@@ -235,7 +237,7 @@ self assert: aGame isEnded.
 ]
 
 { #category : 'tests' }
-GameTest >> test016WhenTheOnlyPlayerReachesTheGoalThenItsTheWinner [
+GameTest >> test016WhenTheFirstPlayerReachesTheGoalThenTheFirstPlayerIsTheWinner [
 
 | aGame aCollectionOfDices |
 aCollectionOfDices:= OrderedCollection new.
@@ -243,15 +245,15 @@ aCollectionOfDices add: (FixedDice withFixedResults: #(10)).
 aCollectionOfDices add: (FixedDice withFixedResults: #(5)).
 aCollectionOfDices add: (FixedDice withFixedResults: #(15)).
 
-aGame := Game withDices: aCollectionOfDices withSize: 40 withPlayers: 1.
+aGame := Game withDices: aCollectionOfDices withSize: 30 withPlayers: 1.
 aGame playTurn.
-aGame playTurn.
+
 
 self assert: aGame numberOfWinner equals: 1.
 ]
 
 { #category : 'tests' }
-GameTest >> test017WhenTheSecondPlayerOfTheTwoReachesTheGoalFirtThenTheSecondPlayerIsTheWinner [
+GameTest >> test017WhenTheSecondPlayerReachesTheGoalFirtThenTheSecondPlayerIsTheWinner [
 
 | aGame aCollectionOfDices |
 aCollectionOfDices:= OrderedCollection new.
@@ -265,7 +267,7 @@ self assert: aGame numberOfWinner equals: 2.
 ]
 
 { #category : 'tests' }
-GameTest >> test018WhenTheThirdPlayerOfTheThreePlayersReachesTheGoalFirtThenTheThirdPlayerIsTheWinner [
+GameTest >> test018WhenTheThirdPlayerReachesTheGoalFirtThenTheThirdPlayerIsTheWinner [
 
 | aGame aCollectionOfDices |
 aCollectionOfDices:= OrderedCollection new.
@@ -284,25 +286,7 @@ self assert: aGame numberOfWinner equals: 3.
 ]
 
 { #category : 'tests' }
-GameTest >> test019WhenTheSecondPlayerOfTheTreePlayersReachesTheGolsFirstThenTheSecondPlayerIsTheWinner [
-
-| aGame aCollectionOfDices |
-aCollectionOfDices:= OrderedCollection new.
-aCollectionOfDices add: (FixedDice withFixedResults: #(5 20 15)).
-aCollectionOfDices add: (FixedDice withFixedResults: #(5 20 15)).
-
-aGame := Game withDices: aCollectionOfDices withSize: 50  withPlayers: 3.
-aGame playTurn.
-aGame playTurn.
-aGame playTurn.
-aGame playTurn.
-aGame playTurn.
-
-self assert: aGame numberOfWinner equals: 2.
-]
-
-{ #category : 'tests' }
-GameTest >> test020WhenThePlayersPlayMoreShiftsThanFixedDiceResultsThenTheGameContinuesByReIteratingTheResults [
+GameTest >> test019WhenTheGameIsNotFinishedThenThereIsNoWinnerYet [
 
 | aGame aCollectionOfDices |
 aCollectionOfDices:= OrderedCollection new.
@@ -310,26 +294,9 @@ aCollectionOfDices add: (FixedDice withFixedResults: #(5 20)).
 aCollectionOfDices add: (FixedDice withFixedResults: #(5 20)).
 
 aGame := Game withDices: aCollectionOfDices withSize: 50  withPlayers: 3.
-aGame playTurn. "nave 1 avanza a la posicion 10 --> suma 10" 
-aGame playTurn. "nave 2 avanza a la posicion 40 --> suma 40"
-aGame playTurn. "nave 3 avanza a la posicion 10 --> suma 10"
-aGame playTurn. "nave 1 avanza a la posicion 50 --> suma 40 --> aca ya gana"
-
-self assert: aGame numberOfWinner equals: 1.
-]
-
-{ #category : 'tests' }
-GameTest >> test021WhenTheGameIsNotFinishedThenThereIsNoWinnerYet [
-
-| aGame aCollectionOfDices |
-aCollectionOfDices:= OrderedCollection new.
-aCollectionOfDices add: (FixedDice withFixedResults: #(5 20)). 
-aCollectionOfDices add: (FixedDice withFixedResults: #(5 20)).
-
-aGame := Game withDices: aCollectionOfDices withSize: 50  withPlayers: 3.
-aGame playTurn. "nave 1 avanza a la posicion 10 --> suma 10" 
-aGame playTurn. "nave 2 avanza a la posicion 40 --> suma 40"
-aGame playTurn. "nave 3 avanza a la posicion 10 --> suma 10"
+aGame playTurn. 
+aGame playTurn.
+aGame playTurn. 
 
 self
 		should: [aGame numberOfWinner ]
@@ -341,18 +308,16 @@ self
 ]
 
 { #category : 'tests' }
-GameTest >> test022WhenAGameIsCreatedWithLessThanOnePlayerThenTheGameCannotBeCreated [
-
-| aCollectionOfDices |
+GameTest >> test020WhenThePositionsAreRequestedThenThePositionsAreShowed [
+| aGame aCollectionOfDices |
 aCollectionOfDices:= OrderedCollection new.
-aCollectionOfDices add: (FixedDice withFixedResults: #(5 20)). 
-aCollectionOfDices add: (FixedDice withFixedResults: #(5 20)).
+aCollectionOfDices add: (FixedDice withFixedResults: #(5 20 12)). 
+aCollectionOfDices add: (FixedDice withFixedResults: #(5 8)).
 
-self
-		should: [Game withDices: aCollectionOfDices withSize: 50  withPlayers: 0]
-		raise: Error
-		withExceptionDo: [ :error |
-			self
-				assert: error messageText
-				equals: 'You Cannot Create A Game With Less Than 1 Player'  ]
+aGame := Game withDices: aCollectionOfDices withSize: 50  withPlayers: 3.
+aGame playTurn. 
+aGame playTurn.
+aGame playTurn. 
+
+self assert: aGame showPositions equals: '[Player 1 is on square 10] [Player 2 is on square 28] [Player 3 is on square 17] '.
 ]

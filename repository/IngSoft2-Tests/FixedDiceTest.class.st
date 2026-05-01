@@ -53,9 +53,23 @@ FixedDiceTest >> test004WhenAFixedDiceIsCreatedWithAStringResultThenTheDiceCanno
 { #category : 'tests' }
 FixedDiceTest >> test005WhenAFixedDiceHasTwoFixedResultThenTheThirdThrowReturnsTheFirstResult [
 
- | diceResult aDice |
+ | aDice |
 
 aDice:= FixedDice withFixedResults: #(10 5).
 aDice throw.
-self assert: aDice throw equals: 5.
+aDice throw.
+self assert: aDice throw equals: 10.
+]
+
+{ #category : 'tests' }
+FixedDiceTest >> test006WhenAFixedDiceIsCreatedWithLessThan1AsAtLeastOneTheFixedResultsThenTheFixedDiceCannotBeCreated [
+
+
+self
+		should: [ FixedDice withFixedResults: #(10 -1) ]
+		raise: Error
+		withExceptionDo: [ :error |
+			self
+				assert: error messageText
+				equals:  'A Fixed Dice can not be created with a negative or zero fixed result']
 ]

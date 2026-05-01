@@ -2,7 +2,6 @@ Class {
 	#name : 'FixedDice',
 	#superclass : 'Object',
 	#instVars : [
-		'fixedResult',
 		'spinCounter',
 		'fixedResults'
 	],

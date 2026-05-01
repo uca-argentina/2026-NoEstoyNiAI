@@ -339,3 +339,20 @@ self
 				assert: error messageText
 				equals: 'There is no winner yet. The game is not finished'  ]
 ]
+
+{ #category : 'tests' }
+GameTest >> test022WhenAGameIsCreatedWithLessThanOnePlayerThenTheGameCannotBeCreated [
+
+| aCollectionOfDices |
+aCollectionOfDices:= OrderedCollection new.
+aCollectionOfDices add: (FixedDice withFixedResults: #(5 20)). 
+aCollectionOfDices add: (FixedDice withFixedResults: #(5 20)).
+
+self
+		should: [Game withDices: aCollectionOfDices withSize: 50  withPlayers: 0]
+		raise: Error
+		withExceptionDo: [ :error |
+			self
+				assert: error messageText
+				equals: 'You Cannot Create A Game With Less Than 1 Player'  ]
+]

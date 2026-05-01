@@ -18,34 +18,28 @@ Game class >> default [
 	| aCollectionOfDices |
 	aCollectionOfDices := OrderedCollection new.
 	aCollectionOfDices add: (FixedDice withFixedResults: #(10)).
-	^ (self new) initializeWithDices: aCollectionOfDices andSize: 30.
+	^ (self new) initializeWithDices: aCollectionOfDices andSize: 30 andPlayers: 1.
 ]
 
 { #category : 'as yet unclassified' }
 Game class >> withDices: aCollectionOfDices [ 	
 
-	^self new initializeWithDices: aCollectionOfDices andSize: 30.
+	^self new initializeWithDices: aCollectionOfDices andSize: 30 andPlayers: 1.
 ]
 
 { #category : 'as yet unclassified' }
 Game class >> withDices: aCollectionOfDices withSize: aSize [ 
 	aSize < 2 ifTrue: [ Error signal: 'You Cannot Create A Game With Less Than 2 Squares' ].
 	aCollectionOfDices isEmpty ifTrue: [ Error signal: 'You Cannot Create A Game With No Dices' ].
-	^self new initializeWithDices: aCollectionOfDices andSize: aSize.
+	^self new initializeWithDices: aCollectionOfDices andSize: aSize andPlayers: 1.
 ]
 
 { #category : 'as yet unclassified' }
-Game class >> withDices: aCollectionOfDices withSize: aSize withPlayers: aCollectionOfPlayersPositions [
+Game class >> withDices: aCollectionOfDices withSize: aSize withPlayers: aNumberOfPlayers [
 	aSize < 2 ifTrue: [ Error signal: 'You Cannot Create A Game With Less Than 2 Squares' ].
 	aCollectionOfDices isEmpty ifTrue: [ Error signal: 'You Cannot Create A Game With No Dices' ].
-	^self new initializeWithDices: aCollectionOfDices andSize: aSize andPlayers: aCollectionOfPlayersPositions.
-]
-
-{ #category : 'initialization' }
-Game >> initializeWithDices: aCollectionOfDices andSize: aSize [ 
-	dices := aCollectionOfDices .
-	size := aSize. 
-	position := 0.
+	aNumberOfPlayers < 1 ifTrue: [ Error signal: 'You Cannot Create A Game With Less Than 1 Player'].
+	^self new initializeWithDices: aCollectionOfDices andSize: aSize andPlayers: aNumberOfPlayers.
 ]
 
 { #category : 'initialization' }

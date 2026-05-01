@@ -4,7 +4,6 @@ Class {
 	#instVars : [
 		'dices',
 		'size',
-		'position',
 		'players',
 		'currentShift',
 		'gameEnded'
@@ -47,7 +46,6 @@ Game >> initializeWithDices: aCollectionOfDices andSize: aSize andPlayers: aNumb
 	dices := aCollectionOfDices.
 	size := aSize.
 	players := OrderedCollection new.
-	position:=0.
 	currentShift := 1.
 	gameEnded := false.
 	aNumberOfPlayers timesRepeat: [players add: 0]

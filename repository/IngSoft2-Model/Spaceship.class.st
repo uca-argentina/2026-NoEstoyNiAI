@@ -1,5 +1,5 @@
 Class {
-	#name : 'Ship',
+	#name : 'Spaceship',
 	#superclass : 'Object',
 	#instVars : [
 		'position',
@@ -10,27 +10,27 @@ Class {
 }
 
 { #category : 'as yet unclassified' }
-Ship class >> withName: aName [
+Spaceship class >> withName: aName [
 	^self new initializeWithName: aName.
 ]
 
 { #category : 'initialization' }
-Ship >> initializeWithName: aName [
+Spaceship >> initializeWithName: aName [
 	position := 0.
 	name:= aName.
 ]
 
 { #category : 'as yet unclassified' }
-Ship >> moveFoward: dicesResult [
+Spaceship >> moveFoward: dicesResult [
 	position := position + dicesResult.
 ]
 
 { #category : 'as yet unclassified' }
-Ship >> returnName [
+Spaceship >> returnName [
 	^name.
 ]
 
 { #category : 'as yet unclassified' }
-Ship >> returnPosition [
+Spaceship >> returnPosition [
 	^position.
 ]

@@ -41,14 +41,27 @@ Game class >> withDices: aCollectionOfDices withSize: aSize withPlayers: aNumber
 	^self new initializeWithDices: aCollectionOfDices andSize: aSize andPlayers: aNumberOfPlayers.
 ]
 
+{ #category : 'as yet unclassified' }
+Game >> createSpaceshipsInOrderedCollectionPlayers: aNumberOfPlayers [
+
+	^ players := (1 to: aNumberOfPlayers) collect: [ :index |
+		             Spaceship withName: index ]
+]
+
+{ #category : 'as yet unclassified' }
+Game >> incrementCurrentShift [
+
+	^ currentShift := currentShift \\ players size + 1
+]
+
 { #category : 'initialization' }
-Game >> initializeWithDices: aCollectionOfDices andSize: aSize andPlayers: aNumberOfPlayers [ 
+Game >> initializeWithDices: aCollectionOfDices andSize: aSize andPlayers: aNumberOfPlayers [
+
 	dices := aCollectionOfDices.
 	size := aSize.
-	
 	currentShift := 1.
 	gameEnded := false.
-	players := (1 to: aNumberOfPlayers) collect: [ :index | Ship withName: index ].
+	self createSpaceshipsInOrderedCollectionPlayers: aNumberOfPlayers
 ]
 
 { #category : 'testing' }
@@ -58,35 +71,60 @@ Game >> isEnded [
 
 { #category : 'as yet unclassified' }
 Game >> numberOfWinner [
-	| maxPosition |
-	gameEnded ifFalse: [ Error signal: 'There is no winner yet. The game is not finished' ].
 
-	maxPosition := players max: [:nave | nave returnPosition ].
-	^players indexOf: (players detect: [:nave | nave returnPosition = maxPosition]).
+	| maxPosition |
+	gameEnded ifFalse: [
+		Error signal: 'There is no winner yet. The game is not finished' ].
+	maxPosition := self obtainTheHigherPositionOfTheSpaceships.
+	^ self obtainNameOfTheSpaceshipWithTheHigherPosition: maxPosition
+]
+
+{ #category : 'as yet unclassified' }
+Game >> obtainNameOfTheSpaceshipWithTheHigherPosition: maxPosition [
+
+	^ (players detect: [ :nave | nave returnPosition = maxPosition ])
+		  returnName
+]
+
+{ #category : 'as yet unclassified' }
+Game >> obtainPositionsStringResult [
+
+	| result |
+	result := String new writeStream.
+	players do: [ :ship |
+			result nextPutAll:
+				'[Player ' , ship returnName printString , ' is on square '
+				, ship returnPosition printString , '] ' ].
+	^ result
+]
+
+{ #category : 'as yet unclassified' }
+Game >> obtainTheHigherPositionOfTheSpaceships [
+
+	| maxPositionSpaceship |
+	maxPositionSpaceship := players max: [ :nave | nave returnPosition ].
+	^ maxPositionSpaceship
 ]
 
 { #category : 'as yet unclassified' }
 Game >> playTurn [
 
 	| result currentPlayerPosition |
-	
 	gameEnded ifTrue: [ Error signal: 'You Cannot Throw, The Game Ended' ].
-	result:= self throwDices .
+	result := self throwDices.
 	(players at: currentShift) moveFoward: result.
 	currentPlayerPosition := (players at: currentShift) returnPosition.
 	gameEnded := size <= currentPlayerPosition.
-	currentShift := ((currentShift) \\ players size) + 1.
-	^currentPlayerPosition.
+	self incrementCurrentShift.
+	^ currentPlayerPosition
 ]
 
 { #category : 'as yet unclassified' }
 Game >> showPositions [
 
-	| result |
-    result := String new writeStream.
-    players do: [:ship | result nextPutAll: '[Player ' , (ship returnName) printString , ' is on square ' , (ship returnPosition) printString, '] '].
-    ^result contents.
-    
+	| resultString |
+	resultString := self obtainPositionsStringResult.
+	^ resultString contents
 ]
 
 { #category : 'as yet unclassified' }

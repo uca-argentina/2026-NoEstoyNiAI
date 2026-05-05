@@ -4,9 +4,10 @@ Class {
 	#instVars : [
 		'dices',
 		'size',
-		'players',
+		'spaceships',
 		'currentShift',
-		'gameEnded'
+		'gameEnded',
+		'aNumberOfPlayers'
 	],
 	#category : 'IngSoft2-Model',
 	#package : 'IngSoft2-Model'
@@ -17,51 +18,51 @@ Game class >> default [
 	| aCollectionOfDices |
 	aCollectionOfDices := OrderedCollection new.
 	aCollectionOfDices add: (FixedDice withFixedResults: #(10)).
-	^ (self new) initializeWithDices: aCollectionOfDices andSize: 30 andPlayers: 1.
+	^ (self new) initializeWithDices: aCollectionOfDices andSize: 30 andSpaceships: 1.
 ]
 
 { #category : 'as yet unclassified' }
 Game class >> withDices: aCollectionOfDices [ 	
 
-	^self new initializeWithDices: aCollectionOfDices andSize: 30 andPlayers: 1.
+	^self new initializeWithDices: aCollectionOfDices andSize: 30 andSpaceships: 1.
 ]
 
 { #category : 'as yet unclassified' }
 Game class >> withDices: aCollectionOfDices withSize: aSize [ 
 	aSize < 2 ifTrue: [ Error signal: 'You Cannot Create A Game With Less Than 2 Squares' ].
 	aCollectionOfDices isEmpty ifTrue: [ Error signal: 'You Cannot Create A Game With No Dices' ].
-	^self new initializeWithDices: aCollectionOfDices andSize: aSize andPlayers: 1.
+	^self new initializeWithDices: aCollectionOfDices andSize: aSize andSpaceships: 1.
 ]
 
 { #category : 'as yet unclassified' }
-Game class >> withDices: aCollectionOfDices withSize: aSize withPlayers: aNumberOfPlayers [
+Game class >> withDices: aCollectionOfDices withSize: aSize withSpaceships: aNumberOfSpaceships [
 	aSize < 2 ifTrue: [ Error signal: 'You Cannot Create A Game With Less Than 2 Squares' ].
 	aCollectionOfDices isEmpty ifTrue: [ Error signal: 'You Cannot Create A Game With No Dices' ].
-	aNumberOfPlayers < 1 ifTrue: [ Error signal: 'You Cannot Create A Game With Less Than 1 Player'].
-	^self new initializeWithDices: aCollectionOfDices andSize: aSize andPlayers: aNumberOfPlayers.
+	aNumberOfSpaceships < 1 ifTrue: [ Error signal: 'You Cannot Create A Game With Less Than 1 Player'].
+	^self new initializeWithDices: aCollectionOfDices andSize: aSize andSpaceships: aNumberOfSpaceships.
 ]
 
 { #category : 'as yet unclassified' }
 Game >> createSpaceshipsInOrderedCollectionPlayers: aNumberOfPlayers [
 
-	^ players := (1 to: aNumberOfPlayers) collect: [ :index |
+	^ spaceships := (1 to: aNumberOfPlayers) collect: [ :index |
 		             Spaceship withName: index ]
 ]
 
 { #category : 'as yet unclassified' }
 Game >> incrementCurrentShift [
 
-	^ currentShift := currentShift \\ players size + 1
+	^ currentShift := currentShift \\ spaceships size + 1
 ]
 
 { #category : 'initialization' }
-Game >> initializeWithDices: aCollectionOfDices andSize: aSize andPlayers: aNumberOfPlayers [
+Game >> initializeWithDices: aCollectionOfDices andSize: aSize andSpaceships: aNumberOfSpaceships [
 
 	dices := aCollectionOfDices.
 	size := aSize.
 	currentShift := 1.
 	gameEnded := false.
-	self createSpaceshipsInOrderedCollectionPlayers: aNumberOfPlayers
+	self createSpaceshipsInOrderedCollectionPlayers: aNumberOfSpaceships
 ]
 
 { #category : 'testing' }
@@ -82,7 +83,7 @@ Game >> numberOfWinner [
 { #category : 'as yet unclassified' }
 Game >> obtainNameOfTheSpaceshipWithTheHigherPosition: maxPosition [
 
-	^ (players detect: [ :nave | nave returnPosition = maxPosition ])
+	^ (spaceships detect: [ :nave | nave returnPosition = maxPosition ])
 		  returnName
 ]
 
@@ -91,10 +92,7 @@ Game >> obtainPositionsStringResult [
 
 	| result |
 	result := String new writeStream.
-	players do: [ :ship |
-			result nextPutAll:
-				'[Player ' , ship returnName printString , ' is on square '
-				, ship returnPosition printString , '] ' ].
+	spaceships do: [ :ship | result nextPutAll: '[Player ' , ship returnName printString , ' is on square ', ship returnPosition printString , '] ' ].
 	^ result
 ]
 
@@ -102,7 +100,7 @@ Game >> obtainPositionsStringResult [
 Game >> obtainTheHigherPositionOfTheSpaceships [
 
 	| maxPositionSpaceship |
-	maxPositionSpaceship := players max: [ :nave | nave returnPosition ].
+	maxPositionSpaceship := spaceships max: [ :nave | nave returnPosition ].
 	^ maxPositionSpaceship
 ]
 
@@ -112,8 +110,8 @@ Game >> playTurn [
 	| result currentPlayerPosition |
 	gameEnded ifTrue: [ Error signal: 'You Cannot Throw, The Game Ended' ].
 	result := self throwDices.
-	(players at: currentShift) moveFoward: result.
-	currentPlayerPosition := (players at: currentShift) returnPosition.
+	(spaceships at: currentShift) moveFoward: result.
+	currentPlayerPosition := (spaceships at: currentShift) returnPosition.
 	gameEnded := size <= currentPlayerPosition.
 	self incrementCurrentShift.
 	^ currentPlayerPosition

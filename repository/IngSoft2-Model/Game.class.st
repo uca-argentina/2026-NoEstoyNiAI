@@ -7,7 +7,8 @@ Class {
 		'spaceships',
 		'currentShift',
 		'gameEnded',
-		'aNumberOfPlayers'
+		'aNumberOfPlayers',
+		'tablero'
 	],
 	#category : 'IngSoft2-Model',
 	#package : 'IngSoft2-Model'
@@ -52,14 +53,14 @@ Game >> createSpaceshipsInOrderedCollectionPlayers: aNumberOfPlayers [
 { #category : 'as yet unclassified' }
 Game >> incrementCurrentShift [
 
-	^ currentShift := currentShift \\ spaceships size + 1
+	^ currentShift := currentShift \\ self numberOfPlayers + 1
 ]
 
 { #category : 'initialization' }
 Game >> initializeWithDices: aCollectionOfDices andSize: aSize andSpaceships: aNumberOfSpaceships [
 
 	dices := aCollectionOfDices.
-	size := aSize.
+	tablero := Tablero withSize: aSize.
 	currentShift := 1.
 	gameEnded := false.
 	self createSpaceshipsInOrderedCollectionPlayers: aNumberOfSpaceships
@@ -68,6 +69,11 @@ Game >> initializeWithDices: aCollectionOfDices andSize: aSize andSpaceships: aN
 { #category : 'testing' }
 Game >> isEnded [
 	^ gameEnded.
+]
+
+{ #category : 'as yet unclassified' }
+Game >> numberOfPlayers [
+	^ spaceships size
 ]
 
 { #category : 'as yet unclassified' }
@@ -97,21 +103,21 @@ Game >> obtainPositionsStringResult [
 ]
 
 { #category : 'as yet unclassified' }
-Game >> obtainTheHigherPositionOfTheSpaceships [
-
-	| maxPositionSpaceship |
-	maxPositionSpaceship := spaceships max: [ :spaceship | spaceship returnPosition ].
-	^ maxPositionSpaceship
+Game >> obtainTheHigherPositionOfTheSpaceships [ 
+| maxPositionSpaceship | 
+maxPositionSpaceship := spaceships max: [ :spaceship | spaceship returnPosition ]. 
+^ maxPositionSpaceship
 ]
 
 { #category : 'as yet unclassified' }
 Game >> playTurn [
 
-	| result currentPlayerPosition |
+	| result currentPlayerPosition currentPlayer |
 	gameEnded ifTrue: [ Error signal: 'You Cannot Throw, The Game Ended' ].
 	result := self throwDices.
-	currentPlayerPosition := (spaceships at: currentShift) moveFoward: result.
-	gameEnded := size <= currentPlayerPosition.
+	currentPlayer := spaceships at: currentShift.
+	currentPlayerPosition := currentPlayer moveFoward: result.
+	gameEnded := tablero isShorterThan: currentPlayerPosition.
 	self incrementCurrentShift.
 	^ currentPlayerPosition
 ]

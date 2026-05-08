@@ -26,9 +26,9 @@ self assert: aSpaceship returnPosition equals: 0.
 { #category : 'as yet unclassified' }
 SpaceshipTest >> test003WhenASpaceshipMoveFoward10PositionsThenTheSpaceshipPositionIs10 [
 
-| aSpaceship |
+| aSpaceship newPosition |
 aSpaceship:= Spaceship withName: 'Player 1'.
-aSpaceship moveFoward: 10.
+newPosition := aSpaceship moveFoward: 10.
 
-self assert: aSpaceship returnPosition equals: 10.
+self assert: aSpaceship returnPosition equals: newPosition.
 ]

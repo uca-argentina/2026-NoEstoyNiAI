@@ -21,6 +21,12 @@ Spaceship >> initializeWithName: aName [
 ]
 
 { #category : 'testing' }
+Spaceship >> isAheadOf: anotherSpaceshipPosition [
+
+	^ position > anotherSpaceshipPosition
+]
+
+{ #category : 'testing' }
 Spaceship >> isTheSpaceShipWithTheHigherPosition: maxPosition [
 	^ position = maxPosition
 ]
@@ -38,11 +44,6 @@ Spaceship >> returnName [
 { #category : 'as yet unclassified' }
 Spaceship >> returnPosition [
 	^position.
-]
-
-{ #category : 'as yet unclassified' }
-Spaceship >> showPosition [
-
 ]
 
 { #category : 'as yet unclassified' }

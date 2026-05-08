@@ -22,7 +22,7 @@ FixedDice class >> withFixedResults: aCollectionOfFixedResults [
 { #category : 'as yet unclassified' }
 FixedDice >> incrementSpinCounter [
 
-	^ spinCounter := spinCounter \\ fixedResults size + 1
+	spinCounter := spinCounter \\ fixedResults size + 1
 ]
 
 { #category : 'initialization' }

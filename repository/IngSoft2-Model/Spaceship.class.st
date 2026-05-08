@@ -20,9 +20,14 @@ Spaceship >> initializeWithName: aName [
 	name:= aName.
 ]
 
+{ #category : 'testing' }
+Spaceship >> isTheSpaceShipWithTheHigherPosition: maxPosition [
+	^ position = maxPosition
+]
+
 { #category : 'as yet unclassified' }
 Spaceship >> moveFoward: dicesResult [
-	position := position + dicesResult.
+	^ position := position + dicesResult.
 ]
 
 { #category : 'as yet unclassified' }
@@ -33,4 +38,14 @@ Spaceship >> returnName [
 { #category : 'as yet unclassified' }
 Spaceship >> returnPosition [
 	^position.
+]
+
+{ #category : 'as yet unclassified' }
+Spaceship >> showPosition [
+
+]
+
+{ #category : 'as yet unclassified' }
+Spaceship >> showPosition: result [
+	^ result nextPutAll: '[Player ' , name printString , ' is on square ', position printString , '] '
 ]

@@ -83,7 +83,7 @@ Game >> numberOfWinner [
 { #category : 'as yet unclassified' }
 Game >> obtainNameOfTheSpaceshipWithTheHigherPosition: maxPosition [
 
-	^ (spaceships detect: [ :nave | nave returnPosition = maxPosition ])
+	^ (spaceships detect: [ :spaceship | spaceship isTheSpaceShipWithTheHigherPosition: maxPosition])
 		  returnName
 ]
 
@@ -92,7 +92,7 @@ Game >> obtainPositionsStringResult [
 
 	| result |
 	result := String new writeStream.
-	spaceships do: [ :ship | result nextPutAll: '[Player ' , ship returnName printString , ' is on square ', ship returnPosition printString , '] ' ].
+	spaceships do: [ :ship | ship showPosition: result ].
 	^ result
 ]
 
@@ -100,7 +100,7 @@ Game >> obtainPositionsStringResult [
 Game >> obtainTheHigherPositionOfTheSpaceships [
 
 	| maxPositionSpaceship |
-	maxPositionSpaceship := spaceships max: [ :nave | nave returnPosition ].
+	maxPositionSpaceship := spaceships max: [ :spaceship | spaceship returnPosition ].
 	^ maxPositionSpaceship
 ]
 
@@ -110,8 +110,7 @@ Game >> playTurn [
 	| result currentPlayerPosition |
 	gameEnded ifTrue: [ Error signal: 'You Cannot Throw, The Game Ended' ].
 	result := self throwDices.
-	(spaceships at: currentShift) moveFoward: result.
-	currentPlayerPosition := (spaceships at: currentShift) returnPosition.
+	currentPlayerPosition := (spaceships at: currentShift) moveFoward: result.
 	gameEnded := size <= currentPlayerPosition.
 	self incrementCurrentShift.
 	^ currentPlayerPosition

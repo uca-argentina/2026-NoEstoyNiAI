@@ -8,7 +8,7 @@ Class {
 		'currentShift',
 		'gameEnded',
 		'aNumberOfPlayers',
-		'tablero'
+		'board'
 	],
 	#category : 'IngSoft2-Model',
 	#package : 'IngSoft2-Model'
@@ -60,7 +60,7 @@ Game >> incrementCurrentShift [
 Game >> initializeWithDices: aCollectionOfDices andSize: aSize andSpaceships: aNumberOfSpaceships [
 
 	dices := aCollectionOfDices.
-	tablero := Tablero withSize: aSize.
+	board := Board withSize: aSize.
 	currentShift := 1.
 	gameEnded := false.
 	self createSpaceshipsInOrderedCollectionPlayers: aNumberOfSpaceships
@@ -117,7 +117,7 @@ Game >> playTurn [
 	result := self throwDices.
 	currentPlayer := spaceships at: currentShift.
 	currentPlayerPosition := currentPlayer moveFoward: result.
-	gameEnded := tablero isShorterThan: currentPlayerPosition.
+	gameEnded := board isShorterThan: currentPlayerPosition.
 	self incrementCurrentShift.
 	^ currentPlayerPosition
 ]

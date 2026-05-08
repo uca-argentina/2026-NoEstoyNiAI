@@ -1,5 +1,5 @@
 Class {
-	#name : 'Tablero',
+	#name : 'Board',
 	#superclass : 'Object',
 	#instVars : [
 		'size'
@@ -12,16 +12,16 @@ Class {
 }
 
 { #category : 'instance creation' }
-Tablero class >> withSize: aSize [
+Board class >> withSize: aSize [
 	^(self new) initializeWith: aSize.
 ]
 
 { #category : 'initialization' }
-Tablero >> initializeWith: aSize [
+Board >> initializeWith: aSize [
 	size := aSize.
 ]
 
 { #category : 'testing' }
-Tablero >> isShorterThan: aSize [
+Board >> isShorterThan: aSize [
 	^ size <= aSize
 ]

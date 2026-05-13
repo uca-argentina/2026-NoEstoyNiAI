@@ -27,8 +27,8 @@ Spaceship >> isAheadOf: anotherSpaceshipPosition [
 ]
 
 { #category : 'testing' }
-Spaceship >> isTheSpaceShipWithTheHigherPosition: maxPosition [
-	^ position = maxPosition
+Spaceship >> isPositionGreaterThan: maxPosition [
+	^ position > maxPosition
 ]
 
 { #category : 'as yet unclassified' }
@@ -39,11 +39,6 @@ Spaceship >> moveFoward: dicesResult [
 { #category : 'as yet unclassified' }
 Spaceship >> returnName [
 	^name.
-]
-
-{ #category : 'as yet unclassified' }
-Spaceship >> returnPosition [
-	^position.
 ]
 
 { #category : 'as yet unclassified' }

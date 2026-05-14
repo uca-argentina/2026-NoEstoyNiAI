@@ -32,6 +32,11 @@ Spaceship >> isPositionGreaterThan: maxPosition [
 ]
 
 { #category : 'as yet unclassified' }
+Spaceship >> moveBackwards: anInteger [ 
+	^ position := position - anInteger.
+]
+
+{ #category : 'as yet unclassified' }
 Spaceship >> moveFoward: dicesResult [
 	^ position := position + dicesResult.
 ]

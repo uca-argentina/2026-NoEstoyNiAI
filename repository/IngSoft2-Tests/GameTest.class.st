@@ -321,3 +321,52 @@ aGame playTurn.
 
 self assert: aGame showPositions equals: '[Player 1 is on square 10] [Player 2 is on square 28] [Player 3 is on square 17] '.
 ]
+
+{ #category : 'tests' }
+GameTest >> test021WhenTheSpaceshipMovesToANoEffectSquareThenTheSpaceshipPositionIsWhatTheDiceRolled [
+
+| aGame aCollectionOfDices |
+aCollectionOfDices:= OrderedCollection new.
+aCollectionOfDices add: (FixedDice withFixedResults: #(10)).
+
+aGame := RacingTheSpace withDices: aCollectionOfDices withSize: 40 withSpaceships: 3.
+
+self assert: aGame playTurn equals: 10.
+]
+
+{ #category : 'tests' }
+GameTest >> test022WhenTheSpaceShipMovesToAWormHoleSquareThenTheSpaceShipMoves4PositionsBackwards [
+
+| aGame aCollectionOfDices |
+aCollectionOfDices:= OrderedCollection new.
+aCollectionOfDices add: (FixedDice withFixedResults: #(80)).
+
+aGame := RacingTheSpace withDices: aCollectionOfDices withSize: 100 withSpaceships: 3.
+
+self assert: aGame playTurn equals: 76.
+]
+
+{ #category : 'tests' }
+GameTest >> test023WhenTheSpaceShipMovesToASpeedUpSquareThenTheSpaceShipMoves4PositionsFowards [
+
+| aGame aCollectionOfDices |
+aCollectionOfDices:= OrderedCollection new.
+aCollectionOfDices add: (FixedDice withFixedResults: #(81)).
+
+aGame := RacingTheSpace withDices: aCollectionOfDices withSize: 100 withSpaceships: 3.
+
+self assert: aGame playTurn equals: 85.
+]
+
+{ #category : 'tests' }
+GameTest >> test024 [
+
+| aGame aCollectionOfDices |
+aCollectionOfDices:= OrderedCollection new.
+aCollectionOfDices add: (FixedDice withFixedResults: #(82 10)).
+
+aGame := RacingTheSpace withDices: aCollectionOfDices withSize: 100 withSpaceships: 3.
+aGame playTurn.
+
+self assert: aGame playTurn equals: 5.
+]

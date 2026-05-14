@@ -118,6 +118,14 @@ RacingTheSpace >> playTurn [
 	result := self throwDices.
 	currentPlayer := spaceships at: currentShift.
 	currentPlayerPosition := currentPlayer moveFoward: result.
+
+	gameEnded := board isShorterThan: currentPlayerPosition.
+	gameEnded ifFalse: [
+			currentPlayerPosition := board
+				                         callEffect: currentPlayer
+				                         and: currentPlayerPosition
+				                         and: spaceships ].
+
 	gameEnded := board isShorterThan: currentPlayerPosition.
 	self incrementCurrentShift.
 	^ currentPlayerPosition

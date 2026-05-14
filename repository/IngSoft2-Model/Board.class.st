@@ -2,7 +2,7 @@ Class {
 	#name : 'Board',
 	#superclass : 'Object',
 	#instVars : [
-		'size'
+		'squares'
 	],
 	#classInstVars : [
 		'size'
@@ -16,12 +16,29 @@ Board class >> withSize: aSize [
 	^(self new) initializeWith: aSize.
 ]
 
+{ #category : 'as yet unclassified' }
+Board >> callEffect: currentPlayer and: currentPlayerPosition and: spaceships [
+
+	^ (squares at: currentPlayerPosition)
+		  triggerEffect: spaceships 
+		  and: currentPlayer 
+]
+
 { #category : 'initialization' }
-Board >> initializeWith: aSize [
-	size := aSize.
+Board >> initializeWith: numberOfSquares [
+
+	squares := OrderedCollection new.
+	
+	numberOfSquares timesRepeat: [ squares add: NoEffectSquare new ].
+	
+	numberOfSquares > 80 ifTrue: [squares at: 80 put: WormHoleSquare new].
+	numberOfSquares > 80 ifTrue: [squares at: 81 put: SpeedUpSquare new].
+	numberOfSquares > 80 ifTrue: [squares at: 82 put: (MoonWalkSquare withN: 5)].
+	
+	
 ]
 
 { #category : 'testing' }
-Board >> isShorterThan: aSize [
-	^ size <= aSize
+Board >> isShorterThan: aNumberOfSquares [
+	^ squares size <= aNumberOfSquares
 ]

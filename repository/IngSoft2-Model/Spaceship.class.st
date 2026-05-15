@@ -21,14 +21,13 @@ Spaceship >> initializeWithName: aName [
 ]
 
 { #category : 'testing' }
-Spaceship >> isAheadOf: anotherSpaceshipPosition [
-
-	^ position > anotherSpaceshipPosition
+Spaceship >> isAheadOf: anotherSpaceship [
+    ^ anotherSpaceship isBehindPosition: position.
 ]
 
 { #category : 'testing' }
-Spaceship >> isPositionGreaterThan: maxPosition [
-	^ position > maxPosition
+Spaceship >> isBehindPosition: aPosition [
+    ^ position < aPosition
 ]
 
 { #category : 'as yet unclassified' }
@@ -37,12 +36,12 @@ Spaceship >> moveBackwards: anInteger [
 ]
 
 { #category : 'as yet unclassified' }
-Spaceship >> moveFoward: dicesResult [
-	^ position := position + dicesResult.
+Spaceship >> moveForward: aNumberOfSquares [
+	^ position := position + aNumberOfSquares.
 ]
 
 { #category : 'as yet unclassified' }
-Spaceship >> returnName [
+Spaceship >> name [
 	^name.
 ]
 

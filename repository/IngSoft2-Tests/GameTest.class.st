@@ -253,7 +253,7 @@ self assert: aGame numberOfWinner equals: 1.
 ]
 
 { #category : 'tests' }
-GameTest >> test017WhenTheSecondPlayerReachesTheGoalFirtThenTheSecondPlayerIsTheWinner [
+GameTest >> test017WhenTheSecondPlayerReachesTheGoalFirstThenTheSecondPlayerIsTheWinner [
 
 | aGame aCollectionOfDices |
 aCollectionOfDices:= OrderedCollection new.

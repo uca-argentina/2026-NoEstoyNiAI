@@ -27,5 +27,5 @@ MoonWalkSquare >> triggerEffect: spaceships and: theCurrentSpaceship [
 		                    obj == theCurrentSpaceship ].
 	
 	movingSpaceships do: [ :spaceship | spaceship moveBackwards: n].
-	^ theCurrentSpaceship moveFoward: 0.
+	^ theCurrentSpaceship moveForward: 0.
 ]

@@ -3,11 +3,9 @@ Class {
 	#superclass : 'Object',
 	#instVars : [
 		'dices',
-		'size',
 		'spaceships',
 		'currentShift',
 		'gameEnded',
-		'aNumberOfPlayers',
 		'board'
 	],
 	#category : 'IngSoft2-Model',
@@ -44,7 +42,7 @@ RacingTheSpace class >> withDices: aCollectionOfDices withSize: aSize withSpaces
 ]
 
 { #category : 'as yet unclassified' }
-RacingTheSpace >> createSpaceshipsInOrderedCollectionPlayers: aNumberOfPlayers [
+RacingTheSpace >> createSpaceships: aNumberOfPlayers [
 
 	^ spaceships := (1 to: aNumberOfPlayers) collect: [ :index |
 		             Spaceship withName: index ]
@@ -63,7 +61,7 @@ RacingTheSpace >> initializeWithDices: aCollectionOfDices andSize: aSize andSpac
 	board := Board withSize: aSize.
 	currentShift := 1.
 	gameEnded := false.
-	self createSpaceshipsInOrderedCollectionPlayers: aNumberOfSpaceships
+	self createSpaceships: aNumberOfSpaceships
 ]
 
 { #category : 'testing' }
@@ -78,27 +76,22 @@ RacingTheSpace >> numberOfPlayers [
 
 { #category : 'as yet unclassified' }
 RacingTheSpace >> numberOfWinner [
-
-	| maxPosition |
 	gameEnded ifFalse: [
 		Error signal: 'There is no winner yet. The game is not finished' ].
-	"maxPosition := self obtainTheHigherPositionOfTheSpaceships."
-	^ (self obtainNameOfTheSpaceshipWithTheHigherPosition: 0) returnName 
+	^ (self obtainNameOfTheSpaceshipWithTheHigherPosition) name 
 ]
 
 { #category : 'as yet unclassified' }
-RacingTheSpace >> obtainNameOfTheSpaceshipWithTheHigherPosition: maxPosition [
+RacingTheSpace >> obtainNameOfTheSpaceshipWithTheHigherPosition [
 
     | maxSpaceship |
-spaceships do: [ :spaceShip |
-        (spaceShip isPositionGreaterThan: maxPosition)
+	maxSpaceship := spaceships first.
+	spaceships do: [ :spaceShip |
+        (spaceShip isAheadOf: maxSpaceship)
             ifTrue: [ maxSpaceship := spaceShip  ].
     ].
 
     ^ maxSpaceship 
-
-	"^ (spaceships detect: [ :spaceship | spaceship isTheSpaceShipWithTheHigherPosition: maxPosition])
-		  returnName"
 ]
 
 { #category : 'as yet unclassified' }
@@ -117,16 +110,16 @@ RacingTheSpace >> playTurn [
 	gameEnded ifTrue: [ Error signal: 'You Cannot Throw, The Game Ended' ].
 	result := self throwDices.
 	currentPlayer := spaceships at: currentShift.
-	currentPlayerPosition := currentPlayer moveFoward: result.
+	currentPlayerPosition := currentPlayer moveForward: result.
 
-	gameEnded := board isShorterThan: currentPlayerPosition.
+	gameEnded := board isFinishedAt: currentPlayerPosition.
 	gameEnded ifFalse: [
 			currentPlayerPosition := board
 				                         callEffect: currentPlayer
 				                         and: currentPlayerPosition
 				                         and: spaceships ].
 
-	gameEnded := board isShorterThan: currentPlayerPosition.
+	gameEnded := board isFinishedAt: currentPlayerPosition.
 	self incrementCurrentShift.
 	^ currentPlayerPosition
 ]
@@ -144,7 +137,7 @@ RacingTheSpace >> throwDices [
 
 	| sumOfDices |
 	
-	sumOfDices:= dices inject: 0 into: [:sum :dice | sum + dice throw ].
+	sumOfDices:= dices inject: 0 into: [:sum :dice | sum + dice roll ].
 
 	^sumOfDices .
 	

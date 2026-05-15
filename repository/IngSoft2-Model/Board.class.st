@@ -39,6 +39,6 @@ Board >> initializeWith: numberOfSquares [
 ]
 
 { #category : 'testing' }
-Board >> isShorterThan: aNumberOfSquares [
-	^ squares size <= aNumberOfSquares
+Board >> isFinishedAt: aPosition [
+	^ squares size <= aPosition
 ]

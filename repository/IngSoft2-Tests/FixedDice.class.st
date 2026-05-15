@@ -5,8 +5,8 @@ Class {
 		'spinCounter',
 		'fixedResults'
 	],
-	#category : 'IngSoft2-Model',
-	#package : 'IngSoft2-Model'
+	#category : 'IngSoft2-Tests',
+	#package : 'IngSoft2-Tests'
 }
 
 { #category : 'as yet unclassified' }
@@ -14,7 +14,7 @@ FixedDice class >> withFixedResults: aCollectionOfFixedResults [
 
 	
 	(aCollectionOfFixedResults allSatisfy: [ :fixedResult | fixedResult isInteger ]) ifFalse: [ Error signal: 'A Fixed Dice can not be created with a not integer fixed result' ].
-	(aCollectionOfFixedResults allSatisfy: [ :fixedResult | fixedResult >= 0 ]) ifFalse: [ Error signal:  'A Fixed Dice can not be created with a negative or zero fixed result' ].
+	(aCollectionOfFixedResults allSatisfy: [ :fixedResult | fixedResult > 0 ]) ifFalse: [ Error signal:  'A Fixed Dice can not be created with a negative or zero fixed result' ].
 	
 	^(self new) initializeWithFixedResults: aCollectionOfFixedResults .
 ]
@@ -33,7 +33,7 @@ FixedDice >> initializeWithFixedResults: aCollectionOfFixedResults [
 ]
 
 { #category : 'as yet unclassified' }
-FixedDice >> throw [
+FixedDice >> roll [
 
 	| valueToBeAdded |
 	valueToBeAdded := fixedResults at: spinCounter.

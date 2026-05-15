@@ -11,7 +11,7 @@ FixedDiceTest >> test001WhenAFixedDiceWithOneResultIsThrowThenTheFixedDiceReturn
  | diceResult aDice |
 
 aDice:= FixedDice withFixedResults: #(10).
-diceResult:= aDice throw.
+diceResult:= aDice roll.
 self assert: diceResult equals: 10.
 ]
 
@@ -21,9 +21,9 @@ FixedDiceTest >> test002WhenAFixedDiceHasMoreThanOneFixedResultThenTheSecondThro
  | aDice |
 
 aDice:= FixedDice withFixedResults: #(10 5).
-aDice throw.
-aDice throw.
-self assert: aDice throw equals: 10.
+aDice roll.
+aDice roll.
+self assert: aDice roll equals: 10.
 ]
 
 { #category : 'tests' }
@@ -56,9 +56,9 @@ FixedDiceTest >> test005WhenAFixedDiceHasTwoFixedResultThenTheThirdThrowReturnsT
  | aDice |
 
 aDice:= FixedDice withFixedResults: #(10 5).
-aDice throw.
-aDice throw.
-self assert: aDice throw equals: 10.
+aDice roll.
+aDice roll.
+self assert: aDice roll equals: 10.
 ]
 
 { #category : 'tests' }

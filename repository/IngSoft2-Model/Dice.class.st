@@ -2,7 +2,8 @@ Class {
 	#name : 'Dice',
 	#superclass : 'Object',
 	#instVars : [
-		'numberOfFaces'
+		'numberOfFaces',
+		'rng'
 	],
 	#category : 'IngSoft2-Model',
 	#package : 'IngSoft2-Model'
@@ -27,11 +28,10 @@ Dice class >> withFaces: numberOfFaces [
 { #category : 'initialization' }
 Dice >> initializeWithFaces: aNumberOfFaces [ 
 	numberOfFaces:= aNumberOfFaces.
+	rng:= Random new.
 ]
 
 { #category : 'as yet unclassified' }
-Dice >> throw [
-	| rng |
-	rng:= Random new.
+Dice >> roll [
 	^ (rng nextInteger: numberOfFaces).
 ]

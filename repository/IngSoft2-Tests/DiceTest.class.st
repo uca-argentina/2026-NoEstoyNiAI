@@ -11,7 +11,7 @@ DiceTest >> test001WhenADiceIsThrowThenTheDiceReturnANumberBetween1and6 [
  | diceResult aDice |
 
 aDice:= Dice default.
-diceResult:= aDice throw.
+diceResult:= aDice roll.
 self assert: (diceResult between: 1 and: 6).
 ]
 
@@ -21,7 +21,7 @@ DiceTest >> test002WhenADiceIsCreatedWithNFacesAndTheDiceIsThrownThenTheDiceRetu
  | diceResult aDice |
 
 aDice:= Dice withFaces: 4.
-diceResult:= aDice throw.
+diceResult:= aDice roll.
 self assert: (diceResult between: 1 and: 4).
 ]
 

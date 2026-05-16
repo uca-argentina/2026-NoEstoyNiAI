@@ -73,3 +73,16 @@ self
 				assert: error messageText
 				equals:  'A Fixed Dice can not be created with a negative or zero fixed result']
 ]
+
+{ #category : 'tests' }
+FixedDiceTest >> test007 [
+
+
+self
+		should: [ FixedDice withFixedResults: #(10 -1) ]
+		raise: Error
+		withExceptionDo: [ :error |
+			self
+				assert: error messageText
+				equals:  'A Fixed Dice can not be created with a negative or zero fixed result']
+]

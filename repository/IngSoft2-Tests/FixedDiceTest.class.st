@@ -10,7 +10,7 @@ FixedDiceTest >> test001WhenAFixedDiceWithOneResultIsThrowThenTheFixedDiceReturn
 
  | diceResult aDice |
 
-aDice:= FixedDice withFixedResults: #(10).
+aDice:= FixedDie withFixedResults: #(10).
 diceResult:= aDice roll.
 self assert: diceResult equals: 10.
 ]
@@ -20,7 +20,7 @@ FixedDiceTest >> test002WhenAFixedDiceHasMoreThanOneFixedResultThenTheSecondThro
 
  | aDice |
 
-aDice:= FixedDice withFixedResults: #(10 5).
+aDice:= FixedDie withFixedResults: #(10 5).
 aDice roll.
 aDice roll.
 self assert: aDice roll equals: 10.
@@ -30,7 +30,7 @@ self assert: aDice roll equals: 10.
 FixedDiceTest >> test003WhenAFixedDiceIsCreatedWithAFloatResultThenTheDiceCannotBeCreated [
 
 	self
-		should: [ FixedDice withFixedResults: #(5.4) ]
+		should: [ FixedDie withFixedResults: #(5.4) ]
 		raise: Error
 		withExceptionDo: [ :error |
 			self
@@ -42,7 +42,7 @@ FixedDiceTest >> test003WhenAFixedDiceIsCreatedWithAFloatResultThenTheDiceCannot
 FixedDiceTest >> test004WhenAFixedDiceIsCreatedWithAStringResultThenTheDiceCannotBeCreated [
 
 	self
-		should: [ FixedDice withFixedResults: '5' ]
+		should: [ FixedDie withFixedResults: '5' ]
 		raise: Error
 		withExceptionDo: [ :error |
 			self
@@ -55,7 +55,7 @@ FixedDiceTest >> test005WhenAFixedDiceHasTwoFixedResultThenTheThirdThrowReturnsT
 
  | aDice |
 
-aDice:= FixedDice withFixedResults: #(10 5).
+aDice:= FixedDie withFixedResults: #(10 5).
 aDice roll.
 aDice roll.
 self assert: aDice roll equals: 10.
@@ -66,7 +66,7 @@ FixedDiceTest >> test006WhenAFixedDiceIsCreatedWithLessThan1AsAtLeastOneTheFixed
 
 
 self
-		should: [ FixedDice withFixedResults: #(10 -1) ]
+		should: [ FixedDie withFixedResults: #(10 -1) ]
 		raise: Error
 		withExceptionDo: [ :error |
 			self

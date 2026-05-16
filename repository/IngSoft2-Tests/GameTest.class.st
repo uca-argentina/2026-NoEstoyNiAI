@@ -20,7 +20,7 @@ GameTest >> test002WhenAGameThrows1FixedDiceThenTheGameReturnsTheValueOfTheFixed
 
 | aGame aCollectionOfDices|
 aCollectionOfDices:= OrderedCollection new.
-aCollectionOfDices add: (FixedDice withFixedResults: #(10)).
+aCollectionOfDices add: (FixedDie withFixedResults: #(10)).
 
 aGame := RacingTheSpace withDices: aCollectionOfDices .
 
@@ -31,9 +31,9 @@ self assert: aGame throwDices equals: 10
 GameTest >> test003WhenAGameThrows3FixedDicesOf10ThenTheGameReturnsTheSumOfThem [
 | aGame aCollectionOfDices|
 aCollectionOfDices:= OrderedCollection new.
-aCollectionOfDices add: (FixedDice withFixedResults: #(10)).
-aCollectionOfDices add: (FixedDice withFixedResults: #(10)).
-aCollectionOfDices add: (FixedDice withFixedResults: #(10)).
+aCollectionOfDices add: (FixedDie withFixedResults: #(10)).
+aCollectionOfDices add: (FixedDie withFixedResults: #(10)).
+aCollectionOfDices add: (FixedDie withFixedResults: #(10)).
 aGame := RacingTheSpace withDices: aCollectionOfDices .
 
 self assert: aGame throwDices equals: 30
@@ -55,9 +55,9 @@ self assert: (aGame throwDices between: 3 and: 30).
 GameTest >> test005WhenThePlayerReachesTheGoalThenTheNextTurnCannotThrow [
 | aGame aCollectionOfDices|
 aCollectionOfDices:= OrderedCollection new.
-aCollectionOfDices add: (FixedDice withFixedResults: #(10)).
-aCollectionOfDices add: (FixedDice withFixedResults: #(10)).
-aCollectionOfDices add: (FixedDice withFixedResults: #(10)).
+aCollectionOfDices add: (FixedDie withFixedResults: #(10)).
+aCollectionOfDices add: (FixedDie withFixedResults: #(10)).
+aCollectionOfDices add: (FixedDie withFixedResults: #(10)).
 aGame := RacingTheSpace withDices: aCollectionOfDices withSize: 20 withSpaceships: 1.
 aGame playTurn .
 self
@@ -75,9 +75,9 @@ self
 GameTest >> test006WhenAGameIsCreatedWithLessThan2SquaresThenTheGameCannotBeCreated [
 | aCollectionOfDices|
 aCollectionOfDices:= OrderedCollection new.
-aCollectionOfDices add: (FixedDice withFixedResults: #(10)).
-aCollectionOfDices add: (FixedDice withFixedResults: #(10)).
-aCollectionOfDices add: (FixedDice withFixedResults: #(10)).
+aCollectionOfDices add: (FixedDie withFixedResults: #(10)).
+aCollectionOfDices add: (FixedDie withFixedResults: #(10)).
+aCollectionOfDices add: (FixedDie withFixedResults: #(10)).
 self
 		should: [RacingTheSpace withDices: aCollectionOfDices withSize: 0 ]
 		raise: Error
@@ -93,9 +93,9 @@ self
 GameTest >> test007WhenAGameIsCreatedWithNegativeSquaresThenTheGameCannotBeCreated [
 | aCollectionOfDices|
 aCollectionOfDices:= OrderedCollection new.
-aCollectionOfDices add: (FixedDice withFixedResults: #(10)).
-aCollectionOfDices add: (FixedDice withFixedResults: #(10)).
-aCollectionOfDices add: (FixedDice withFixedResults: #(10)).
+aCollectionOfDices add: (FixedDie withFixedResults: #(10)).
+aCollectionOfDices add: (FixedDie withFixedResults: #(10)).
+aCollectionOfDices add: (FixedDie withFixedResults: #(10)).
 self
 		should: [RacingTheSpace withDices: aCollectionOfDices withSize: -10 ]
 		raise: Error
@@ -127,9 +127,9 @@ self
 GameTest >> test009WhenTheFirstPlayerPlaysItsTurnThenTheResultIsItsNewPosition [
 | aGame aCollectionOfDices |
 aCollectionOfDices:= OrderedCollection new.
-aCollectionOfDices add: (FixedDice withFixedResults: #(10)).
-aCollectionOfDices add: (FixedDice withFixedResults: #(5)).
-aCollectionOfDices add: (FixedDice withFixedResults: #(15)).
+aCollectionOfDices add: (FixedDie withFixedResults: #(10)).
+aCollectionOfDices add: (FixedDie withFixedResults: #(5)).
+aCollectionOfDices add: (FixedDie withFixedResults: #(15)).
 
 aGame := RacingTheSpace withDices: aCollectionOfDices withSize: 40 withSpaceships: 3.
 
@@ -140,9 +140,9 @@ self assert: aGame playTurn equals: 30.
 GameTest >> test010WhenTheSecondPlayerPlaysItsTurnThenTheResultIsItsNewPosition [
 | aGame aCollectionOfDices |
 aCollectionOfDices:= OrderedCollection new.
-aCollectionOfDices add: (FixedDice withFixedResults: #(10)).
-aCollectionOfDices add: (FixedDice withFixedResults: #(5)).
-aCollectionOfDices add: (FixedDice withFixedResults: #(15)).
+aCollectionOfDices add: (FixedDie withFixedResults: #(10)).
+aCollectionOfDices add: (FixedDie withFixedResults: #(5)).
+aCollectionOfDices add: (FixedDie withFixedResults: #(15)).
 
 aGame := RacingTheSpace withDices: aCollectionOfDices withSize: 40 withSpaceships: 3.
 aGame playTurn.
@@ -154,9 +154,9 @@ self assert: aGame playTurn equals: 30.
 GameTest >> test011WhenTheFirstPlayerPlaysTwiceThenItsPositionIsTheSumOfBothTurnsThrows [
 | aGame aCollectionOfDices |
 aCollectionOfDices:= OrderedCollection new.
-aCollectionOfDices add: (FixedDice withFixedResults: #(10)).
-aCollectionOfDices add: (FixedDice withFixedResults: #(5)).
-aCollectionOfDices add: (FixedDice withFixedResults: #(15)).
+aCollectionOfDices add: (FixedDie withFixedResults: #(10)).
+aCollectionOfDices add: (FixedDie withFixedResults: #(5)).
+aCollectionOfDices add: (FixedDie withFixedResults: #(15)).
 
 aGame := RacingTheSpace withDices: aCollectionOfDices withSize: 40 withSpaceships: 3.
 aGame playTurn.
@@ -169,9 +169,9 @@ self assert: aGame playTurn equals: 60.
 GameTest >> test012WhenTheFirstPlayerReachesTheGoalThenTheSecondPlayerCannotPlayItsTurn [
 | aGame aCollectionOfDices |
 aCollectionOfDices:= OrderedCollection new.
-aCollectionOfDices add: (FixedDice withFixedResults: #(10)).
-aCollectionOfDices add: (FixedDice withFixedResults: #(5)).
-aCollectionOfDices add: (FixedDice withFixedResults: #(15)).
+aCollectionOfDices add: (FixedDie withFixedResults: #(10)).
+aCollectionOfDices add: (FixedDie withFixedResults: #(5)).
+aCollectionOfDices add: (FixedDie withFixedResults: #(15)).
 
 aGame := RacingTheSpace withDices: aCollectionOfDices withSize: 40 withSpaceships: 3.
 aGame playTurn.
@@ -192,8 +192,8 @@ GameTest >> test013WhenAGameIsCreatedWithLessThanOnePlayerThenTheGameCannotBeCre
 
 | aCollectionOfDices |
 aCollectionOfDices:= OrderedCollection new.
-aCollectionOfDices add: (FixedDice withFixedResults: #(5 20)). 
-aCollectionOfDices add: (FixedDice withFixedResults: #(5 20)).
+aCollectionOfDices add: (FixedDie withFixedResults: #(5 20)). 
+aCollectionOfDices add: (FixedDie withFixedResults: #(5 20)).
 
 self
 		should: [RacingTheSpace withDices: aCollectionOfDices withSize: 50  withSpaceships: 0]
@@ -209,9 +209,9 @@ GameTest >> test014WhenTheGameStartsAndNeitherPlayerReachedTheGoalThenTheGameIsN
 
 | aGame aCollectionOfDices |
 aCollectionOfDices:= OrderedCollection new.
-aCollectionOfDices add: (FixedDice withFixedResults: #(10)).
-aCollectionOfDices add: (FixedDice withFixedResults: #(5)).
-aCollectionOfDices add: (FixedDice withFixedResults: #(15)).
+aCollectionOfDices add: (FixedDie withFixedResults: #(10)).
+aCollectionOfDices add: (FixedDie withFixedResults: #(5)).
+aCollectionOfDices add: (FixedDie withFixedResults: #(15)).
 
 aGame := RacingTheSpace withDices: aCollectionOfDices withSize: 40 withSpaceships: 2.
 aGame playTurn.
@@ -225,9 +225,9 @@ GameTest >> test015WhenTheGameStartsAndTheOnlyPlayerReachesTheGoalThenTheGameIsE
 
 | aGame aCollectionOfDices |
 aCollectionOfDices:= OrderedCollection new.
-aCollectionOfDices add: (FixedDice withFixedResults: #(10)).
-aCollectionOfDices add: (FixedDice withFixedResults: #(5)).
-aCollectionOfDices add: (FixedDice withFixedResults: #(15)).
+aCollectionOfDices add: (FixedDie withFixedResults: #(10)).
+aCollectionOfDices add: (FixedDie withFixedResults: #(5)).
+aCollectionOfDices add: (FixedDie withFixedResults: #(15)).
 
 aGame := RacingTheSpace withDices: aCollectionOfDices withSize: 40 withSpaceships: 1.
 aGame playTurn.
@@ -241,9 +241,9 @@ GameTest >> test016WhenTheFirstPlayerReachesTheGoalThenTheFirstPlayerIsTheWinner
 
 | aGame aCollectionOfDices |
 aCollectionOfDices:= OrderedCollection new.
-aCollectionOfDices add: (FixedDice withFixedResults: #(10)).
-aCollectionOfDices add: (FixedDice withFixedResults: #(5)).
-aCollectionOfDices add: (FixedDice withFixedResults: #(15)).
+aCollectionOfDices add: (FixedDie withFixedResults: #(10)).
+aCollectionOfDices add: (FixedDie withFixedResults: #(5)).
+aCollectionOfDices add: (FixedDie withFixedResults: #(15)).
 
 aGame := RacingTheSpace withDices: aCollectionOfDices withSize: 30 withSpaceships: 1.
 aGame playTurn.
@@ -257,7 +257,7 @@ GameTest >> test017WhenTheSecondPlayerReachesTheGoalFirstThenTheSecondPlayerIsTh
 
 | aGame aCollectionOfDices |
 aCollectionOfDices:= OrderedCollection new.
-aCollectionOfDices add: (FixedDice withFixedResults: #(5 10)).
+aCollectionOfDices add: (FixedDie withFixedResults: #(5 10)).
 
 aGame := RacingTheSpace withDices: aCollectionOfDices withSize: 10 withSpaceships: 2.
 aGame playTurn.
@@ -271,8 +271,8 @@ GameTest >> test018WhenTheThirdPlayerReachesTheGoalFirtThenTheThirdPlayerIsTheWi
 
 | aGame aCollectionOfDices |
 aCollectionOfDices:= OrderedCollection new.
-aCollectionOfDices add: (FixedDice withFixedResults: #(5 10 15)).
-aCollectionOfDices add: (FixedDice withFixedResults: #(5 7 15)).
+aCollectionOfDices add: (FixedDie withFixedResults: #(5 10 15)).
+aCollectionOfDices add: (FixedDie withFixedResults: #(5 7 15)).
 
 aGame := RacingTheSpace withDices: aCollectionOfDices withSize: 45 withSpaceships: 3.
 aGame playTurn.
@@ -290,8 +290,8 @@ GameTest >> test019WhenTheGameIsNotFinishedThenThereIsNoWinnerYet [
 
 | aGame aCollectionOfDices |
 aCollectionOfDices:= OrderedCollection new.
-aCollectionOfDices add: (FixedDice withFixedResults: #(5 20)). 
-aCollectionOfDices add: (FixedDice withFixedResults: #(5 20)).
+aCollectionOfDices add: (FixedDie withFixedResults: #(5 20)). 
+aCollectionOfDices add: (FixedDie withFixedResults: #(5 20)).
 
 aGame := RacingTheSpace withDices: aCollectionOfDices withSize: 50  withSpaceships: 3.
 aGame playTurn. 
@@ -311,8 +311,8 @@ self
 GameTest >> test020WhenThePositionsAreRequestedThenThePositionsAreShowed [
 | aGame aCollectionOfDices |
 aCollectionOfDices:= OrderedCollection new.
-aCollectionOfDices add: (FixedDice withFixedResults: #(5 20 12)). 
-aCollectionOfDices add: (FixedDice withFixedResults: #(5 8)).
+aCollectionOfDices add: (FixedDie withFixedResults: #(5 20 12)). 
+aCollectionOfDices add: (FixedDie withFixedResults: #(5 8)).
 
 aGame := RacingTheSpace withDices: aCollectionOfDices withSize: 50  withSpaceships: 3.
 aGame playTurn. 
@@ -327,7 +327,7 @@ GameTest >> test021WhenTheSpaceshipMovesToANoEffectSquareThenTheSpaceshipPositio
 
 | aGame aCollectionOfDices |
 aCollectionOfDices:= OrderedCollection new.
-aCollectionOfDices add: (FixedDice withFixedResults: #(10)).
+aCollectionOfDices add: (FixedDie withFixedResults: #(10)).
 
 aGame := RacingTheSpace withDices: aCollectionOfDices withSize: 40 withSpaceships: 3.
 
@@ -339,7 +339,7 @@ GameTest >> test022WhenTheSpaceShipMovesToAWormHoleSquareThenTheSpaceShipMoves4P
 
 | aGame aCollectionOfDices |
 aCollectionOfDices:= OrderedCollection new.
-aCollectionOfDices add: (FixedDice withFixedResults: #(80)).
+aCollectionOfDices add: (FixedDie withFixedResults: #(80)).
 
 aGame := RacingTheSpace withDices: aCollectionOfDices withSize: 100 withSpaceships: 3.
 
@@ -351,7 +351,7 @@ GameTest >> test023WhenTheSpaceShipMovesToASpeedUpSquareThenTheSpaceShipMoves4Po
 
 | aGame aCollectionOfDices |
 aCollectionOfDices:= OrderedCollection new.
-aCollectionOfDices add: (FixedDice withFixedResults: #(81)).
+aCollectionOfDices add: (FixedDie withFixedResults: #(81)).
 
 aGame := RacingTheSpace withDices: aCollectionOfDices withSize: 100 withSpaceships: 3.
 
@@ -363,7 +363,7 @@ GameTest >> test024WhenTheSpaceShipMovesToAMoonWalkSquareThenTheOthersMovesNPosi
 
 | aGame aCollectionOfDices |
 aCollectionOfDices:= OrderedCollection new.
-aCollectionOfDices add: (FixedDice withFixedResults: #(82 10)).
+aCollectionOfDices add: (FixedDie withFixedResults: #(82 10)).
 
 aGame := RacingTheSpace withDices: aCollectionOfDices withSize: 100 withSpaceships: 3.
 aGame playTurn.
@@ -376,7 +376,7 @@ GameTest >> test025WhenTheSpaceShipMovesToAParsecSquareThenTheSpaceShipMovesMPar
 
 | aGame aCollectionOfDices |
 aCollectionOfDices:= OrderedCollection new.
-aCollectionOfDices add: (FixedDice withFixedResults: #(84)).
+aCollectionOfDices add: (FixedDie withFixedResults: #(84)).
 
 aGame := RacingTheSpace withDices: aCollectionOfDices withSize: 150 withSpaceships: 3.
 
@@ -388,7 +388,7 @@ GameTest >> test026WhenTheSpaceShipMovesToAnAtomicBombSquareThenAllTheSpaceShips
 
 | aGame aCollectionOfDices |
 aCollectionOfDices:= OrderedCollection new.
-aCollectionOfDices add: (FixedDice withFixedResults: #(85)).
+aCollectionOfDices add: (FixedDie withFixedResults: #(85)).
 
 aGame := RacingTheSpace withDices: aCollectionOfDices withSize: 150 withSpaceships: 3.
 

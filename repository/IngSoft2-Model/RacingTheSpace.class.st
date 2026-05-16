@@ -16,7 +16,7 @@ Class {
 RacingTheSpace class >> default [
 	| aCollectionOfDices |
 	aCollectionOfDices := OrderedCollection new.
-	aCollectionOfDices add: (FixedDice withFixedResults: #(10)).
+	aCollectionOfDices add: (FixedDie withFixedResults: #(10)).
 	^ (self new) initializeWithDices: aCollectionOfDices andSize: 30 andSpaceships: 1.
 ]
 

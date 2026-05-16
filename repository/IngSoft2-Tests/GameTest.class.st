@@ -359,7 +359,7 @@ self assert: aGame playTurn equals: 85.
 ]
 
 { #category : 'tests' }
-GameTest >> test024 [
+GameTest >> test024WhenTheSpaceShipMovesToAMoonWalkSquareThenTheOthersMovesNPositionsBackwards [
 
 | aGame aCollectionOfDices |
 aCollectionOfDices:= OrderedCollection new.
@@ -369,4 +369,28 @@ aGame := RacingTheSpace withDices: aCollectionOfDices withSize: 100 withSpaceshi
 aGame playTurn.
 
 self assert: aGame playTurn equals: 5.
+]
+
+{ #category : 'tests' }
+GameTest >> test025WhenTheSpaceShipMovesToAParsecSquareThenTheSpaceShipMovesMParsecsForwards [
+
+| aGame aCollectionOfDices |
+aCollectionOfDices:= OrderedCollection new.
+aCollectionOfDices add: (FixedDice withFixedResults: #(84)).
+
+aGame := RacingTheSpace withDices: aCollectionOfDices withSize: 150 withSpaceships: 3.
+
+self assert: aGame playTurn equals: 104.
+]
+
+{ #category : 'tests' }
+GameTest >> test026WhenTheSpaceShipMovesToAnAtomicBombSquareThenAllTheSpaceShipsMoveToTheBeginningOfTheBoard [
+
+| aGame aCollectionOfDices |
+aCollectionOfDices:= OrderedCollection new.
+aCollectionOfDices add: (FixedDice withFixedResults: #(85)).
+
+aGame := RacingTheSpace withDices: aCollectionOfDices withSize: 150 withSpaceships: 3.
+
+self assert: aGame playTurn equals: 1.
 ]

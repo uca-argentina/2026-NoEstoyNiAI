@@ -45,6 +45,11 @@ Spaceship >> name [
 	^name.
 ]
 
+{ #category : 'initialization' }
+Spaceship >> resetToBeginning [
+	position := 1.
+]
+
 { #category : 'as yet unclassified' }
 Spaceship >> showPosition: result [
 	^ result nextPutAll: '[Player ' , name printString , ' is on square ', position printString , '] '

@@ -119,6 +119,7 @@ RacingTheSpace >> playTurn [
 				                         and: currentPlayerPosition
 				                         and: spaceships ].
 
+
 	gameEnded := board isFinishedAt: currentPlayerPosition.
 	self incrementCurrentShift.
 	^ currentPlayerPosition

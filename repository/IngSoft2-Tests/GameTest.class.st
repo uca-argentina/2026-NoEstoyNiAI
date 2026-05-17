@@ -400,7 +400,20 @@ self assert: aGame playTurn equals: 1.
 ]
 
 { #category : 'tests' }
-GameTest >> test027WhenASpaceshipCompletesOneLapThenLapsIncreaseAndGameContinues [
+GameTest >> test027WhenTheSpaceShipMovesToASpecialSquareAfterAnEffectThenTheSecondEffectIsNotApplied [
+| aGame aCollectionOfDices |
+aCollectionOfDices:= OrderedCollection new.
+aCollectionOfDices add: (FixedDie withFixedResults: #(81 1)).
+
+aGame := RacingTheSpace withDices: aCollectionOfDices withBoardSize: 100 withSpaceships: 1 withLaps: 1.
+aGame playTurn. "cae en Bomba Atomica"
+
+
+self assert: aGame playTurn equals: 86.
+]
+
+{ #category : 'tests' }
+GameTest >> test028WhenASpaceshipCompletesOneLapThenLapsIncreaseAndGameContinues [
 
 | aGame aCollectionOfDices |
 aCollectionOfDices:= OrderedCollection new.
@@ -417,20 +430,7 @@ self deny: (aGame isEnded).
 ]
 
 { #category : 'tests' }
-GameTest >> test027WhenTheSpaceShipMovesToASpecialSquareAfterAnEffectThenTheSecondEffectIsNotApplied [
-| aGame aCollectionOfDices |
-aCollectionOfDices:= OrderedCollection new.
-aCollectionOfDices add: (FixedDie withFixedResults: #(81 1)).
-
-aGame := RacingTheSpace withDices: aCollectionOfDices withSize: 100 withSpaceships: 1.
-aGame playTurn. "cae en Bomba Atomica"
-
-
-self assert: aGame playTurn equals: 86.
-]
-
-{ #category : 'tests' }
-GameTest >> test028WhenASpaceshipCompletesAllTheLapsThenTheGameEnds [
+GameTest >> test029WhenASpaceshipCompletesAllTheLapsThenTheGameEnds [
 
 | aGame aCollectionOfDices |
 aCollectionOfDices:= OrderedCollection new.
@@ -448,7 +448,7 @@ self assert: (aGame isEnded).
 ]
 
 { #category : 'tests' }
-GameTest >> test029WhenASpaceshipCompletesAllTheLapsFirstThenItIsTheWinner [
+GameTest >> test030WhenASpaceshipCompletesAllTheLapsFirstThenItIsTheWinner [
 
 | aGame aCollectionOfDices |
 aCollectionOfDices:= OrderedCollection new.

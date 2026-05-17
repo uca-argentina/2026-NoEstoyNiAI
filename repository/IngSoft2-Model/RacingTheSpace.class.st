@@ -6,7 +6,8 @@ Class {
 		'spaceships',
 		'currentShift',
 		'gameEnded',
-		'board'
+		'board',
+		'totalLaps'
 	],
 	#category : 'IngSoft2-Model',
 	#package : 'IngSoft2-Model'
@@ -17,28 +18,36 @@ RacingTheSpace class >> default [
 	| aCollectionOfDices |
 	aCollectionOfDices := OrderedCollection new.
 	aCollectionOfDices add: (FixedDie withFixedResults: #(10)).
-	^ (self new) initializeWithDices: aCollectionOfDices andSize: 30 andSpaceships: 1.
+	^ (self new) initializeWithDices: aCollectionOfDices andBoardSize: 30 andSpaceships: 1 andLaps: 1.
 ]
 
 { #category : 'as yet unclassified' }
 RacingTheSpace class >> withDices: aCollectionOfDices [ 	
 
-	^self new initializeWithDices: aCollectionOfDices andSize: 30 andSpaceships: 1.
+	^self new initializeWithDices: aCollectionOfDices andBoardSize: 30 andSpaceships: 1 andLaps: 1.
 ]
 
 { #category : 'as yet unclassified' }
-RacingTheSpace class >> withDices: aCollectionOfDices withSize: aSize [ 
+RacingTheSpace class >> withDices: aCollectionOfDices withBoardSize: aSize [ 
 	aSize < 2 ifTrue: [ Error signal: 'You Cannot Create A Game With Less Than 2 Squares' ].
 	aCollectionOfDices isEmpty ifTrue: [ Error signal: 'You Cannot Create A Game With No Dices' ].
-	^self new initializeWithDices: aCollectionOfDices andSize: aSize andSpaceships: 1.
+	^self new initializeWithDices: aCollectionOfDices andBoardSize: aSize andSpaceships: 1 andLaps: 1.
 ]
 
 { #category : 'as yet unclassified' }
-RacingTheSpace class >> withDices: aCollectionOfDices withSize: aSize withSpaceships: aNumberOfSpaceships [
+RacingTheSpace class >> withDices: aCollectionOfDices withBoardSize: aSize withSpaceships: aNumberOfSpaceships [
 	aSize < 2 ifTrue: [ Error signal: 'You Cannot Create A Game With Less Than 2 Squares' ].
 	aCollectionOfDices isEmpty ifTrue: [ Error signal: 'You Cannot Create A Game With No Dices' ].
 	aNumberOfSpaceships < 1 ifTrue: [ Error signal: 'You Cannot Create A Game With Less Than 1 Player'].
-	^self new initializeWithDices: aCollectionOfDices andSize: aSize andSpaceships: aNumberOfSpaceships.
+	^self new initializeWithDices: aCollectionOfDices andBoardSize: aSize andSpaceships: aNumberOfSpaceships andLaps: 1.
+]
+
+{ #category : 'as yet unclassified' }
+RacingTheSpace class >> withDices: aCollectionOfDices withBoardSize: aSize withSpaceships: aNumberOfSpaceships withLaps: aNumberOfLaps [
+	aSize < 2 ifTrue: [ Error signal: 'You Cannot Create A Game With Less Than 2 Squares' ].
+	aCollectionOfDices isEmpty ifTrue: [ Error signal: 'You Cannot Create A Game With No Dices' ].
+	aNumberOfSpaceships < 1 ifTrue: [ Error signal: 'You Cannot Create A Game With Less Than 1 Player'].
+	^self new initializeWithDices: aCollectionOfDices andBoardSize: aSize andSpaceships: aNumberOfSpaceships andLaps: aNumberOfLaps.
 ]
 
 { #category : 'as yet unclassified' }
@@ -55,10 +64,11 @@ RacingTheSpace >> incrementCurrentShift [
 ]
 
 { #category : 'initialization' }
-RacingTheSpace >> initializeWithDices: aCollectionOfDices andSize: aSize andSpaceships: aNumberOfSpaceships [
+RacingTheSpace >> initializeWithDices: aCollectionOfDices andBoardSize: aSize andSpaceships: aNumberOfSpaceships andLaps: aNumberOfLaps [
 
 	dices := aCollectionOfDices.
 	board := Board withSize: aSize.
+	totalLaps := aNumberOfLaps.
 	currentShift := 1.
 	gameEnded := false.
 	self createSpaceships: aNumberOfSpaceships
@@ -106,23 +116,21 @@ RacingTheSpace >> obtainPositionsStringResult [
 { #category : 'as yet unclassified' }
 RacingTheSpace >> playTurn [
 
-	| result currentPlayerPosition currentPlayer |
+	| result currentPlayer |
 	gameEnded ifTrue: [ Error signal: 'You Cannot Throw, The Game Ended' ].
 	result := self throwDices.
 	currentPlayer := spaceships at: currentShift.
-	currentPlayerPosition := currentPlayer moveForward: result.
+	currentPlayer moveForward: result.
+	currentPlayer wrapIfNeeded: board size.
+	
 
-	gameEnded := board isFinishedAt: currentPlayerPosition.
-	gameEnded ifFalse: [
-			currentPlayerPosition := board
-				                         callEffect: currentPlayer
-				                         and: currentPlayerPosition
-				                         and: spaceships ].
+	gameEnded := currentPlayer laps >= totalLaps.
+	gameEnded ifFalse: [ board callEffect: currentPlayer and: spaceships.
+		currentPlayer wrapIfNeeded: board size.
+		gameEnded := currentPlayer laps >= totalLaps ].
 
-
-	gameEnded := board isFinishedAt: currentPlayerPosition.
 	self incrementCurrentShift.
-	^ currentPlayerPosition
+	^ currentPlayer position.
 ]
 
 { #category : 'as yet unclassified' }

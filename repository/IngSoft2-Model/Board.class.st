@@ -17,6 +17,14 @@ Board class >> withSize: aSize [
 ]
 
 { #category : 'as yet unclassified' }
+Board >> callEffect: currentPlayer and: spaceships [
+
+	^ (squares at: currentPlayer position)
+		  triggerEffect: spaceships 
+		  and: currentPlayer.
+]
+
+{ #category : 'as yet unclassified' }
 Board >> callEffect: currentPlayer and: currentPlayerPosition and: spaceships [
 
 	^ (squares at: currentPlayerPosition)
@@ -43,4 +51,9 @@ Board >> initializeWith: numberOfSquares [
 { #category : 'testing' }
 Board >> isFinishedAt: aPosition [
 	^ squares size <= aPosition
+]
+
+{ #category : 'accessing' }
+Board >> size [
+	^ squares size.
 ]

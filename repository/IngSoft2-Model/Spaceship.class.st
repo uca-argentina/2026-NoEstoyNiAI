@@ -33,11 +33,6 @@ Spaceship >> isAheadOf: anotherSpaceship [
 ]
 
 { #category : 'testing' }
-Spaceship >> isBehindPosition: aPosition [
-    ^ position < aPosition
-]
-
-{ #category : 'testing' }
 Spaceship >> isBehindPosition: aPosition andLaps: aLaps [
 
 	aLaps = laps ifTrue: [ ^ position < aPosition ].
@@ -75,8 +70,18 @@ Spaceship >> resetToBeginning [
 ]
 
 { #category : 'as yet unclassified' }
+Spaceship >> showLap [
+	^ 'The SpaceShip ' , name printString , ' is on ', (laps +1 ) printString , 'º lap'
+]
+
+{ #category : 'as yet unclassified' }
 Spaceship >> showPosition: result [
 	^ result nextPutAll: '[Player ' , name printString , ' is on square ', position printString , '] '
+]
+
+{ #category : 'as yet unclassified' }
+Spaceship >> showRankedPosition: rankedPosition [ 
+	^rankedPosition printString , 'º: Spaceship ', name printString.
 ]
 
 { #category : 'as yet unclassified' }

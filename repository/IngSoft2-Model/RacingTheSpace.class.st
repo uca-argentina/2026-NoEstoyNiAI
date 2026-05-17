@@ -58,6 +58,14 @@ RacingTheSpace >> createSpaceships: aNumberOfPlayers [
 ]
 
 { #category : 'as yet unclassified' }
+RacingTheSpace >> detectSpaceship: aSpaceshipName [
+
+	| spaceship |
+	spaceship := spaceships detect: [ :ship | ship name = aSpaceshipName ].
+	^ spaceship
+]
+
+{ #category : 'as yet unclassified' }
 RacingTheSpace >> incrementCurrentShift [
 
 	^ currentShift := currentShift \\ self numberOfPlayers + 1
@@ -77,6 +85,14 @@ RacingTheSpace >> initializeWithDices: aCollectionOfDices andBoardSize: aSize an
 { #category : 'testing' }
 RacingTheSpace >> isEnded [
 	^ gameEnded.
+]
+
+{ #category : 'as yet unclassified' }
+RacingTheSpace >> lapOf: aSpaceshipName [
+
+	| spaceship |
+	spaceship := self detectSpaceship: aSpaceshipName.
+	^ spaceship showLap
 ]
 
 { #category : 'as yet unclassified' }
@@ -134,11 +150,48 @@ RacingTheSpace >> playTurn [
 ]
 
 { #category : 'as yet unclassified' }
+RacingTheSpace >> positionInRankingOf: aSpaceShipName [ 
+	| orderedSpaceships spaceship position |
+	orderedSpaceships := self sortSpaceshipsByPosition.
+	spaceship := self detectSpaceship: aSpaceShipName.
+	position := orderedSpaceships indexOf: spaceship.
+	
+	^'The SpaceShip ', aSpaceShipName printString, ' is ', position printString, 'º'.
+]
+
+{ #category : 'as yet unclassified' }
+RacingTheSpace >> ranking [
+	| orderedSpaceships response |
+	response :=''.
+	orderedSpaceships := self sortSpaceshipsByPosition.
+	orderedSpaceships withIndexDo: [ :spaceship :index | response := response, (spaceship showRankedPosition: index), String cr].
+	^response.
+
+]
+
+{ #category : 'as yet unclassified' }
+RacingTheSpace >> showEachSpaceshipLap [
+	| response |
+	response :=''.
+	spaceships do: [ :spaceship  | response := response, (spaceship showLap), String cr].
+	^response.
+]
+
+{ #category : 'as yet unclassified' }
 RacingTheSpace >> showPositions [
 
 	| resultString |
 	resultString := self obtainPositionsStringResult.
 	^ resultString contents
+]
+
+{ #category : 'as yet unclassified' }
+RacingTheSpace >> sortSpaceshipsByPosition [
+
+	| orderedSpaceships |
+	orderedSpaceships := spaceships asSortedCollection: [ :shipA :shipB |
+		                     shipA isAheadOf: shipB ].
+	^ orderedSpaceships
 ]
 
 { #category : 'as yet unclassified' }

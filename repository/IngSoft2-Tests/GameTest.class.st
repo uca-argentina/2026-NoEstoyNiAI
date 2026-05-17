@@ -469,3 +469,111 @@ aGame playTurn.
 
 self assert: aGame numberOfWinner equals: 2.
 ]
+
+{ #category : 'tests' }
+GameTest >> test031WhenTheSpaceshipIsFirstThenTheSpaceshipRankingPositionIs1 [
+
+| aGame aCollectionOfDices |
+aCollectionOfDices:= OrderedCollection new.
+aCollectionOfDices add: (FixedDie withFixedResults: #(1 10)).
+
+aGame := RacingTheSpace withDices: aCollectionOfDices withBoardSize: 25 withSpaceships: 2 withLaps: 2.
+
+aGame playTurn.
+
+self assert: (aGame positionInRankingOf: 1) equals: 'The SpaceShip 1 is 1º'.
+]
+
+{ #category : 'tests' }
+GameTest >> test032WhenTheSpaceshipIsSecondBecauseOfBeing1LapBehindThenTheSpaceshipRankingPositionIs2 [
+
+| aGame aCollectionOfDices |
+aCollectionOfDices:= OrderedCollection new.
+aCollectionOfDices add: (FixedDie withFixedResults: #(10 5)).
+
+aGame := RacingTheSpace withDices: aCollectionOfDices withBoardSize: 29 withSpaceships: 2 withLaps: 2.
+
+aGame playTurn.
+aGame playTurn.
+aGame playTurn.
+aGame playTurn.
+aGame playTurn.
+
+self assert: (aGame positionInRankingOf: 2) equals: 'The SpaceShip 2 is 2º'.
+]
+
+{ #category : 'tests' }
+GameTest >> test033WhenTheSpaceshipHasntPassALapThenTheSpaceshipLapIs1 [
+
+| aGame aCollectionOfDices |
+aCollectionOfDices:= OrderedCollection new.
+aCollectionOfDices add: (FixedDie withFixedResults: #(10 5)).
+
+aGame := RacingTheSpace withDices: aCollectionOfDices withBoardSize: 29 withSpaceships: 2 withLaps: 2.
+
+aGame playTurn.
+aGame playTurn.
+aGame playTurn.
+aGame playTurn.
+aGame playTurn.
+
+self assert: (aGame lapOf: 2) equals: 'The SpaceShip 2 is on 1º lap'.
+]
+
+{ #category : 'tests' }
+GameTest >> test034WhenTheSpaceshipHasPassedALapThenTheSpaceshipLapIs2 [
+
+| aGame aCollectionOfDices |
+aCollectionOfDices:= OrderedCollection new.
+aCollectionOfDices add: (FixedDie withFixedResults: #(10 5)).
+
+aGame := RacingTheSpace withDices: aCollectionOfDices withBoardSize: 29 withSpaceships: 2 withLaps: 2.
+
+aGame playTurn.
+aGame playTurn.
+aGame playTurn.
+aGame playTurn.
+aGame playTurn.
+
+self assert: (aGame lapOf: 1) equals: 'The SpaceShip 1 is on 2º lap'.
+]
+
+{ #category : 'tests' }
+GameTest >> test035WhenTheFirstSpaceshipIsAheadOfTheSecondOneThenTheRankingPuts1TheFirstSpaceshipAnd2TheOtherOne [
+
+| aGame aCollectionOfDices |
+aCollectionOfDices:= OrderedCollection new.
+aCollectionOfDices add: (FixedDie withFixedResults: #(10 5)).
+
+aGame := RacingTheSpace withDices: aCollectionOfDices withBoardSize: 29 withSpaceships: 2 withLaps: 2.
+
+aGame playTurn.
+aGame playTurn.
+aGame playTurn.
+aGame playTurn.
+aGame playTurn.
+
+self assert: aGame ranking equals: '1º: Spaceship 1
+2º: Spaceship 2
+'.
+]
+
+{ #category : 'tests' }
+GameTest >> test036WhenASpaceshipHasPassedALapButTheOtherOneHasntThenTheSpaceshipsLapsAre2and1Respectively [
+
+| aGame aCollectionOfDices |
+aCollectionOfDices:= OrderedCollection new.
+aCollectionOfDices add: (FixedDie withFixedResults: #(10 5)).
+
+aGame := RacingTheSpace withDices: aCollectionOfDices withBoardSize: 29 withSpaceships: 2 withLaps: 2.
+
+aGame playTurn.
+aGame playTurn.
+aGame playTurn.
+aGame playTurn.
+aGame playTurn.
+
+self assert: aGame showEachSpaceshipLap equals: 'The SpaceShip 1 is on 2º lap
+The SpaceShip 2 is on 1º lap
+'.
+]

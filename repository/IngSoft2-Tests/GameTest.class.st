@@ -577,3 +577,23 @@ self assert: aGame showEachSpaceshipLap equals: 'The SpaceShip 1 is on 2º lap
 The SpaceShip 2 is on 1º lap
 '.
 ]
+
+{ #category : 'tests' }
+GameTest >> test037WhenTheGameIsAskedForPositionsThenThePositionsRespectNumberOfSquareAndLap [
+
+| aGame aCollectionOfDices |
+aCollectionOfDices:= OrderedCollection new.
+aCollectionOfDices add: (FixedDie withFixedResults: #(10 5)).
+
+aGame := RacingTheSpace withDices: aCollectionOfDices withBoardSize: 29 withSpaceships: 2 withLaps: 2.
+
+aGame playTurn.
+aGame playTurn.
+aGame playTurn.
+aGame playTurn.
+aGame playTurn.
+
+self assert: aGame showEachSpaceshipGamePosition equals: 'The SpaceShip 1 is in position 1 (2º lap)
+The SpaceShip 2 is in position 10 (1º lap)
+'.
+]

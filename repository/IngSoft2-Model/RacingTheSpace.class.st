@@ -170,10 +170,19 @@ RacingTheSpace >> ranking [
 ]
 
 { #category : 'as yet unclassified' }
+RacingTheSpace >> showEachSpaceshipGamePosition [
+	| response |
+	response := ''.
+	spaceships do: [ :spaceship  | response := response, spaceship showGamePosition, String cr].
+	^ response.
+
+]
+
+{ #category : 'as yet unclassified' }
 RacingTheSpace >> showEachSpaceshipLap [
 	| response |
 	response :=''.
-	spaceships do: [ :spaceship  | response := response, (spaceship showLap), String cr].
+	spaceships do: [ :spaceship  | response := response, spaceship showLap, String cr].
 	^response.
 ]
 

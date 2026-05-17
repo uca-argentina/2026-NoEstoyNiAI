@@ -70,6 +70,12 @@ Spaceship >> resetToBeginning [
 ]
 
 { #category : 'as yet unclassified' }
+Spaceship >> showGamePosition [
+	^'The SpaceShip ', name printString,' is in position ', position printString, ' (', (laps + 1) printString, 'º lap)'.
+
+]
+
+{ #category : 'as yet unclassified' }
 Spaceship >> showLap [
 	^ 'The SpaceShip ' , name printString , ' is on ', (laps +1 ) printString , 'º lap'
 ]

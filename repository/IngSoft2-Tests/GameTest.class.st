@@ -132,8 +132,8 @@ aCollectionOfDices add: (FixedDie withFixedResults: #(5)).
 aCollectionOfDices add: (FixedDie withFixedResults: #(15)).
 
 aGame := RacingTheSpace withDices: aCollectionOfDices withBoardSize: 40 withSpaceships: 3.
-
-self assert: aGame playTurn equals: 30.
+aGame playTurn.
+self assert: (aGame positionOf:1) equals: 30.
 ]
 
 { #category : 'tests' }
@@ -146,8 +146,9 @@ aCollectionOfDices add: (FixedDie withFixedResults: #(15)).
 
 aGame := RacingTheSpace withDices: aCollectionOfDices withBoardSize: 40 withSpaceships: 3.
 aGame playTurn.
+aGame playTurn.
 
-self assert: aGame playTurn equals: 30.
+self assert: (aGame positionOf:2) equals: 30.
 ]
 
 { #category : 'tests' }
@@ -162,7 +163,8 @@ aGame := RacingTheSpace withDices: aCollectionOfDices withBoardSize: 40 withSpac
 aGame playTurn.
 aGame playTurn.
 aGame playTurn.
-self assert: aGame playTurn equals: 20.
+aGame playTurn.
+self assert: (aGame positionOf:1) equals: 20.
 ]
 
 { #category : 'tests' }
@@ -245,11 +247,7 @@ GameTest >> test016WhenTheFirstPlayerReachesTheGoalThenTheFirstPlayerIsTheWinner
 	aCollectionOfDices add: (FixedDie withFixedResults: #( 5 )).
 	aCollectionOfDices add: (FixedDie withFixedResults: #( 15 )).
 
-	aGame := RacingTheSpace
-		         withDices: aCollectionOfDices
-		         withBoardSize: 30
-		         withSpaceships: 1
-		         withLaps: 1.
+	aGame := RacingTheSpace withDices: aCollectionOfDices withBoardSize: 30 withSpaceships: 1 withLaps: 1.
 	aGame playTurn.
 
 
@@ -334,8 +332,9 @@ aCollectionOfDices:= OrderedCollection new.
 aCollectionOfDices add: (FixedDie withFixedResults: #(10)).
 
 aGame := RacingTheSpace withDices: aCollectionOfDices withBoardSize: 40 withSpaceships: 3.
+aGame playTurn .
 
-self assert: aGame playTurn equals: 10.
+self assert: (aGame positionOf:1) equals: 10.
 ]
 
 { #category : 'tests' }
@@ -346,8 +345,9 @@ aCollectionOfDices:= OrderedCollection new.
 aCollectionOfDices add: (FixedDie withFixedResults: #(80)).
 
 aGame := RacingTheSpace withDices: aCollectionOfDices withBoardSize: 100 withSpaceships: 3.
+aGame playTurn.
 
-self assert: aGame playTurn equals: 76.
+self assert: (aGame positionOf:1) equals: 76.
 ]
 
 { #category : 'tests' }
@@ -358,8 +358,8 @@ aCollectionOfDices:= OrderedCollection new.
 aCollectionOfDices add: (FixedDie withFixedResults: #(81)).
 
 aGame := RacingTheSpace withDices: aCollectionOfDices withBoardSize: 100 withSpaceships: 3.
-
-self assert: aGame playTurn equals: 85.
+aGame playTurn.
+self assert: (aGame positionOf:1) equals: 85.
 ]
 
 { #category : 'tests' }
@@ -367,12 +367,15 @@ GameTest >> test024WhenTheSpaceShipMovesToAMoonWalkSquareThenTheOthersMovesNPosi
 
 | aGame aCollectionOfDices |
 aCollectionOfDices:= OrderedCollection new.
-aCollectionOfDices add: (FixedDie withFixedResults: #(82 10)).
+aCollectionOfDices add: (FixedDie withFixedResults: #(10 10 82)).
 
 aGame := RacingTheSpace withDices: aCollectionOfDices withBoardSize: 100 withSpaceships: 3.
 aGame playTurn.
+aGame playTurn.
+aGame playTurn.
 
-self assert: aGame playTurn equals: 5.
+self assert: (aGame positionOf:1) equals: 5.
+self assert: (aGame positionOf:2) equals: 5.
 ]
 
 { #category : 'tests' }
@@ -383,8 +386,8 @@ aCollectionOfDices:= OrderedCollection new.
 aCollectionOfDices add: (FixedDie withFixedResults: #(84)).
 
 aGame := RacingTheSpace withDices: aCollectionOfDices withBoardSize: 150 withSpaceships: 3.
-
-self assert: aGame playTurn equals: 104.
+aGame playTurn.
+self assert: (aGame positionOf:1) equals: 104.
 ]
 
 { #category : 'tests' }
@@ -395,21 +398,23 @@ aCollectionOfDices:= OrderedCollection new.
 aCollectionOfDices add: (FixedDie withFixedResults: #(85)).
 
 aGame := RacingTheSpace withDices: aCollectionOfDices withBoardSize: 150 withSpaceships: 3.
+aGame  playTurn.
 
-self assert: aGame playTurn equals: 1.
+self assert: (aGame positionOf:1) equals: 1.
 ]
 
 { #category : 'tests' }
 GameTest >> test027WhenTheSpaceShipMovesToASpecialSquareAfterAnEffectThenTheSecondEffectIsNotApplied [
 | aGame aCollectionOfDices |
 aCollectionOfDices:= OrderedCollection new.
-aCollectionOfDices add: (FixedDie withFixedResults: #(81 1)).
+aCollectionOfDices add: (FixedDie withFixedResults: #(10 81)).
 
-aGame := RacingTheSpace withDices: aCollectionOfDices withBoardSize: 100 withSpaceships: 1 withLaps: 1.
-aGame playTurn. "cae en Bomba Atomica"
+aGame := RacingTheSpace withDices: aCollectionOfDices withBoardSize: 100 withSpaceships: 2 withLaps: 1.
+aGame playTurn. 
+aGame playTurn.
 
 
-self assert: aGame playTurn equals: 86.
+self assert: (aGame positionOf:1) equals: 10.
 ]
 
 { #category : 'tests' }

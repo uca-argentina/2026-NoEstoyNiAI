@@ -160,6 +160,16 @@ RacingTheSpace >> positionInRankingOf: aSpaceShipName [
 ]
 
 { #category : 'as yet unclassified' }
+RacingTheSpace >> positionOf: aSpaceshipName [
+
+	| spaceship |
+	spaceship := self detectSpaceship: aSpaceshipName.
+	^spaceship position.
+	
+	
+]
+
+{ #category : 'as yet unclassified' }
 RacingTheSpace >> ranking [
 	| orderedSpaceships response |
 	response :=''.

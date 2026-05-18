@@ -8,5 +8,4 @@ Class {
 { #category : 'as yet unclassified' }
 AtomicBombSquare >> triggerEffect: spaceships and: theCurrentSpaceship [
 	spaceships do: [ :spaceship | spaceship resetToBeginning ].
-	^1.
 ]

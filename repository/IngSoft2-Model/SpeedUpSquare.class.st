@@ -7,5 +7,5 @@ Class {
 
 { #category : 'as yet unclassified' }
 SpeedUpSquare >> triggerEffect: spaceships and: theCurrentSpaceship [
-	^ theCurrentSpaceship moveForward: 4.
+	theCurrentSpaceship moveForward: 4.
 ]

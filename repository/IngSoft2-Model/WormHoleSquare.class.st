@@ -7,5 +7,5 @@ Class {
 
 { #category : 'as yet unclassified' }
 WormHoleSquare >> triggerEffect: spaceships and: theCurrentSpaceship [
-	^ theCurrentSpaceship moveBackwards: 4.
+	theCurrentSpaceship moveBackwards: 4.
 ]

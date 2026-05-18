@@ -12,7 +12,7 @@ NoEffectSquare class >> initialize [
 { #category : 'as yet unclassified' }
 NoEffectSquare >> triggerEffect: spaceships and: theCurrentSpaceship [
 
-	^ theCurrentSpaceship moveForward: 0.
+	theCurrentSpaceship moveForward: 0.
 	
 
 ]

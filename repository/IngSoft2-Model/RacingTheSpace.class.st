@@ -146,7 +146,6 @@ RacingTheSpace >> playTurn [
 		gameEnded := currentPlayer laps >= totalLaps ].
 
 	self incrementCurrentShift.
-	^ currentPlayer position.
 ]
 
 { #category : 'as yet unclassified' }

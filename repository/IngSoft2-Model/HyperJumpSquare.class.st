@@ -27,6 +27,6 @@ HyperJumpSquare >> triggerEffect: spaceships and: theCurrentSpaceship [
 	|positionsToAdvance|
 	positionsToAdvance := (parsecs at: currentParsecPosition) * relation.
 	currentParsecPosition := currentParsecPosition \\ parsecs size + 1.
-	^theCurrentSpaceship moveForward: positionsToAdvance.
+	theCurrentSpaceship moveForward: positionsToAdvance.
 	
 ]

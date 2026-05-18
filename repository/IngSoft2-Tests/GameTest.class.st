@@ -137,22 +137,22 @@ self assert: (aGame positionOf:1) equals: 30.
 ]
 
 { #category : 'tests' }
-GameTest >> test010WhenTheSecondPlayerPlaysItsTurnThenTheResultIsItsNewPosition [
+GameTest >> test010WhenShip2PlaysItsTurnThenTheResultIsItsNewPosition [
 | aGame aCollectionOfDices |
 aCollectionOfDices:= OrderedCollection new.
-aCollectionOfDices add: (FixedDie withFixedResults: #(10)).
-aCollectionOfDices add: (FixedDie withFixedResults: #(5)).
-aCollectionOfDices add: (FixedDie withFixedResults: #(15)).
+aCollectionOfDices add: (FixedDie withFixedResults: #(10 5)).
+aCollectionOfDices add: (FixedDie withFixedResults: #(5 5)).
+aCollectionOfDices add: (FixedDie withFixedResults: #(15 5)).
 
 aGame := RacingTheSpace withDices: aCollectionOfDices withBoardSize: 40 withSpaceships: 3.
 aGame playTurn.
 aGame playTurn.
 
-self assert: (aGame positionOf:2) equals: 30.
+self assert: (aGame positionOf:2) equals: 15.
 ]
 
 { #category : 'tests' }
-GameTest >> test011WhenTheFirstPlayerPlaysTwiceThenItsPositionIsTheSumOfBothTurnsThrows [
+GameTest >> test011WhenShip1PlaysTwiceThenItsPositionIsTheSumOfBothTurnsThrows [
 | aGame aCollectionOfDices |
 aCollectionOfDices:= OrderedCollection new.
 aCollectionOfDices add: (FixedDie withFixedResults: #(10)).
@@ -601,4 +601,20 @@ aGame playTurn.
 self assert: aGame showEachSpaceshipGamePosition equals: 'The SpaceShip 1 is in position 1 (2º lap)
 The SpaceShip 2 is in position 10 (1º lap)
 '.
+]
+
+{ #category : 'tests' }
+GameTest >> test038WhenShip1PlaysItsTurnThenTheTurnPassesToShip2 [
+
+| aGame aCollectionOfDices |
+aCollectionOfDices:= OrderedCollection new.
+aCollectionOfDices add: (FixedDie withFixedResults: #(10 5)).
+
+aGame := RacingTheSpace withDices: aCollectionOfDices withBoardSize: 30 withSpaceships: 2.
+
+aGame playTurn.
+aGame playTurn.
+
+
+self assert: (aGame positionOf: 1) equals: 10.
 ]

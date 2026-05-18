@@ -18,18 +18,7 @@ Board class >> withSize: aSize [
 
 { #category : 'as yet unclassified' }
 Board >> callEffect: currentPlayer and: spaceships [
-
-	^ (squares at: currentPlayer position)
-		  triggerEffect: spaceships 
-		  and: currentPlayer.
-]
-
-{ #category : 'as yet unclassified' }
-Board >> callEffect: currentPlayer and: currentPlayerPosition and: spaceships [
-
-	^ (squares at: currentPlayerPosition)
-		  triggerEffect: spaceships 
-		  and: currentPlayer 
+	(squares at: currentPlayer position) triggerEffect: spaceships and: currentPlayer.
 ]
 
 { #category : 'initialization' }

@@ -13,7 +13,7 @@ EndedGame class >> withSpaceShips: someSpaceships [
 	^self new initializeWithSpaceShips: someSpaceships 
 ]
 
-{ #category : 'as yet unclassified' }
+{ #category : 'actions' }
 EndedGame >> applyEffect: aGame [
 ]
 
@@ -22,17 +22,17 @@ EndedGame >> initializeWithSpaceShips:  someSpaceShips [
 	spaceships := someSpaceShips.
 ]
 
-{ #category : 'as yet unclassified' }
+{ #category : 'testing' }
 EndedGame >> isEnded [ 
 	^true
 ]
 
-{ #category : 'as yet unclassified' }
+{ #category : 'ranking' }
 EndedGame >> numberOfWinner [ 
 	^ (self obtainNameOfTheSpaceshipWithTheHigherPosition) name
 ]
 
-{ #category : 'as yet unclassified' }
+{ #category : 'ranking' }
 EndedGame >> obtainNameOfTheSpaceshipWithTheHigherPosition [
 
     | maxSpaceship |
@@ -45,7 +45,7 @@ EndedGame >> obtainNameOfTheSpaceshipWithTheHigherPosition [
     ^ maxSpaceship 
 ]
 
-{ #category : 'as yet unclassified' }
+{ #category : 'actions' }
 EndedGame >> playTurn: aGame [
 	Error signal: 'You Cannot Throw, The Game Ended'.
 ]

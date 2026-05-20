@@ -31,17 +31,17 @@ Spaceship >> laps [
 	^ position lap.
 ]
 
-{ #category : 'as yet unclassified' }
+{ #category : 'actions' }
 Spaceship >> moveBackwards: aNumberOfSquares [ 
 	position decrementNumberOfSquaresBy: aNumberOfSquares
 ]
 
-{ #category : 'as yet unclassified' }
+{ #category : 'actions' }
 Spaceship >> moveForward: aNumberOfSquares [
 	position incrementNumberOfSquaresBy: aNumberOfSquares
 ]
 
-{ #category : 'as yet unclassified' }
+{ #category : 'accessing' }
 Spaceship >> name [
 	^name.
 ]
@@ -62,7 +62,7 @@ Spaceship >> resetToBeginning [
 	position := Position withNumberOfSquare: 1 andLaps: position lap
 ]
 
-{ #category : 'as yet unclassified' }
+{ #category : 'actions' }
 Spaceship >> wrapIfNeeded: aBoardSize [
 	position wrapIfNeeded: aBoardSize.
 ]

@@ -31,7 +31,7 @@ Dice >> initializeWithFaces: aNumberOfFaces [
 	rng:= Random new.
 ]
 
-{ #category : 'as yet unclassified' }
+{ #category : 'actions' }
 Dice >> roll [
 	^ (rng nextInteger: numberOfFaces).
 ]

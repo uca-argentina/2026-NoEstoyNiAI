@@ -49,13 +49,13 @@ RacingTheSpace class >> withDices: aCollectionOfDices withBoardSize: aSize withS
 	^self new initializeWithDices: aCollectionOfDices andBoardSize: aSize andSpaceships: aNumberOfSpaceships andLaps: aNumberOfLaps.
 ]
 
-{ #category : 'as yet unclassified' }
+{ #category : 'initialization' }
 RacingTheSpace >> createSpaceships: aNumberOfPlayers [
 
 	^ spaceships := (1 to: aNumberOfPlayers) collect: [ :index |Spaceship withName: index andPosition: (Position withNumberOfSquare: 0 andLaps: 0 ) ]
 ]
 
-{ #category : 'as yet unclassified' }
+{ #category : 'private' }
 RacingTheSpace >> detectSpaceship: aSpaceshipName [
 
 	| spaceship |
@@ -79,7 +79,7 @@ RacingTheSpace >> isEnded [
 	^ state isEnded.
 ]
 
-{ #category : 'as yet unclassified' }
+{ #category : 'accessing' }
 RacingTheSpace >> lapOf: aSpaceshipName [
 
 	| spaceship |
@@ -87,22 +87,20 @@ RacingTheSpace >> lapOf: aSpaceshipName [
 	^ spaceship laps
 ]
 
-{ #category : 'as yet unclassified' }
+{ #category : 'accessing' }
 RacingTheSpace >> numberOfWinner [
 	^state numberOfWinner.
-	gameEnded ifFalse: [
-		Error signal: 'There is no winner yet. The game is not finished' ].
-	^ (self obtainNameOfTheSpaceshipWithTheHigherPosition) name 
+
 ]
 
-{ #category : 'as yet unclassified' }
+{ #category : 'actions' }
 RacingTheSpace >> playTurn [
 	state playTurn: self.
 	state applyEffect: self.
 	
 ]
 
-{ #category : 'as yet unclassified' }
+{ #category : 'ranking' }
 RacingTheSpace >> positionInRankingOf: aSpaceShipName [ 
 	| orderedSpaceships spaceship ranking |
 	orderedSpaceships := self sortSpaceshipsByPosition.
@@ -112,7 +110,7 @@ RacingTheSpace >> positionInRankingOf: aSpaceShipName [
 	^ ranking.
 ]
 
-{ #category : 'as yet unclassified' }
+{ #category : 'accessing' }
 RacingTheSpace >> positionOf: aSpaceshipName [
 
 	| spaceship |
@@ -122,7 +120,7 @@ RacingTheSpace >> positionOf: aSpaceshipName [
 	
 ]
 
-{ #category : 'as yet unclassified' }
+{ #category : 'ranking' }
 RacingTheSpace >> ranking [
 	| orderedSpaceships response |
 	response := OrderedCollection new.
@@ -137,7 +135,7 @@ RacingTheSpace >> setEnded: anEndedState [
 	state  := anEndedState.
 ]
 
-{ #category : 'as yet unclassified' }
+{ #category : 'accessing' }
 RacingTheSpace >> showEachSpaceshipGamePosition [
 	| result |
 	result := OrderedCollection new.
@@ -146,7 +144,7 @@ RacingTheSpace >> showEachSpaceshipGamePosition [
 
 ]
 
-{ #category : 'as yet unclassified' }
+{ #category : 'accessing' }
 RacingTheSpace >> showEachSpaceshipLap [
 	| response |
 	response := OrderedCollection new.
@@ -154,7 +152,7 @@ RacingTheSpace >> showEachSpaceshipLap [
 	^response.
 ]
 
-{ #category : 'as yet unclassified' }
+{ #category : 'accessing' }
 RacingTheSpace >> showEachSpaceshipNumberOfSquare [
 	| response |
 	response := OrderedCollection new.
@@ -162,7 +160,7 @@ RacingTheSpace >> showEachSpaceshipNumberOfSquare [
 	^response.
 ]
 
-{ #category : 'as yet unclassified' }
+{ #category : 'ranking' }
 RacingTheSpace >> sortSpaceshipsByPosition [
 
 	| orderedSpaceships |

@@ -27,7 +27,7 @@ Board >> boardSize [
 	^ squares size.
 ]
 
-{ #category : 'as yet unclassified' }
+{ #category : 'actions' }
 Board >> callEffect: currentPlayer and: spaceships [
 	(squares at: currentPlayer numberOfSquares) triggerEffect: spaceships and: currentPlayer.
 ]
@@ -57,9 +57,4 @@ Board >> isFinishedAt: aPosition [
 { #category : 'accessing' }
 Board >> laps [
 	^laps.
-]
-
-{ #category : 'accessing' }
-Board >> size [
-	^ squares size.
 ]

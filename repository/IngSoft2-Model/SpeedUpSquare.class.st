@@ -5,7 +5,7 @@ Class {
 	#package : 'IngSoft2-Model'
 }
 
-{ #category : 'as yet unclassified' }
+{ #category : 'actions' }
 SpeedUpSquare >> triggerEffect: spaceships and: theCurrentSpaceship [
 	theCurrentSpaceship moveForward: 4.
 ]

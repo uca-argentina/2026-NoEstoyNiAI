@@ -22,7 +22,7 @@ HyperJumpSquare >> initializeWithParsecs: aCollectionOfParsecs andRelation: aRel
 	currentParsecPosition := 1.
 ]
 
-{ #category : 'as yet unclassified' }
+{ #category : 'actions' }
 HyperJumpSquare >> triggerEffect: spaceships and: theCurrentSpaceship [
 	|positionsToAdvance|
 	positionsToAdvance := (parsecs at: currentParsecPosition) * relation.

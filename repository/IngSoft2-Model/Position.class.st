@@ -21,27 +21,27 @@ Position >> < aPosition [
     ^ numberOfSquare <= aPosition numberOfSquares
 ]
 
-{ #category : 'as yet unclassified' }
+{ #category : 'comparing' }
 Position >> = aPosition [
 	^(numberOfSquare == aPosition numberOfSquares) and: (lap == aPosition lap)
 ]
 
-{ #category : 'as yet unclassified' }
+{ #category : 'actions' }
 Position >> decrementLapsBy: aNumber [ 
 	lap := lap - aNumber .
 ]
 
-{ #category : 'as yet unclassified' }
+{ #category : 'actions' }
 Position >> decrementNumberOfSquaresBy: aNumber [ 
 	numberOfSquare := numberOfSquare - aNumber .
 ]
 
-{ #category : 'as yet unclassified' }
+{ #category : 'actions' }
 Position >> incrementLapsBy: aNumber [ 
 	lap := lap + aNumber .
 ]
 
-{ #category : 'as yet unclassified' }
+{ #category : 'actions' }
 Position >> incrementNumberOfSquaresBy: aNumber [ 
 	numberOfSquare := numberOfSquare + aNumber .
 ]
@@ -52,12 +52,12 @@ Position >> initializeWithNumberOfSquare: aNumberOfSquare andLaps: aNumberOfLap 
 	lap := aNumberOfLap.
 ]
 
-{ #category : 'as yet unclassified' }
+{ #category : 'accessing' }
 Position >> lap [
 	^lap
 ]
 
-{ #category : 'as yet unclassified' }
+{ #category : 'accessing' }
 Position >> numberOfSquares [ 
 	^numberOfSquare 
 ]
@@ -67,7 +67,7 @@ Position >> position [
 	^ Position withNumberOfSquare: numberOfSquare andLaps: lap
 ]
 
-{ #category : 'as yet unclassified' }
+{ #category : 'actions' }
 Position >> wrapIfNeeded: aBoardSize [ 
 
 	| aNumberOfSquareAux aLapAux|

@@ -16,7 +16,7 @@ StartedGame class >> withDices: someDices andBoard: aBoard andSpaceships: spaceS
 	^self new initializeWithDices: someDices andBoard: aBoard andSpaceships: spaceShips.
 ]
 
-{ #category : 'as yet unclassified' }
+{ #category : 'actions' }
 StartedGame >> applyEffect: aGame [
 	| currentPlayer |
 	currentPlayer := spaceships at: currentShift.
@@ -27,7 +27,7 @@ StartedGame >> applyEffect: aGame [
 	self incrementCurrentShift
 ]
 
-{ #category : 'as yet unclassified' }
+{ #category : 'private' }
 StartedGame >> incrementCurrentShift [
 
 	^ currentShift := currentShift \\ self numberOfPlayers + 1
@@ -41,17 +41,17 @@ StartedGame >> initializeWithDices: someDices andBoard: aBoard andSpaceships: sp
 	currentShift := 1.
 ]
 
-{ #category : 'as yet unclassified' }
+{ #category : 'testing' }
 StartedGame >> isEnded [
 	^ false.
 ]
 
-{ #category : 'as yet unclassified' }
+{ #category : 'accessing' }
 StartedGame >> numberOfPlayers [
 	^ spaceships size
 ]
 
-{ #category : 'as yet unclassified' }
+{ #category : 'ranking' }
 StartedGame >> numberOfWinner [ 
 	Error signal: 'There is no winner yet. The game is not finished' 
 	
@@ -78,7 +78,7 @@ StartedGame >> setIfGameEnded: currentPlayer andGame: aGame [
 
 ]
 
-{ #category : 'as yet unclassified' }
+{ #category : 'actions' }
 StartedGame >> throwDices [
 
 	| sumOfDices |

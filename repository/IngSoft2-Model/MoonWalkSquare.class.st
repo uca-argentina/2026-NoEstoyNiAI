@@ -19,7 +19,7 @@ MoonWalkSquare >> initializeWithN: aNumber [
 	n := aNumber.
 ]
 
-{ #category : 'as yet unclassified' }
+{ #category : 'actions' }
 MoonWalkSquare >> triggerEffect: spaceships and: theCurrentSpaceship [
 
 	| movingSpaceships |

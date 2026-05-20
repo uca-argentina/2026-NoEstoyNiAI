@@ -5,7 +5,7 @@ Class {
 	#package : 'IngSoft2-Model'
 }
 
-{ #category : 'as yet unclassified' }
+{ #category : 'actions' }
 AtomicBombSquare >> triggerEffect: spaceships and: theCurrentSpaceship [
 	spaceships do: [ :spaceship | spaceship resetToBeginning ].
 ]

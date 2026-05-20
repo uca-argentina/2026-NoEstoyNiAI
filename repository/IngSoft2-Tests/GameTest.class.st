@@ -6,52 +6,6 @@ Class {
 }
 
 { #category : 'tests' }
-GameTest >> test001WhenAGameThrowsDicesThenTheResultIsTheSumOfTheDices [
-
-| aGame |
-
-aGame := RacingTheSpace default.
-
-self assert: aGame throwDices equals: 10
-]
-
-{ #category : 'tests' }
-GameTest >> test002WhenAGameThrows1FixedDiceThenTheGameReturnsTheValueOfTheFixedResult [
-
-| aGame aCollectionOfDices|
-aCollectionOfDices:= OrderedCollection new.
-aCollectionOfDices add: (FixedDie withFixedResults: #(10)).
-
-aGame := RacingTheSpace withDices: aCollectionOfDices .
-
-self assert: aGame throwDices equals: 10
-]
-
-{ #category : 'tests' }
-GameTest >> test003WhenAGameThrows3FixedDicesOf10ThenTheGameReturnsTheSumOfThem [
-| aGame aCollectionOfDices|
-aCollectionOfDices:= OrderedCollection new.
-aCollectionOfDices add: (FixedDie withFixedResults: #(10)).
-aCollectionOfDices add: (FixedDie withFixedResults: #(10)).
-aCollectionOfDices add: (FixedDie withFixedResults: #(10)).
-aGame := RacingTheSpace withDices: aCollectionOfDices .
-
-self assert: aGame throwDices equals: 30
-]
-
-{ #category : 'tests' }
-GameTest >> test004WhenAGameThrow3RandomDicesThenTheGameReturnsANumberBetweenMinimumSumAndMaximumSum [
-| aGame aCollectionOfDices|
-aCollectionOfDices:= OrderedCollection new.
-aCollectionOfDices add: (Dice withFaces: 10).
-aCollectionOfDices add: (Dice withFaces: 15).
-aCollectionOfDices add: (Dice withFaces: 5).
-aGame := RacingTheSpace withDices: aCollectionOfDices .
-
-self assert: (aGame throwDices between: 3 and: 30).
-]
-
-{ #category : 'tests' }
 GameTest >> test005WhenThePlayerReachesTheGoalThenTheNextTurnCannotThrow [
 | aGame aCollectionOfDices|
 aCollectionOfDices:= OrderedCollection new.

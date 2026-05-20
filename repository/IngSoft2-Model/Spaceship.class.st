@@ -58,7 +58,8 @@ Spaceship >> position [
 
 { #category : 'initialization' }
 Spaceship >> resetToBeginning [
-	position := Position withNumberOfSquare: 1 andLaps: position lap.
+
+	position := Position withNumberOfSquare: 1 andLaps: position lap
 ]
 
 { #category : 'as yet unclassified' }

@@ -6,8 +6,7 @@ Class {
 		'spaceships',
 		'currentShift',
 		'gameEnded',
-		'board',
-		'totalLaps'
+		'board'
 	],
 	#category : 'IngSoft2-Model',
 	#package : 'IngSoft2-Model'
@@ -75,8 +74,7 @@ RacingTheSpace >> incrementCurrentShift [
 RacingTheSpace >> initializeWithDices: aCollectionOfDices andBoardSize: aSize andSpaceships: aNumberOfSpaceships andLaps: aNumberOfLaps [
 
 	dices := aCollectionOfDices.
-	board := Board withSize: aSize.
-	totalLaps := aNumberOfLaps.
+	board := Board withSize: aSize andLaps: aNumberOfLaps.
 	currentShift := 1.
 	gameEnded := false.
 	self createSpaceships: aNumberOfSpaceships
@@ -128,12 +126,12 @@ RacingTheSpace >> playTurn [
 	result := self throwDices.
 	currentPlayer := spaceships at: currentShift.
 	currentPlayer moveForward: result.
-	currentPlayer wrapIfNeeded: board size.
+	currentPlayer wrapIfNeeded: (board boardSize).
 	self setIfGameEnded: currentPlayer.
 
 	gameEnded ifFalse: [
 			board callEffect: currentPlayer and: spaceships.
-			currentPlayer wrapIfNeeded: board size.
+			currentPlayer wrapIfNeeded: board boardSize .
 			self setIfGameEnded: currentPlayer ].
 
 	self incrementCurrentShift
@@ -171,10 +169,13 @@ RacingTheSpace >> ranking [
 
 { #category : 'as yet unclassified' }
 RacingTheSpace >> setIfGameEnded: currentPlayer [
+^ gameEnded := currentPlayer laps >= board laps or:
+		               (currentPlayer numberOfSquares = board boardSize and:
+			                currentPlayer laps = (board laps - 1))
 
-	^ gameEnded := currentPlayer laps >= totalLaps or:
+	"^ gameEnded := currentPlayer laps >= totalLaps or:
 		               (currentPlayer numberOfSquares = board size and:
-			                currentPlayer laps = (totalLaps - 1))
+			                currentPlayer laps = (totalLaps - 1))"
 ]
 
 { #category : 'as yet unclassified' }

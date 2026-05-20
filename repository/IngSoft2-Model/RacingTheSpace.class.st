@@ -2,11 +2,9 @@ Class {
 	#name : 'RacingTheSpace',
 	#superclass : 'Object',
 	#instVars : [
-		'dices',
 		'spaceships',
 		'currentShift',
 		'gameEnded',
-		'board',
 		'state'
 	],
 	#category : 'IngSoft2-Model',
@@ -67,13 +65,12 @@ RacingTheSpace >> detectSpaceship: aSpaceshipName [
 
 { #category : 'initialization' }
 RacingTheSpace >> initializeWithDices: aCollectionOfDices andBoardSize: aSize andSpaceships: aNumberOfSpaceships andLaps: aNumberOfLaps [
-
-	dices := aCollectionOfDices.
-	board := Board withSize: aSize andLaps: aNumberOfLaps.
+	|aBoard|
+	aBoard := Board withSize: aSize andLaps: aNumberOfLaps.
 	currentShift := 1.
 	gameEnded := false.
 	self createSpaceships: aNumberOfSpaceships.
-	state := StartedGame withDices: dices andBoard: board andSpaceships: spaceships.
+	state := StartedGame withDices: aCollectionOfDices andBoard: aBoard andSpaceships: spaceships.
  .
 ]
 

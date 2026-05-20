@@ -6,7 +6,8 @@ Class {
 		'spaceships',
 		'currentShift',
 		'gameEnded',
-		'board'
+		'board',
+		'state'
 	],
 	#category : 'IngSoft2-Model',
 	#package : 'IngSoft2-Model'
@@ -64,12 +65,6 @@ RacingTheSpace >> detectSpaceship: aSpaceshipName [
 	^ spaceship
 ]
 
-{ #category : 'as yet unclassified' }
-RacingTheSpace >> incrementCurrentShift [
-
-	^ currentShift := currentShift \\ self numberOfPlayers + 1
-]
-
 { #category : 'initialization' }
 RacingTheSpace >> initializeWithDices: aCollectionOfDices andBoardSize: aSize andSpaceships: aNumberOfSpaceships andLaps: aNumberOfLaps [
 
@@ -77,12 +72,14 @@ RacingTheSpace >> initializeWithDices: aCollectionOfDices andBoardSize: aSize an
 	board := Board withSize: aSize andLaps: aNumberOfLaps.
 	currentShift := 1.
 	gameEnded := false.
-	self createSpaceships: aNumberOfSpaceships
+	self createSpaceships: aNumberOfSpaceships.
+	state := StartedGame withDices: dices andBoard: board andSpaceships: spaceships.
+ .
 ]
 
 { #category : 'testing' }
 RacingTheSpace >> isEnded [
-	^ gameEnded.
+	^ state isEnded.
 ]
 
 { #category : 'as yet unclassified' }
@@ -94,47 +91,18 @@ RacingTheSpace >> lapOf: aSpaceshipName [
 ]
 
 { #category : 'as yet unclassified' }
-RacingTheSpace >> numberOfPlayers [
-	^ spaceships size
-]
-
-{ #category : 'as yet unclassified' }
 RacingTheSpace >> numberOfWinner [
+	^state numberOfWinner.
 	gameEnded ifFalse: [
 		Error signal: 'There is no winner yet. The game is not finished' ].
 	^ (self obtainNameOfTheSpaceshipWithTheHigherPosition) name 
 ]
 
 { #category : 'as yet unclassified' }
-RacingTheSpace >> obtainNameOfTheSpaceshipWithTheHigherPosition [
-
-    | maxSpaceship |
-	maxSpaceship := spaceships first.
-	spaceships do: [ :spaceShip |
-        (spaceShip isAheadOf: maxSpaceship)
-            ifTrue: [ maxSpaceship := spaceShip  ].
-    ].
-
-    ^ maxSpaceship 
-]
-
-{ #category : 'as yet unclassified' }
 RacingTheSpace >> playTurn [
-
-	| result currentPlayer |
-	gameEnded ifTrue: [ Error signal: 'You Cannot Throw, The Game Ended' ].
-	result := self throwDices.
-	currentPlayer := spaceships at: currentShift.
-	currentPlayer moveForward: result.
-	currentPlayer wrapIfNeeded: (board boardSize).
-	self setIfGameEnded: currentPlayer.
-
-	gameEnded ifFalse: [
-			board callEffect: currentPlayer and: spaceships.
-			currentPlayer wrapIfNeeded: board boardSize .
-			self setIfGameEnded: currentPlayer ].
-
-	self incrementCurrentShift
+	state playTurn: self.
+	state applyEffect: self.
+	
 ]
 
 { #category : 'as yet unclassified' }
@@ -167,15 +135,9 @@ RacingTheSpace >> ranking [
 
 ]
 
-{ #category : 'as yet unclassified' }
-RacingTheSpace >> setIfGameEnded: currentPlayer [
-^ gameEnded := currentPlayer laps >= board laps or:
-		               (currentPlayer numberOfSquares = board boardSize and:
-			                currentPlayer laps = (board laps - 1))
-
-	"^ gameEnded := currentPlayer laps >= totalLaps or:
-		               (currentPlayer numberOfSquares = board size and:
-			                currentPlayer laps = (totalLaps - 1))"
+{ #category : 'initialization' }
+RacingTheSpace >> setEnded: anEndedState [
+	state  := anEndedState.
 ]
 
 { #category : 'as yet unclassified' }
@@ -210,16 +172,4 @@ RacingTheSpace >> sortSpaceshipsByPosition [
 	orderedSpaceships := spaceships asSortedCollection: [ :shipA :shipB |
 		                     shipA isAheadOf: shipB ].
 	^ orderedSpaceships
-]
-
-{ #category : 'as yet unclassified' }
-RacingTheSpace >> throwDices [
-
-	| sumOfDices |
-	
-	sumOfDices:= dices inject: 0 into: [:sum :dice | sum + dice roll ].
-
-	^sumOfDices .
-	
-	
 ]

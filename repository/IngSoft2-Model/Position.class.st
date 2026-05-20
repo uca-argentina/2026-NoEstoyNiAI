@@ -22,6 +22,11 @@ Position >> < aPosition [
 ]
 
 { #category : 'as yet unclassified' }
+Position >> = aPosition [
+	^(numberOfSquare == aPosition numberOfSquares) and: (lap == aPosition lap)
+]
+
+{ #category : 'as yet unclassified' }
 Position >> decrementLapsBy: aNumber [ 
 	lap := lap - aNumber .
 ]

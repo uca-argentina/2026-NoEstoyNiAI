@@ -78,18 +78,12 @@ Spaceship >> numberOfSquares [
 
 { #category : 'accessing' }
 Spaceship >> position [
-	| collection |
-	collection := OrderedCollection new.
-
-	collection add:  position numberOfSquares.
-	collection add: position lap.
-	position asArray.
-	^ collection
+	^ position.
 ]
 
 { #category : 'initialization' }
 Spaceship >> resetToBeginning [
-	position := 1.
+	position := Position withNumberOfSquare: 1 andLaps: position lap.
 ]
 
 { #category : 'as yet unclassified' }
@@ -115,7 +109,6 @@ Spaceship >> showRankedPosition: rankedPosition [
 
 { #category : 'as yet unclassified' }
 Spaceship >> wrapIfNeeded: aBoardSize [
-
 	position wrapIfNeeded: aBoardSize.
 	
 	"

@@ -19,7 +19,7 @@ FixedDie class >> withFixedResults: aCollectionOfFixedResults [
 	^(self new) initializeWithFixedResults: aCollectionOfFixedResults .
 ]
 
-{ #category : 'as yet unclassified' }
+{ #category : 'private' }
 FixedDie >> incrementSpinCounter [
 
 	spinCounter := spinCounter \\ fixedResults size + 1
@@ -32,7 +32,7 @@ FixedDie >> initializeWithFixedResults: aCollectionOfFixedResults [
 	
 ]
 
-{ #category : 'as yet unclassified' }
+{ #category : 'actions' }
 FixedDie >> roll [
 
 	| valueToBeAdded |

@@ -47,6 +47,7 @@ RacingTheSpace class >> withDices: aCollectionOfDices withBoardSize: aSize withS
 	aSize < 2 ifTrue: [ Error signal: 'You Cannot Create A Game With Less Than 2 Squares' ].
 	aCollectionOfDices isEmpty ifTrue: [ Error signal: 'You Cannot Create A Game With No Dices' ].
 	aNumberOfSpaceships < 1 ifTrue: [ Error signal: 'You Cannot Create A Game With Less Than 1 Player'].
+	aNumberOfLaps < 1 ifTrue: [ Error signal: 'You Cannot Create a Game With Less Than 1 lap' ].
 	^self new initializeWithDices: aCollectionOfDices andBoardSize: aSize andSpaceships: aNumberOfSpaceships andLaps: aNumberOfLaps.
 ]
 
@@ -91,7 +92,7 @@ RacingTheSpace >> lapOf: aSpaceshipName [
 
 	| spaceship |
 	spaceship := self detectSpaceship: aSpaceshipName.
-	^ spaceship showLap
+	^ spaceship laps
 ]
 
 { #category : 'as yet unclassified' }
@@ -180,18 +181,26 @@ RacingTheSpace >> ranking [
 
 { #category : 'as yet unclassified' }
 RacingTheSpace >> showEachSpaceshipGamePosition [
-	| response |
-	response := ''.
-	spaceships do: [ :spaceship  | response := response, spaceship showGamePosition, String cr].
-	^ response.
+	| result |
+	result := OrderedCollection new.
+	spaceships do: [ :spaceship | result add: spaceship position ].
+	^ result
 
 ]
 
 { #category : 'as yet unclassified' }
 RacingTheSpace >> showEachSpaceshipLap [
 	| response |
-	response :=''.
-	spaceships do: [ :spaceship  | response := response, spaceship showLap, String cr].
+	response := OrderedCollection new.
+	spaceships collect: [ :spaceship  | response add: spaceship laps].
+	^response.
+]
+
+{ #category : 'as yet unclassified' }
+RacingTheSpace >> showEachSpaceshipNumberOfSquare [
+	| response |
+	response := OrderedCollection new.
+	spaceships collect: [ :spaceship  | response add: spaceship numberOfSquares ].
 	^response.
 ]
 

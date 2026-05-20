@@ -314,7 +314,7 @@ self
 ]
 
 { #category : 'tests' }
-GameTest >> test020WhenThePositionsAreRequestedThenThePositionsAreShowed [
+GameTest >> test020WhenTheSquaresPositionsAreRequestedThenTheSquaresPositionsAreShowed [
 | aGame aCollectionOfDices |
 aCollectionOfDices:= OrderedCollection new.
 aCollectionOfDices add: (FixedDie withFixedResults: #(5 20 12)). 
@@ -325,7 +325,7 @@ aGame playTurn.
 aGame playTurn.
 aGame playTurn. 
 
-self assert: aGame showPositions equals: '[Player 1 is on square 10] [Player 2 is on square 28] [Player 3 is on square 17] '.
+self assert: aGame showEachSpaceshipNumberOfSquare equals: #(10 28 17) asOrderedCollection .
 ]
 
 { #category : 'tests' }
@@ -538,7 +538,7 @@ aGame playTurn.
 aGame playTurn.
 aGame playTurn.
 
-self assert: (aGame lapOf: 2) equals: 'The SpaceShip 2 is on 1º lap'.
+self assert: (aGame lapOf: 2) equals: 0.
 ]
 
 { #category : 'tests' }
@@ -556,7 +556,7 @@ aGame playTurn.
 aGame playTurn.
 aGame playTurn.
 
-self assert: (aGame lapOf: 1) equals: 'The SpaceShip 1 is on 2º lap'.
+self assert: (aGame lapOf: 1) equals: 1.
 ]
 
 { #category : 'tests' }
@@ -594,15 +594,13 @@ aGame playTurn.
 aGame playTurn.
 aGame playTurn.
 
-self assert: aGame showEachSpaceshipLap equals: 'The SpaceShip 1 is on 2º lap
-The SpaceShip 2 is on 1º lap
-'.
+self assert: aGame showEachSpaceshipLap equals: #(1 0) asOrderedCollection .
 ]
 
 { #category : 'tests' }
 GameTest >> test037WhenTheGameIsAskedForPositionsThenThePositionsRespectNumberOfSquareAndLap [
 
-| aGame aCollectionOfDices |
+| aGame aCollectionOfDices aPosition1 aPosition2 aCollectionOfPositions |
 aCollectionOfDices:= OrderedCollection new.
 aCollectionOfDices add: (FixedDie withFixedResults: #(10 5)).
 
@@ -614,9 +612,13 @@ aGame playTurn.
 aGame playTurn.
 aGame playTurn.
 
-self assert: aGame showEachSpaceshipGamePosition equals: 'The SpaceShip 1 is in position 1 (2º lap)
-The SpaceShip 2 is in position 10 (1º lap)
-'.
+aPosition1 := Position withNumberOfSquare:1 andLaps: 1.
+aPosition2 := Position withNumberOfSquare:10 andLaps: 0.
+aCollectionOfPositions := OrderedCollection new.
+aCollectionOfPositions add: aPosition1.
+aCollectionOfPositions add: aPosition2.
+
+self assert: (aGame showEachSpaceshipGamePosition hasEqualElements: aCollectionOfPositions ) .
 ]
 
 { #category : 'tests' }
@@ -633,4 +635,21 @@ aGame playTurn.
 aPosition := Position withNumberOfSquare: 10 andLaps:0. 
 
 self assert: (aGame positionOf: 1) = aPosition.
+]
+
+{ #category : 'tests' }
+GameTest >> test039WhenAGameIsCreatedWithLessThanOneLapThenTheGameCannotBeCreated [
+
+| aCollectionOfDices |
+aCollectionOfDices:= OrderedCollection new.
+aCollectionOfDices add: (FixedDie withFixedResults: #(5 20)). 
+aCollectionOfDices add: (FixedDie withFixedResults: #(5 20)).
+
+self
+		should: [RacingTheSpace withDices: aCollectionOfDices withBoardSize: 30 withSpaceships: 1 withLaps: 0]
+		raise: Error
+		withExceptionDo: [ :error |
+			self
+				assert: error messageText
+				equals: 'You Cannot Create a Game With Less Than 1 lap'  ]
 ]

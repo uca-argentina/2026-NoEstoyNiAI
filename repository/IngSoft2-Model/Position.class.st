@@ -62,6 +62,11 @@ Position >> numberOfSquares [
 	^numberOfSquare 
 ]
 
+{ #category : 'accessing' }
+Position >> position [
+	^ Position withNumberOfSquare: numberOfSquare andLaps: lap
+]
+
 { #category : 'as yet unclassified' }
 Position >> wrapIfNeeded: aBoardSize [ 
 	numberOfSquare >= aBoardSize ifTrue: [

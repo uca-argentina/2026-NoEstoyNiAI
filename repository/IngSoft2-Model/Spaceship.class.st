@@ -78,7 +78,7 @@ Spaceship >> numberOfSquares [
 
 { #category : 'accessing' }
 Spaceship >> position [
-	^ position.
+	^ position position.
 ]
 
 { #category : 'initialization' }

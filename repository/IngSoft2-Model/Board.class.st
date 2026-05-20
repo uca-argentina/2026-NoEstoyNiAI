@@ -34,6 +34,7 @@ Board >> initializeWith: numberOfSquares [
 	numberOfSquares > 80 ifTrue: [squares at: 83 put: (MoonWalkSquare withN: 6)].
 	numberOfSquares > 80 ifTrue: [squares at: 84 put: (HyperJumpSquare withParsecs: #(10 11 12) andRelation: 2)].
 	numberOfSquares > 80 ifTrue: [squares at: 85 put: (AtomicBombSquare new)].
+	numberOfSquares > 200 ifTrue: [squares at: 2 put: WormHoleSquare new].
 	
 ]
 

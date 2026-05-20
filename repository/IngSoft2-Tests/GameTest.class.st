@@ -254,7 +254,6 @@ GameTest >> test016WhenTheFirstPlayerReachesTheGoalThenTheFirstPlayerIsTheWinner
 	aGame := RacingTheSpace withDices: aCollectionOfDices withBoardSize: 30 withSpaceships: 1 withLaps: 1.
 	aGame playTurn.
 
-
 	self assert: aGame numberOfWinner equals: 1
 ]
 
@@ -492,21 +491,40 @@ self assert: aGame numberOfWinner equals: 2.
 ]
 
 { #category : 'tests' }
-GameTest >> test031WhenTheSpaceshipIsFirstThenTheSpaceshipRankingPositionIs1 [
+GameTest >> test031WhenASpaceshipFinishedTheFirstLapThenTheSpaceshipReturnsToTheFirtsSquareOfTheSeconLap [
 
-| aGame aCollectionOfDices |
+| aGame aCollectionOfDices aPosition |
 aCollectionOfDices:= OrderedCollection new.
-aCollectionOfDices add: (FixedDie withFixedResults: #(1 10)).
+aCollectionOfDices add: (FixedDie withFixedResults: #(10)).
 
-aGame := RacingTheSpace withDices: aCollectionOfDices withBoardSize: 25 withSpaceships: 2 withLaps: 2.
+aGame := RacingTheSpace withDices: aCollectionOfDices withBoardSize: 19 withSpaceships:1 withLaps: 2.
 
 aGame playTurn.
+aGame playTurn.
 
-self assert: (aGame positionInRankingOf: 1) equals: 'The SpaceShip 1 is 1º'.
+aPosition := Position withNumberOfSquare: 1 andLaps: 1.
+
+self assert: ((aGame positionOf: 1) = aPosition ).
 ]
 
 { #category : 'tests' }
-GameTest >> test032WhenTheSpaceshipIsSecondBecauseOfBeing1LapBehindThenTheSpaceshipRankingPositionIs2 [
+GameTest >> test032WhenASpaceshipReachesToTheFinalPositionOfTheBoardThenTheNumberOfLapsDoesNotIncreases [
+
+| aGame aCollectionOfDices aPosition |
+aCollectionOfDices:= OrderedCollection new.
+aCollectionOfDices add: (FixedDie withFixedResults: #(19)).
+
+aGame := RacingTheSpace withDices: aCollectionOfDices withBoardSize: 19 withSpaceships:1 withLaps: 2.
+
+aGame playTurn.
+
+aPosition := Position withNumberOfSquare: 19 andLaps: 0.
+
+self assert: ((aGame positionOf: 1) = aPosition ).
+]
+
+{ #category : 'tests' }
+GameTest >> test033WhenTheSpaceshipIsSecondBecauseOfBeing1LapBehindThenTheSpaceshipRankingPositionIs2 [
 
 | aGame aCollectionOfDices |
 aCollectionOfDices:= OrderedCollection new.
@@ -520,11 +538,11 @@ aGame playTurn.
 aGame playTurn.
 aGame playTurn.
 
-self assert: (aGame positionInRankingOf: 2) equals: 'The SpaceShip 2 is 2º'.
+self assert: (aGame positionInRankingOf: 2) equals: 2.
 ]
 
 { #category : 'tests' }
-GameTest >> test033WhenTheSpaceshipHasntPassALapThenTheSpaceshipLapIs1 [
+GameTest >> test034WhenTheSpaceshipHasntPassALapThenTheSpaceshipLapIs1 [
 
 | aGame aCollectionOfDices |
 aCollectionOfDices:= OrderedCollection new.
@@ -542,7 +560,21 @@ self assert: (aGame lapOf: 2) equals: 0.
 ]
 
 { #category : 'tests' }
-GameTest >> test034WhenTheSpaceshipHasPassedALapThenTheSpaceshipLapIs2 [
+GameTest >> test035WhenTheSpaceshipIsFirstThenTheSpaceshipRankingPositionIs1 [
+
+| aGame aCollectionOfDices |
+aCollectionOfDices:= OrderedCollection new.
+aCollectionOfDices add: (FixedDie withFixedResults: #(1 10)).
+
+aGame := RacingTheSpace withDices: aCollectionOfDices withBoardSize: 25 withSpaceships: 2 withLaps: 2.
+
+aGame playTurn.
+
+self assert: (aGame positionInRankingOf: 1) equals: 1.
+]
+
+{ #category : 'tests' }
+GameTest >> test036WhenTheSpaceshipHasPassedALapThenTheSpaceshipLapIs2 [
 
 | aGame aCollectionOfDices |
 aCollectionOfDices:= OrderedCollection new.
@@ -560,7 +592,7 @@ self assert: (aGame lapOf: 1) equals: 1.
 ]
 
 { #category : 'tests' }
-GameTest >> test035WhenTheFirstSpaceshipIsAheadOfTheSecondOneThenTheRankingPuts1TheFirstSpaceshipAnd2TheOtherOne [
+GameTest >> test037WhenTheFirstSpaceshipIsAheadOfTheSecondOneThenTheRankingPuts1TheFirstSpaceshipAnd2TheOtherOne [
 
 | aGame aCollectionOfDices |
 aCollectionOfDices:= OrderedCollection new.
@@ -574,13 +606,11 @@ aGame playTurn.
 aGame playTurn.
 aGame playTurn.
 
-self assert: aGame ranking equals: '1º: Spaceship 1
-2º: Spaceship 2
-'.
+self assert: aGame ranking equals: #(1 2) asOrderedCollection.
 ]
 
 { #category : 'tests' }
-GameTest >> test036WhenASpaceshipHasPassedALapButTheOtherOneHasntThenTheSpaceshipsLapsAre2and1Respectively [
+GameTest >> test038WhenASpaceshipHasPassedALapButTheOtherOneHasntThenTheSpaceshipsLapsAre2and1Respectively [
 
 | aGame aCollectionOfDices |
 aCollectionOfDices:= OrderedCollection new.
@@ -598,7 +628,7 @@ self assert: aGame showEachSpaceshipLap equals: #(1 0) asOrderedCollection .
 ]
 
 { #category : 'tests' }
-GameTest >> test037WhenTheGameIsAskedForPositionsThenThePositionsRespectNumberOfSquareAndLap [
+GameTest >> test039WhenTheGameIsAskedForPositionsThenThePositionsRespectNumberOfSquareAndLap [
 
 | aGame aCollectionOfDices aPosition1 aPosition2 aCollectionOfPositions |
 aCollectionOfDices:= OrderedCollection new.
@@ -622,7 +652,7 @@ self assert: (aGame showEachSpaceshipGamePosition hasEqualElements: aCollectionO
 ]
 
 { #category : 'tests' }
-GameTest >> test038WhenShip1PlaysItsTurnThenTheTurnPassesToShip2 [
+GameTest >> test040WhenShip1PlaysItsTurnThenTheTurnPassesToShip2 [
 
 | aGame aCollectionOfDices aPosition |
 aCollectionOfDices:= OrderedCollection new.
@@ -638,7 +668,7 @@ self assert: (aGame positionOf: 1) = aPosition.
 ]
 
 { #category : 'tests' }
-GameTest >> test039WhenAGameIsCreatedWithLessThanOneLapThenTheGameCannotBeCreated [
+GameTest >> test041WhenAGameIsCreatedWithLessThanOneLapThenTheGameCannotBeCreated [
 
 | aCollectionOfDices |
 aCollectionOfDices:= OrderedCollection new.
@@ -652,4 +682,88 @@ self
 			self
 				assert: error messageText
 				equals: 'You Cannot Create a Game With Less Than 1 lap'  ]
+]
+
+{ #category : 'tests' }
+GameTest >> test042WhenMoreThanOneSpaceshipAreAtTheSamePositionThenTheFirtsCreatedSpaceshipIsAheadOnTheRanking [
+
+| aGame aCollectionOfDices |
+aCollectionOfDices:= OrderedCollection new.
+aCollectionOfDices add: (FixedDie withFixedResults: #(10)).
+
+aGame := RacingTheSpace withDices: aCollectionOfDices withBoardSize: 29 withSpaceships: 2 withLaps: 2.
+
+aGame playTurn.
+aGame playTurn.
+aGame playTurn.
+aGame playTurn.
+
+self assert: aGame ranking equals: #(1 2) asOrderedCollection.
+]
+
+{ #category : 'tests' }
+GameTest >> test043WhenTheSpaceship2IsAheadOfTheSpaceship1ThenTheSpaceship2IsAheadOnTheRanking [
+
+| aGame aCollectionOfDices |
+aCollectionOfDices:= OrderedCollection new.
+aCollectionOfDices add: (FixedDie withFixedResults: #(10 15)).
+
+aGame := RacingTheSpace withDices: aCollectionOfDices withBoardSize: 50 withSpaceships: 2 withLaps: 2.
+
+aGame playTurn.
+aGame playTurn.
+aGame playTurn.
+aGame playTurn.
+
+self assert: aGame ranking equals: #(2 1) asOrderedCollection.
+]
+
+{ #category : 'tests' }
+GameTest >> test044WhenASpaceshipHasToMoveBackwardsMorePositionsThanTheOnesThatHeAdvancedThenItMovesToTheBegginingOfTheBoard [
+| aGame aCollectionOfDices aPosition |
+aCollectionOfDices:= OrderedCollection new.
+aCollectionOfDices add: (FixedDie withFixedResults: #(2)).
+
+aGame := RacingTheSpace withDices: aCollectionOfDices withBoardSize: 205 withSpaceships: 1 withLaps: 1.
+aGame playTurn.
+
+aPosition := Position withNumberOfSquare: 1 andLaps: 0. 
+
+self assert: ((aGame positionOf:1) = aPosition ).
+]
+
+{ #category : 'tests' }
+GameTest >> test045WhenASpaceshipHasToMoveBackwardsPassingThroughTheBegginingOfTheBoardThenTheLapDecreases [
+
+| aGame aCollectionOfDices aPosition |
+aCollectionOfDices:= OrderedCollection new.
+aCollectionOfDices add: (FixedDie withFixedResults: #(205 2)).
+
+aGame := RacingTheSpace withDices: aCollectionOfDices withBoardSize: 205 withSpaceships: 1 withLaps: 2.
+aGame playTurn.
+aGame playTurn.
+
+aPosition := Position withNumberOfSquare: 203 andLaps: 0. 
+
+self assert: ((aGame positionOf:1) = aPosition ).
+]
+
+{ #category : 'tests' }
+GameTest >> test046WhenTheSpaceShipMovesToAnAtomicBombThenAllTheSpaceShipsMoveToTheBeginningOfTheBoardRespectingTheirLap [
+
+| aGame aCollectionOfDices aPosition1 aPosition2 aPosition3 |
+aCollectionOfDices:= OrderedCollection new.
+aCollectionOfDices add: (FixedDie withFixedResults: #(160 85)).
+
+aGame := RacingTheSpace withDices: aCollectionOfDices withBoardSize: 150 withSpaceships: 3 withLaps: 3.
+aGame  playTurn.
+aGame  playTurn.
+aPosition1 := Position withNumberOfSquare: 1 andLaps:1. 
+aPosition2 := Position withNumberOfSquare: 1 andLaps:0. 
+aPosition3 := Position withNumberOfSquare: 1 andLaps:0. 
+
+self assert: (aGame positionOf:1) = aPosition1 .
+self assert: (aGame positionOf:2) = aPosition2.
+self assert: (aGame positionOf:3) = aPosition3.
+
 ]

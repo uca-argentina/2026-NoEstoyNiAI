@@ -18,7 +18,7 @@ Position class >> withNumberOfSquare: aNumberOfSquare andLaps: aNumberOfLap [
 Position >> < aPosition [ 
 	 lap < aPosition lap ifTrue: [ ^ true ].
     lap > aPosition lap ifTrue: [ ^ false ].
-    ^ numberOfSquare < aPosition numberOfSquares
+    ^ numberOfSquare <= aPosition numberOfSquares
 ]
 
 { #category : 'as yet unclassified' }
@@ -69,7 +69,19 @@ Position >> position [
 
 { #category : 'as yet unclassified' }
 Position >> wrapIfNeeded: aBoardSize [ 
-	numberOfSquare >= aBoardSize ifTrue: [
-			lap := lap + 1.
-			numberOfSquare := (numberOfSquare - 1 \\ aBoardSize) + 1] 
+
+	| aNumberOfSquareAux aLapAux|
+	aNumberOfSquareAux := numberOfSquare.
+	aLapAux := lap.
+	
+	aNumberOfSquareAux > aBoardSize ifTrue: [
+			self incrementLapsBy: 1.
+			numberOfSquare := (numberOfSquare \\ aBoardSize) ].
+		
+	(aNumberOfSquareAux < 1 and: aLapAux > 0 ) ifTrue: [
+		self decrementLapsBy: 1.
+		numberOfSquare := aBoardSize + numberOfSquare ].
+	
+	(aNumberOfSquareAux < 1 and: aLapAux == 0 ) ifTrue: [
+		numberOfSquare := 1 ].
 ]

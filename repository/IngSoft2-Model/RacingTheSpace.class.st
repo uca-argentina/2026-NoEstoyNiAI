@@ -121,15 +121,6 @@ RacingTheSpace >> obtainNameOfTheSpaceshipWithTheHigherPosition [
 ]
 
 { #category : 'as yet unclassified' }
-RacingTheSpace >> obtainPositionsStringResult [
-
-	| result |
-	result := String new writeStream.
-	spaceships do: [ :ship | ship showPosition: result ].
-	^ result
-]
-
-{ #category : 'as yet unclassified' }
 RacingTheSpace >> playTurn [
 
 	| result currentPlayer |
@@ -138,25 +129,24 @@ RacingTheSpace >> playTurn [
 	currentPlayer := spaceships at: currentShift.
 	currentPlayer moveForward: result.
 	currentPlayer wrapIfNeeded: board size.
-	
+	self setIfGameEnded: currentPlayer.
 
-	gameEnded := currentPlayer laps >= totalLaps.
-	
-	gameEnded ifFalse: [ board callEffect: currentPlayer and: spaceships.
-		currentPlayer wrapIfNeeded: board size.
-		gameEnded := currentPlayer laps >= totalLaps ].
+	gameEnded ifFalse: [
+			board callEffect: currentPlayer and: spaceships.
+			currentPlayer wrapIfNeeded: board size.
+			self setIfGameEnded: currentPlayer ].
 
-	self incrementCurrentShift.
+	self incrementCurrentShift
 ]
 
 { #category : 'as yet unclassified' }
 RacingTheSpace >> positionInRankingOf: aSpaceShipName [ 
-	| orderedSpaceships spaceship position |
+	| orderedSpaceships spaceship ranking |
 	orderedSpaceships := self sortSpaceshipsByPosition.
 	spaceship := self detectSpaceship: aSpaceShipName.
-	position := orderedSpaceships indexOf: spaceship.
+	ranking := orderedSpaceships indexOf: spaceship.
 	
-	^'The SpaceShip ', aSpaceShipName printString, ' is ', position printString, 'º'.
+	^ ranking.
 ]
 
 { #category : 'as yet unclassified' }
@@ -172,11 +162,19 @@ RacingTheSpace >> positionOf: aSpaceshipName [
 { #category : 'as yet unclassified' }
 RacingTheSpace >> ranking [
 	| orderedSpaceships response |
-	response :=''.
+	response := OrderedCollection new.
 	orderedSpaceships := self sortSpaceshipsByPosition.
-	orderedSpaceships withIndexDo: [ :spaceship :index | response := response, (spaceship showRankedPosition: index), String cr].
-	^response.
+	orderedSpaceships do: [ :spaceship | response add: spaceship name].
+	^ response.
 
+]
+
+{ #category : 'as yet unclassified' }
+RacingTheSpace >> setIfGameEnded: currentPlayer [
+
+	^ gameEnded := currentPlayer laps >= totalLaps or:
+		               (currentPlayer numberOfSquares = board size and:
+			                currentPlayer laps = (totalLaps - 1))
 ]
 
 { #category : 'as yet unclassified' }
@@ -202,14 +200,6 @@ RacingTheSpace >> showEachSpaceshipNumberOfSquare [
 	response := OrderedCollection new.
 	spaceships collect: [ :spaceship  | response add: spaceship numberOfSquares ].
 	^response.
-]
-
-{ #category : 'as yet unclassified' }
-RacingTheSpace >> showPositions [
-
-	| resultString |
-	resultString := self obtainPositionsStringResult.
-	^ resultString contents
 ]
 
 { #category : 'as yet unclassified' }

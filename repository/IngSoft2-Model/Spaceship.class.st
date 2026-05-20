@@ -15,6 +15,11 @@ Spaceship class >> withName: aName [
 	^self new initializeWithName: aName.
 ]
 
+{ #category : 'as yet unclassified' }
+Spaceship class >> withName: aName andPosition: aPosition [ 
+	^self new initializeWithName: aName andPosition: aPosition .
+]
+
 { #category : 'adding' }
 Spaceship >> addLap [
 	laps := laps + 1.
@@ -25,6 +30,13 @@ Spaceship >> initializeWithName: aName [
 	position := 0.
 	name:= aName.
 	laps := 0.
+]
+
+{ #category : 'initialization' }
+Spaceship >> initializeWithName: aName andPosition: aPosition [
+	position := aPosition .
+	name:= aName.
+
 ]
 
 { #category : 'testing' }
@@ -41,17 +53,17 @@ Spaceship >> isBehindPosition: aPosition andLaps: aLaps [
 
 { #category : 'accessing' }
 Spaceship >> laps [
-	^ laps.
+	^ position lap.
 ]
 
 { #category : 'as yet unclassified' }
-Spaceship >> moveBackwards: anInteger [ 
-	^ position := position - anInteger.
+Spaceship >> moveBackwards: aNumberOfSquares [ 
+	position decrementNumberOfSquaresBy: aNumberOfSquares
 ]
 
 { #category : 'as yet unclassified' }
 Spaceship >> moveForward: aNumberOfSquares [
-	^ position := position + aNumberOfSquares.
+	position incrementNumberOfSquaresBy: aNumberOfSquares
 ]
 
 { #category : 'as yet unclassified' }
@@ -60,8 +72,19 @@ Spaceship >> name [
 ]
 
 { #category : 'accessing' }
+Spaceship >> numberOfSquares [
+	^ position numberOfSquares.
+]
+
+{ #category : 'accessing' }
 Spaceship >> position [
-	^ position.
+	| collection |
+	collection := OrderedCollection new.
+
+	collection add:  position numberOfSquares.
+	collection add: position lap.
+	position asArray.
+	^ collection
 ]
 
 { #category : 'initialization' }
@@ -93,7 +116,10 @@ Spaceship >> showRankedPosition: rankedPosition [
 { #category : 'as yet unclassified' }
 Spaceship >> wrapIfNeeded: aBoardSize [
 
+	position wrapIfNeeded: aBoardSize.
+	
+	"
 	position >= aBoardSize ifTrue: [
 			laps := laps + 1.
-			position := (position - 1 \\ aBoardSize) + 1]
+			position := (position - 1 \\ aBoardSize) + 1] "
 ]

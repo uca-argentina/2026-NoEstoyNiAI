@@ -53,8 +53,7 @@ RacingTheSpace class >> withDices: aCollectionOfDices withBoardSize: aSize withS
 { #category : 'as yet unclassified' }
 RacingTheSpace >> createSpaceships: aNumberOfPlayers [
 
-	^ spaceships := (1 to: aNumberOfPlayers) collect: [ :index |
-		             Spaceship withName: index ]
+	^ spaceships := (1 to: aNumberOfPlayers) collect: [ :index |Spaceship withName: index andPosition: (Position withNumberOfSquare: 0 andLaps: 0 ) ]
 ]
 
 { #category : 'as yet unclassified' }
@@ -141,6 +140,7 @@ RacingTheSpace >> playTurn [
 	
 
 	gameEnded := currentPlayer laps >= totalLaps.
+	
 	gameEnded ifFalse: [ board callEffect: currentPlayer and: spaceships.
 		currentPlayer wrapIfNeeded: board size.
 		gameEnded := currentPlayer laps >= totalLaps ].

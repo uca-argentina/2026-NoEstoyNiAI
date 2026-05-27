@@ -49,6 +49,19 @@ RacingTheSpace class >> withDices: aCollectionOfDices withBoardSize: aSize withS
 	^self new initializeWithDices: aCollectionOfDices andBoardSize: aSize andSpaceships: aNumberOfSpaceships andLaps: aNumberOfLaps.
 ]
 
+{ #category : 'as yet unclassified' }
+RacingTheSpace class >> withDices: aCollectionOfDices withSquares: aCollectionOfSquares withSpaceships: aNumberOfSpaceships withLaps: aNumberOfLaps [
+	| board |
+	aCollectionOfSquares size < 2 ifTrue: [ Error signal: 'You Cannot Create A Game With Less Than 2 Squares' ].
+	aCollectionOfDices isEmpty ifTrue: [ Error signal: 'You Cannot Create A Game With No Dices' ].
+	aNumberOfSpaceships < 1 ifTrue: [ Error signal: 'You Cannot Create A Game With Less Than 1 Player'].
+	aNumberOfLaps < 1 ifTrue: [ Error signal: 'You Cannot Create a Game With Less Than 1 lap' ].
+	
+	board := Board withSquares: aCollectionOfSquares andLaps: aNumberOfLaps .
+	^self new initializeWithDices: aCollectionOfDices andBoard: board andSpaceships: aNumberOfSpaceships andLaps: aNumberOfLaps.
+	
+]
+
 { #category : 'initialization' }
 RacingTheSpace >> createSpaceships: aNumberOfPlayers [
 
@@ -64,14 +77,22 @@ RacingTheSpace >> detectSpaceship: aSpaceshipName [
 ]
 
 { #category : 'initialization' }
-RacingTheSpace >> initializeWithDices: aCollectionOfDices andBoardSize: aSize andSpaceships: aNumberOfSpaceships andLaps: aNumberOfLaps [
-	|aBoard|
-	aBoard := Board withSize: aSize andLaps: aNumberOfLaps.
+RacingTheSpace >> initializeWithDices: aCollectionOfDices andBoard: board andSpaceships: aNumberOfSpaceships andLaps: aNumberOfLaps [
 	currentShift := 1.
-	gameEnded := false.
-	self createSpaceships: aNumberOfSpaceships.
-	state := StartedGame withDices: aCollectionOfDices andBoard: aBoard andSpaceships: spaceships.
- .
+    gameEnded := false.
+    self createSpaceships: aNumberOfSpaceships.
+    state := StartedGame withDices: aCollectionOfDices andBoard: board andSpaceships: spaceships.
+]
+
+{ #category : 'initialization' }
+RacingTheSpace >> initializeWithDices: aCollectionOfDices andBoardSize: aSize andSpaceships: aNumberOfSpaceships andLaps: aNumberOfLaps [
+    |aBoard|
+    aBoard := Board withSize: aSize andLaps: aNumberOfLaps.
+    currentShift := 1.
+    gameEnded := false.
+    self createSpaceships: aNumberOfSpaceships.
+    state := StartedGame withDices: aCollectionOfDices andBoard: aBoard andSpaceships: spaceships.
+ 
 ]
 
 { #category : 'testing' }

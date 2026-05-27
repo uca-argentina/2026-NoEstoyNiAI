@@ -22,6 +22,11 @@ Board class >> withSize: aNumberOfSquares andLaps: aNumberOfLaps [
 	^self new initializeWithSize: aNumberOfSquares andLaps: aNumberOfLaps .
 ]
 
+{ #category : 'as yet unclassified' }
+Board class >> withSquares: aCollectionOfSquares andLaps: aNumberOfLaps [
+	^self new initializeWithSquares: aCollectionOfSquares  andLaps:aNumberOfLaps. 
+]
+
 { #category : 'accessing' }
 Board >> boardSize [
 	^ squares size.
@@ -47,6 +52,12 @@ Board >> initializeWithSize: aNumberOfSquares andLaps: aNumberOfLaps [
 	aNumberOfSquares > 80 ifTrue: [squares at: 85 put: (AtomicBombSquare new)].
 	aNumberOfSquares > 200 ifTrue: [squares at: 2 put: WormHoleSquare new].
 	
+]
+
+{ #category : 'actions' }
+Board >> initializeWithSquares: aCollectionOfSquares  andLaps:aNumberOfLaps [
+	squares := aCollectionOfSquares.
+	laps := aNumberOfLaps.
 ]
 
 { #category : 'testing' }

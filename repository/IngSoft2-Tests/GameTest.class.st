@@ -6,6 +6,35 @@ Class {
 }
 
 { #category : 'tests' }
+GameTest >> test005Prueba [
+
+	| aGame aCollectionOfDices aCollectionOfSquares |
+	aCollectionOfDices := OrderedCollection new.
+	aCollectionOfDices add: (FixedDie withFixedResults: #( 10 )).
+	aCollectionOfDices add: (FixedDie withFixedResults: #( 10 )).
+	aCollectionOfDices add: (FixedDie withFixedResults: #( 10 )).
+
+	aCollectionOfSquares := OrderedCollection new.
+
+	20 timesRepeat: [
+		                        aCollectionOfSquares add: NoEffectSquare new ].
+
+	aGame := RacingTheSpace
+		         withDices: aCollectionOfDices
+		         withSquares: aCollectionOfSquares
+		         withSpaceships: 1
+		         withLaps: 1.
+	aGame playTurn.
+	self
+		should: [ aGame playTurn ]
+		raise: Error
+		withExceptionDo: [ :error |
+				self
+					assert: error messageText
+					equals: 'You Cannot Throw, The Game Ended' ]
+]
+
+{ #category : 'tests' }
 GameTest >> test005WhenThePlayerReachesTheGoalThenTheNextTurnCannotThrow [
 | aGame aCollectionOfDices|
 aCollectionOfDices:= OrderedCollection new.

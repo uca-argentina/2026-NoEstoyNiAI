@@ -11,46 +11,8 @@ Class {
 	#package : 'IngSoft2-Model'
 }
 
-{ #category : 'accessing' }
-RacingTheSpace class >> default [
-	| aCollectionOfDices |
-	aCollectionOfDices := OrderedCollection new.
-	aCollectionOfDices add: (FixedDie withFixedResults: #(10)).
-	^ (self new) initializeWithDices: aCollectionOfDices andBoardSize: 30 andSpaceships: 1 andLaps: 1.
-]
-
 { #category : 'as yet unclassified' }
-RacingTheSpace class >> withDices: aCollectionOfDices [ 	
-
-	^self new initializeWithDices: aCollectionOfDices andBoardSize: 30 andSpaceships: 1 andLaps: 1.
-]
-
-{ #category : 'as yet unclassified' }
-RacingTheSpace class >> withDices: aCollectionOfDices withBoardSize: aSize [ 
-	aSize < 2 ifTrue: [ Error signal: 'You Cannot Create A Game With Less Than 2 Squares' ].
-	aCollectionOfDices isEmpty ifTrue: [ Error signal: 'You Cannot Create A Game With No Dices' ].
-	^self new initializeWithDices: aCollectionOfDices andBoardSize: aSize andSpaceships: 1 andLaps: 1.
-]
-
-{ #category : 'as yet unclassified' }
-RacingTheSpace class >> withDices: aCollectionOfDices withBoardSize: aSize withSpaceships: aNumberOfSpaceships [
-	aSize < 2 ifTrue: [ Error signal: 'You Cannot Create A Game With Less Than 2 Squares' ].
-	aCollectionOfDices isEmpty ifTrue: [ Error signal: 'You Cannot Create A Game With No Dices' ].
-	aNumberOfSpaceships < 1 ifTrue: [ Error signal: 'You Cannot Create A Game With Less Than 1 Player'].
-	^self new initializeWithDices: aCollectionOfDices andBoardSize: aSize andSpaceships: aNumberOfSpaceships andLaps: 1.
-]
-
-{ #category : 'as yet unclassified' }
-RacingTheSpace class >> withDices: aCollectionOfDices withBoardSize: aSize withSpaceships: aNumberOfSpaceships withLaps: aNumberOfLaps [
-	aSize < 2 ifTrue: [ Error signal: 'You Cannot Create A Game With Less Than 2 Squares' ].
-	aCollectionOfDices isEmpty ifTrue: [ Error signal: 'You Cannot Create A Game With No Dices' ].
-	aNumberOfSpaceships < 1 ifTrue: [ Error signal: 'You Cannot Create A Game With Less Than 1 Player'].
-	aNumberOfLaps < 1 ifTrue: [ Error signal: 'You Cannot Create a Game With Less Than 1 lap' ].
-	^self new initializeWithDices: aCollectionOfDices andBoardSize: aSize andSpaceships: aNumberOfSpaceships andLaps: aNumberOfLaps.
-]
-
-{ #category : 'as yet unclassified' }
-RacingTheSpace class >> withDices: aCollectionOfDices withSquares: aCollectionOfSquares withSpaceships: aNumberOfSpaceships withLaps: aNumberOfLaps [
+RacingTheSpace class >> throwing: aCollectionOfDices playingOn: aCollectionOfSquares usingSpaceShips: aNumberOfSpaceships withLaps: aNumberOfLaps [
 	| board |
 	aCollectionOfSquares size < 2 ifTrue: [ Error signal: 'You Cannot Create A Game With Less Than 2 Squares' ].
 	aCollectionOfDices isEmpty ifTrue: [ Error signal: 'You Cannot Create A Game With No Dices' ].
@@ -58,7 +20,7 @@ RacingTheSpace class >> withDices: aCollectionOfDices withSquares: aCollectionOf
 	aNumberOfLaps < 1 ifTrue: [ Error signal: 'You Cannot Create a Game With Less Than 1 lap' ].
 	
 	board := Board withSquares: aCollectionOfSquares andLaps: aNumberOfLaps .
-	^self new initializeWithDices: aCollectionOfDices andBoard: board andSpaceships: aNumberOfSpaceships andLaps: aNumberOfLaps.
+	^self new initializeThrowing: aCollectionOfDices playingOn: board using: aNumberOfSpaceships andWith: aNumberOfLaps.
 	
 ]
 
@@ -77,22 +39,11 @@ RacingTheSpace >> detectSpaceship: aSpaceshipName [
 ]
 
 { #category : 'initialization' }
-RacingTheSpace >> initializeWithDices: aCollectionOfDices andBoard: board andSpaceships: aNumberOfSpaceships andLaps: aNumberOfLaps [
+RacingTheSpace >> initializeThrowing: aCollectionOfDices playingOn: board using: aNumberOfSpaceships andWith: aNumberOfLaps [
 	currentShift := 1.
     gameEnded := false.
     self createSpaceships: aNumberOfSpaceships.
-    state := StartedGame withDices: aCollectionOfDices andBoard: board andSpaceships: spaceships.
-]
-
-{ #category : 'initialization' }
-RacingTheSpace >> initializeWithDices: aCollectionOfDices andBoardSize: aSize andSpaceships: aNumberOfSpaceships andLaps: aNumberOfLaps [
-    |aBoard|
-    aBoard := Board withSize: aSize andLaps: aNumberOfLaps.
-    currentShift := 1.
-    gameEnded := false.
-    self createSpaceships: aNumberOfSpaceships.
-    state := StartedGame withDices: aCollectionOfDices andBoard: aBoard andSpaceships: spaceships.
- 
+    state := OngoingGame withDices: aCollectionOfDices andBoard: board andSpaceships: spaceships.
 ]
 
 { #category : 'testing' }
@@ -105,7 +56,7 @@ RacingTheSpace >> lapOf: aSpaceshipName [
 
 	| spaceship |
 	spaceship := self detectSpaceship: aSpaceshipName.
-	^ spaceship laps
+	^ spaceship laps + 1
 ]
 
 { #category : 'accessing' }
@@ -119,16 +70,6 @@ RacingTheSpace >> playTurn [
 	state playTurn: self.
 	state applyEffect: self.
 	
-]
-
-{ #category : 'ranking' }
-RacingTheSpace >> positionInRankingOf: aSpaceShipName [ 
-	| orderedSpaceships spaceship ranking |
-	orderedSpaceships := self sortSpaceshipsByPosition.
-	spaceship := self detectSpaceship: aSpaceShipName.
-	ranking := orderedSpaceships indexOf: spaceship.
-	
-	^ ranking.
 ]
 
 { #category : 'accessing' }
@@ -151,6 +92,16 @@ RacingTheSpace >> ranking [
 
 ]
 
+{ #category : 'ranking' }
+RacingTheSpace >> rankingOf: aSpaceShipName [ 
+	| orderedSpaceships spaceship ranking |
+	orderedSpaceships := self sortSpaceshipsByPosition.
+	spaceship := self detectSpaceship: aSpaceShipName.
+	ranking := orderedSpaceships indexOf: spaceship.
+	
+	^ ranking.
+]
+
 { #category : 'initialization' }
 RacingTheSpace >> setEnded: anEndedState [
 	state  := anEndedState.
@@ -169,7 +120,7 @@ RacingTheSpace >> showEachSpaceshipGamePosition [
 RacingTheSpace >> showEachSpaceshipLap [
 	| response |
 	response := OrderedCollection new.
-	spaceships collect: [ :spaceship  | response add: spaceship laps].
+	spaceships collect: [ :spaceship  | response add: (spaceship laps + 1)].
 	^response.
 ]
 

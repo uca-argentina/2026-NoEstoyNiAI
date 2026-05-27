@@ -1,5 +1,5 @@
 Class {
-	#name : 'StartedGame',
+	#name : 'OngoingGame',
 	#superclass : 'Object',
 	#instVars : [
 		'board',
@@ -12,12 +12,12 @@ Class {
 }
 
 { #category : 'as yet unclassified' }
-StartedGame class >> withDices: someDices andBoard: aBoard andSpaceships: spaceShips [
+OngoingGame class >> withDices: someDices andBoard: aBoard andSpaceships: spaceShips [
 	^self new initializeWithDices: someDices andBoard: aBoard andSpaceships: spaceShips.
 ]
 
 { #category : 'actions' }
-StartedGame >> applyEffect: aGame [
+OngoingGame >> applyEffect: aGame [
 	| currentPlayer |
 	currentPlayer := spaceships at: currentShift.
 	board callEffect: currentPlayer and: spaceships.
@@ -28,13 +28,13 @@ StartedGame >> applyEffect: aGame [
 ]
 
 { #category : 'private' }
-StartedGame >> incrementCurrentShift [
+OngoingGame >> incrementCurrentShift [
 
 	^ currentShift := currentShift \\ self numberOfPlayers + 1
 ]
 
 { #category : 'initialization' }
-StartedGame >> initializeWithDices: someDices andBoard: aBoard andSpaceships: spaceShips [ 
+OngoingGame >> initializeWithDices: someDices andBoard: aBoard andSpaceships: spaceShips [ 
 	board:= aBoard .
 	dices := someDices.
 	spaceships := spaceShips.
@@ -42,23 +42,23 @@ StartedGame >> initializeWithDices: someDices andBoard: aBoard andSpaceships: sp
 ]
 
 { #category : 'testing' }
-StartedGame >> isEnded [
+OngoingGame >> isEnded [
 	^ false.
 ]
 
 { #category : 'accessing' }
-StartedGame >> numberOfPlayers [
+OngoingGame >> numberOfPlayers [
 	^ spaceships size
 ]
 
 { #category : 'ranking' }
-StartedGame >> numberOfWinner [ 
+OngoingGame >> numberOfWinner [ 
 	Error signal: 'There is no winner yet. The game is not finished' 
 	
 ]
 
 { #category : 'initialization' }
-StartedGame >> playTurn: aGame [
+OngoingGame >> playTurn: aGame [
 	| result currentPlayer |
 	
 	result := self throwDices.
@@ -71,7 +71,7 @@ StartedGame >> playTurn: aGame [
 ]
 
 { #category : 'initialization' }
-StartedGame >> setIfGameEnded: currentPlayer andGame: aGame [
+OngoingGame >> setIfGameEnded: currentPlayer andGame: aGame [
  (currentPlayer laps >= board laps or:(currentPlayer numberOfSquares = board boardSize and: currentPlayer laps = (board laps - 1))) 
 	ifTrue: [  aGame setEnded: (EndedGame withSpaceShips: spaceships) ].
 	
@@ -79,7 +79,7 @@ StartedGame >> setIfGameEnded: currentPlayer andGame: aGame [
 ]
 
 { #category : 'actions' }
-StartedGame >> throwDices [
+OngoingGame >> throwDices [
 
 	| sumOfDices |
 	

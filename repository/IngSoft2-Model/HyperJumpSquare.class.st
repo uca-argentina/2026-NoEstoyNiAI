@@ -17,7 +17,7 @@ HyperJumpSquare class >> withParsecs: aCollectionOfParsecs andRelation: aRelatio
 
 { #category : 'initialization' }
 HyperJumpSquare >> initializeWithParsecs: aCollectionOfParsecs andRelation: aRelation [
-	parsecs := aCollectionOfParsecs.
+	parsecs := aCollectionOfParsecs sort: [:parsec1 :parsec2 | parsec1 > parsec2 ].
 	relation := aRelation.
 	currentParsecPosition := 1.
 ]

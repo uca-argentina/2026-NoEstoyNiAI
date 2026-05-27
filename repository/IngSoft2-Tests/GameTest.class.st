@@ -376,10 +376,10 @@ aCollectionOfSquares add: (HyperJumpSquare withParsecs: #(2 4 6)asOrderedCollect
 aGame := RacingTheSpace throwing: aCollectionOfDice playingOn: aCollectionOfSquares usingSpaceShips: 4 withLaps: 1.
 4 timesRepeat:[ aGame playTurn].
 
-aPosition := Position withNumberOfSquare: 14 andLaps:0. 
+aPosition := Position withNumberOfSquare: 22 andLaps:0. 
 aPosition2:= Position withNumberOfSquare: 18 andLaps:0. 
-aPosition3:= Position withNumberOfSquare: 22 andLaps:0. 
-aPosition4:= Position withNumberOfSquare: 14 andLaps:0. 
+aPosition3:= Position withNumberOfSquare: 14 andLaps:0. 
+aPosition4:= Position withNumberOfSquare: 22 andLaps:0. 
 self assert: (aGame positionOf:1) = aPosition .
 self assert: (aGame positionOf:2) = aPosition2 .
 self assert: (aGame positionOf:3) = aPosition3 .
@@ -818,7 +818,7 @@ aCollectionOfDice:= OrderedCollection new.
 
 aCollectionOfDice add: (FixedDie withFixedResults: #(12)).
 
-aCollectionOfSquares := (SquaresGenerator withNumberOfSquares: 10 moonWalkN: 3 hyperJumpParsecs: #(2 4 6)  hyperJumpRelation: 2) generate. 
+aCollectionOfSquares := (SquaresGenerator withNumberOfSquares: 10 moonWalkN: 3 hyperJumpParsecs: #(2 4 6)asOrderedCollection  hyperJumpRelation: 2) generate. 
 
 aGame := RacingTheSpace throwing: aCollectionOfDice playingOn:aCollectionOfSquares  usingSpaceShips:1  withLaps:3.
 

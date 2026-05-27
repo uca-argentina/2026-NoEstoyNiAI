@@ -95,7 +95,7 @@ SquaresGeneratorTest >> test005GenerateCreatesHyperJumpSquaresWithGivenParsecsAn
 
 	| generator squares parsecs |
 
-	parsecs := #(10 8 6 4).
+	parsecs := #(10 8 6 4) asOrderedCollection .
 
 	generator := FixedSquaresGenerator
 		withNumberOfSquares: 2

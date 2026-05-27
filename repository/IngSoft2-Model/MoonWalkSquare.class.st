@@ -15,6 +15,11 @@ MoonWalkSquare class >> withN: aNumber [
 ]
 
 { #category : 'initialization' }
+MoonWalkSquare >> distance [	
+	^n.
+]
+
+{ #category : 'initialization' }
 MoonWalkSquare >> initializeWithN: aNumber [
 	n := aNumber.
 ]

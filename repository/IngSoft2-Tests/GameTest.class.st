@@ -809,3 +809,18 @@ aPosition := Position withNumberOfSquare: 8 andLaps: 0.
 
 self assert: ((aGame positionOf:1) = aPosition ).
 ]
+
+{ #category : 'tests' }
+GameTest >> test048WhenAGameIsCreatedWithSquaresGeneratorThenItCanBePlayed [
+
+| aGame aCollectionOfDice aCollectionOfSquares |
+aCollectionOfDice:= OrderedCollection new.
+
+aCollectionOfDice add: (FixedDie withFixedResults: #(12)).
+
+aCollectionOfSquares := (SquaresGenerator withNumberOfSquares: 10 moonWalkN: 3 hyperJumpParsecs: #(2 4 6)  hyperJumpRelation: 2) generate. 
+
+aGame := RacingTheSpace throwing: aCollectionOfDice playingOn:aCollectionOfSquares  usingSpaceShips:1  withLaps:3.
+
+self deny: (aGame isEnded).
+]

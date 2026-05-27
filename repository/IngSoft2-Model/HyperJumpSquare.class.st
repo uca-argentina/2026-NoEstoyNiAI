@@ -23,6 +23,16 @@ HyperJumpSquare >> initializeWithParsecs: aCollectionOfParsecs andRelation: aRel
 ]
 
 { #category : 'actions' }
+HyperJumpSquare >> parsecs [
+ ^parsecs 
+]
+
+{ #category : 'actions' }
+HyperJumpSquare >> relation [ 
+^relation 
+]
+
+{ #category : 'actions' }
 HyperJumpSquare >> triggerEffect: spaceships and: theCurrentSpaceship [
 	|positionsToAdvance|
 	positionsToAdvance := (parsecs at: currentParsecPosition) * relation.

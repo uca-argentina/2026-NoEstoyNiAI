@@ -6,7 +6,7 @@ Class {
 }
 
 { #category : 'testing fixed' }
-SquaresGeneratorTest >> test001GenerateCreatesOnlyNoEffectSquares [
+SquaresGeneratorTest >> test001WhenRandomFallsInNoEffectRangeThenAllGeneratedSquaresAreNoEffectSquares [
 
 	| generator squares |
 
@@ -27,7 +27,7 @@ SquaresGeneratorTest >> test001GenerateCreatesOnlyNoEffectSquares [
 ]
 
 { #category : 'testing fixed' }
-SquaresGeneratorTest >> test002GenerateCreatesOnlyWormHoleSquares [
+SquaresGeneratorTest >> test002WhenRandomFallsInWormHoleRangeThenAllGeneratedSquaresAreWormHoleSquares [
 
 	| generator squares |
 
@@ -48,7 +48,7 @@ SquaresGeneratorTest >> test002GenerateCreatesOnlyWormHoleSquares [
 ]
 
 { #category : 'testing fixed' }
-SquaresGeneratorTest >> test003GenerateCreatesOnlySpeedUpSquares [
+SquaresGeneratorTest >> test003WhenRandomFallsInSpeedUpRangeThenAllGeneratedSquaresAreSpeedUpSquares [
 
 	| generator squares |
 
@@ -69,7 +69,7 @@ SquaresGeneratorTest >> test003GenerateCreatesOnlySpeedUpSquares [
 ]
 
 { #category : 'testing fixed' }
-SquaresGeneratorTest >> test004GenerateCreatesMoonWalkSquaresWithGivenN [
+SquaresGeneratorTest >> test004WhenRandomFallsInMoonWalkRangeThenAllGeneratedMoonWalkSquaresUseGivenN [
 
 	| generator squares |
 
@@ -91,7 +91,7 @@ SquaresGeneratorTest >> test004GenerateCreatesMoonWalkSquaresWithGivenN [
 ]
 
 { #category : 'testing fixed' }
-SquaresGeneratorTest >> test005GenerateCreatesHyperJumpSquaresWithGivenParsecsAndRelation [
+SquaresGeneratorTest >> test005WhenRandomFallsInHyperJumpRangeThenAllGeneratedHyperJumpSquaresUseGivenParsecsAndRelation [
 
 	| generator squares parsecs |
 
@@ -116,7 +116,7 @@ SquaresGeneratorTest >> test005GenerateCreatesHyperJumpSquaresWithGivenParsecsAn
 ]
 
 { #category : 'testing fixed' }
-SquaresGeneratorTest >> test006GenerateCreatesOnlyAtomicBombSquares [
+SquaresGeneratorTest >> test006WhenRandomFallsInAtomicBombRangeThenAllGeneratedSquaresAreAtomicBombSquares [
 
 	| generator squares |
 
@@ -137,7 +137,7 @@ SquaresGeneratorTest >> test006GenerateCreatesOnlyAtomicBombSquares [
 ]
 
 { #category : 'testing non fixed' }
-SquaresGeneratorTest >> test007CannotCreateGeneratorWithNegativeNumberOfSquares [
+SquaresGeneratorTest >> test007WhenCreatingGeneratorWithNegativeNumberOfSquaresThenTheSquaresCannotBeCreated [
 
 	self
 		should: [
@@ -156,7 +156,7 @@ SquaresGeneratorTest >> test007CannotCreateGeneratorWithNegativeNumberOfSquares 
 ]
 
 { #category : 'testing fixed' }
-SquaresGeneratorTest >> test008CannotCreateGeneratorWithRandomLowerThanZero [
+SquaresGeneratorTest >> test008WhenCreatingGeneratorWithRandomLowerThanZeroThenTheSquaresCannotBeCreated [
 
 	self
 		should: [
@@ -176,7 +176,7 @@ SquaresGeneratorTest >> test008CannotCreateGeneratorWithRandomLowerThanZero [
 ]
 
 { #category : 'testing fixed' }
-SquaresGeneratorTest >> test009CannotCreateGeneratorWithRandomGreaterThanOne [
+SquaresGeneratorTest >> test009WhenCreatingGeneratorWithRandomGreaterThanOneThenTheSquaresCannotBeCreated [
 
 	self
 		should: [
@@ -196,7 +196,7 @@ SquaresGeneratorTest >> test009CannotCreateGeneratorWithRandomGreaterThanOne [
 ]
 
 { #category : 'testing non fixed' }
-SquaresGeneratorTest >> test010CannotCreateGeneratorWithZeroMoonWalkN [
+SquaresGeneratorTest >> test010WhenCreatingGeneratorWithZeroMoonWalkNThenTheSquaresCannotBeCreated [
 
 	self
 		should: [
@@ -215,7 +215,7 @@ SquaresGeneratorTest >> test010CannotCreateGeneratorWithZeroMoonWalkN [
 ]
 
 { #category : 'testing non fixed' }
-SquaresGeneratorTest >> test011CannotCreateGeneratorWithNegativeMoonWalkN [
+SquaresGeneratorTest >> test011WhenCreatingGeneratorWithNegativeMoonWalkNThenTheSquaresCannotBeCreated [
 
 	self
 		should: [
@@ -234,7 +234,7 @@ SquaresGeneratorTest >> test011CannotCreateGeneratorWithNegativeMoonWalkN [
 ]
 
 { #category : 'testing non fixed' }
-SquaresGeneratorTest >> test012CannotCreateGeneratorWithZeroHyperJumpRelation [
+SquaresGeneratorTest >> test012WhenCreatingGeneratorWithZeroHyperJumpRelationThenTheSquaresCannotBeCreated [
 
 	self
 		should: [
@@ -253,7 +253,7 @@ SquaresGeneratorTest >> test012CannotCreateGeneratorWithZeroHyperJumpRelation [
 ]
 
 { #category : 'testing non fixed' }
-SquaresGeneratorTest >> test013CannotCreateGeneratorWithNegativeHyperJumpRelation [
+SquaresGeneratorTest >> test013WhenCreatingGeneratorWithNegativeHyperJumpRelationThenTheSquaresCannotBeCreated [
 
 	self
 		should: [
@@ -272,7 +272,7 @@ SquaresGeneratorTest >> test013CannotCreateGeneratorWithNegativeHyperJumpRelatio
 ]
 
 { #category : 'testing non fixed' }
-SquaresGeneratorTest >> test014CannotCreateGeneratorWithNonIntegerHyperJumpRelation [
+SquaresGeneratorTest >> test014WhenCreatingGeneratorWithNonIntegerHyperJumpRelationThenTheSquaresCannotBeCreated [
 
 	self
 		should: [
@@ -291,7 +291,7 @@ SquaresGeneratorTest >> test014CannotCreateGeneratorWithNonIntegerHyperJumpRelat
 ]
 
 { #category : 'testing non fixed' }
-SquaresGeneratorTest >> test015CanCreateGeneratorWithValidValues [
+SquaresGeneratorTest >> test015WhenCreatingGeneratorWithValidValuesThenGeneratorIsCreatedSuccesfully [
 
 	| generator |
 

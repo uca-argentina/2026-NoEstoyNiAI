@@ -11,23 +11,46 @@ Class {
 	#package : 'IngSoft2-Model'
 }
 
+{ #category : 'initialization' }
+RacingTheSpace class >> createSpaceships: aNumberOfPlayers [
+
+	| aRacingTheSpace |
+	aRacingTheSpace := self new.
+
+	^ aRacingTheSpace spaceships:
+		  ((1 to: aNumberOfPlayers) collect: [ :index |
+				   Spaceship
+					   withName: index
+					   andPosition: (Position withNumberOfSquare: 0 andLaps: 0) ])
+]
+
+{ #category : 'as yet unclassified' }
+RacingTheSpace class >> throwing: aCollectionOfDice playingOn: aCollectionOfSquares by: aCollectionOfSpaceships withLaps: numberOfLaps [ 
+	| board |
+	aCollectionOfSquares size < 2 ifTrue: [ Error signal: 'You Cannot Create A Game With Less Than 2 Squares' ].
+	aCollectionOfDice isEmpty ifTrue: [ Error signal: 'You Cannot Create A Game With No Dices' ].
+	aCollectionOfSpaceships isEmpty ifTrue: [ Error signal: 'You Cannot Create A Game With Less Than 1 Player'].
+	numberOfLaps < 1 ifTrue: [ Error signal: 'You Cannot Create a Game With Less Than 1 lap' ].
+	(aCollectionOfSpaceships anySatisfy: [ :ship | (aCollectionOfSpaceships count: [ :other | other name = ship name ]) > 1]) ifTrue: [self error: 'You cannot create two spaceships with the same name'].
+	
+	board := Board withSquares: aCollectionOfSquares andLaps: numberOfLaps .
+	
+	
+	^ self new initializeThrowing: aCollectionOfDice playingOn: board using: aCollectionOfSpaceships deepCopy andWith: numberOfLaps
+]
+
 { #category : 'as yet unclassified' }
 RacingTheSpace class >> throwing: aCollectionOfDices playingOn: aCollectionOfSquares usingSpaceShips: aNumberOfSpaceships withLaps: aNumberOfLaps [
-	| board |
+	| board spaceships |
 	aCollectionOfSquares size < 2 ifTrue: [ Error signal: 'You Cannot Create A Game With Less Than 2 Squares' ].
 	aCollectionOfDices isEmpty ifTrue: [ Error signal: 'You Cannot Create A Game With No Dices' ].
 	aNumberOfSpaceships < 1 ifTrue: [ Error signal: 'You Cannot Create A Game With Less Than 1 Player'].
 	aNumberOfLaps < 1 ifTrue: [ Error signal: 'You Cannot Create a Game With Less Than 1 lap' ].
+	spaceships := self createSpaceships: aNumberOfSpaceships.
 	
 	board := Board withSquares: aCollectionOfSquares andLaps: aNumberOfLaps .
-	^self new initializeThrowing: aCollectionOfDices playingOn: board using: aNumberOfSpaceships andWith: aNumberOfLaps.
+	^self new initializeThrowing: aCollectionOfDices playingOn: board using: spaceships andWith: aNumberOfLaps.
 	
-]
-
-{ #category : 'initialization' }
-RacingTheSpace >> createSpaceships: aNumberOfPlayers [
-
-	^ spaceships := (1 to: aNumberOfPlayers) collect: [ :index |Spaceship withName: index andPosition: (Position withNumberOfSquare: 0 andLaps: 0 ) ]
 ]
 
 { #category : 'private' }
@@ -39,10 +62,10 @@ RacingTheSpace >> detectSpaceship: aSpaceshipName [
 ]
 
 { #category : 'initialization' }
-RacingTheSpace >> initializeThrowing: aCollectionOfDices playingOn: board using: aNumberOfSpaceships andWith: aNumberOfLaps [
+RacingTheSpace >> initializeThrowing: aCollectionOfDices playingOn: board using: someSpaceships andWith: aNumberOfLaps [
 	currentShift := 1.
     gameEnded := false.
-    self createSpaceships: aNumberOfSpaceships.
+    spaceships := someSpaceships.
     state := OngoingGame withDices: aCollectionOfDices andBoard: board andSpaceships: spaceships.
 ]
 
@@ -141,11 +164,25 @@ RacingTheSpace >> sortSpaceshipsByPosition [
 	^ orderedSpaceships
 ]
 
+{ #category : 'accessing' }
+RacingTheSpace >> spaceships [
+
+	^ spaceships
+]
+
+{ #category : 'accessing' }
+RacingTheSpace >> spaceships: anObject [
+
+	^ spaceships := anObject
+]
+
 { #category : 'as yet unclassified' }
-RacingTheSpace >> throw: aCard to: aDefendingPlayerPosition by: anAttackingPlayerPosition [
-	| defendingPlayer attackingPlayer |
-	defendingPlayer := spaceships at: aDefendingPlayerPosition.
-	attackingPlayer := spaceships at: anAttackingPlayerPosition.
+RacingTheSpace >> throw: aCard to: aDefendingPlayer by: anAttackingPlayer [
+	state throw: aCard to: aDefendingPlayer by: anAttackingPlayer.
+
+	
+	
+	
 	
 
 ]

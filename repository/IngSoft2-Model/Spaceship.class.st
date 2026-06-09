@@ -3,22 +3,48 @@ Class {
 	#superclass : 'Object',
 	#instVars : [
 		'position',
-		'name'
+		'name',
+		'cards',
+		'effectsFromPermanentsCards'
 	],
 	#category : 'IngSoft2-Model',
 	#package : 'IngSoft2-Model'
 }
 
 { #category : 'as yet unclassified' }
+Spaceship class >> withName: aName andCards: someCards [ 
+	^ self new initializeWithName: aName andPosition: (Position withNumberOfSquare: 0 andLaps: 0) andCards: someCards.
+	
+]
+
+{ #category : 'as yet unclassified' }
 Spaceship class >> withName: aName andPosition: aPosition [ 
-	^self new initializeWithName: aName andPosition: aPosition .
+	^self new initializeWithName: aName andPosition: aPosition andCards: OrderedCollection new.
+]
+
+{ #category : 'comparing' }
+Spaceship >> = anotherSpaceship [
+	^ anotherSpaceship name = name.
+]
+
+{ #category : 'as yet unclassified' }
+Spaceship >> applyEffectsFromPermanentCards [
+	| total |
+    total := effectsFromPermanentsCards inject: 0 into: [:acc :each | acc + each].
+    position incrementNumberOfSquaresBy: total.
+]
+
+{ #category : 'testing' }
+Spaceship >> hasCard: aCard [
+^ cards anySatisfy: [ :card | card = aCard ]
 ]
 
 { #category : 'initialization' }
-Spaceship >> initializeWithName: aName andPosition: aPosition [
+Spaceship >> initializeWithName: aName andPosition: aPosition andCards: someCards [ 
+	name := aName .
 	position := aPosition .
-	name:= aName.
-
+	cards := someCards .
+	effectsFromPermanentsCards := OrderedCollection new.
 ]
 
 { #category : 'testing' }
@@ -31,6 +57,11 @@ Spaceship >> laps [
 	^ position lap.
 ]
 
+{ #category : 'as yet unclassified' }
+Spaceship >> modifyThrowingBy: aNumber [
+	effectsFromPermanentsCards add: aNumber .
+]
+
 { #category : 'actions' }
 Spaceship >> moveBackwards: aNumberOfSquares [ 
 	position decrementNumberOfSquaresBy: aNumberOfSquares
@@ -38,7 +69,7 @@ Spaceship >> moveBackwards: aNumberOfSquares [
 
 { #category : 'actions' }
 Spaceship >> moveForward: aNumberOfSquares [
-	position incrementNumberOfSquaresBy: aNumberOfSquares
+	position incrementNumberOfSquaresBy: aNumberOfSquares. 
 ]
 
 { #category : 'accessing' }

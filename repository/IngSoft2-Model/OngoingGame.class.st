@@ -61,10 +61,12 @@ OngoingGame >> numberOfWinner [
 OngoingGame >> playTurn: aGame [
 	| result currentPlayer |
 	
-	result := self throwDices.
+	
 	currentPlayer := spaceships at: currentShift.
+	result := self throwDices.
 	currentPlayer moveForward: result.
 	currentPlayer wrapIfNeeded: (board boardSize).
+	currentPlayer applyEffectsFromPermanentCards .
 	self setIfGameEnded: currentPlayer andGame: aGame .
 
 	
@@ -76,6 +78,26 @@ OngoingGame >> setIfGameEnded: currentPlayer andGame: aGame [
 	ifTrue: [  aGame setEnded: (EndedGame withSpaceShips: spaceships) ].
 	
 
+]
+
+{ #category : 'as yet unclassified' }
+OngoingGame >> throw: aCard to: aDefendingPlayer by: anAttackingPlayer [
+"
+	((spaceships at: currentShift) = anAttackingPlayer) ifFalse: [self error: 'You cannot throw a card when is not your turn'].
+	(spaceships anySatisfy: [:spaceship | spaceship = aDefendingPlayer]) ifFalse: [self error: 'You cannot throw a card to an inexistant player'].
+	(anAttackingPlayer hasCard: aCard) ifFalse: [ self error: 'You cannot throw a card you dont have' ].
+	
+	aCard triggerEffectTo: aDefendingPlayer by: anAttackingPlayer .
+"	
+    | internalDefender |
+    ((spaceships at: currentShift) = anAttackingPlayer) 
+        ifFalse: [self error: 'You cannot throw a card when is not your turn'].
+    internalDefender := spaceships 
+        detect: [:spaceship | spaceship = aDefendingPlayer]
+        ifNone: [self error: 'You cannot throw a card to an inexistant player'].
+    (anAttackingPlayer hasCard: aCard) 
+        ifFalse: [self error: 'You cannot throw a card you dont have'].
+    aCard triggerEffectTo: internalDefender by: anAttackingPlayer.
 ]
 
 { #category : 'actions' }

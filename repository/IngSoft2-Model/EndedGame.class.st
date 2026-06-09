@@ -49,3 +49,9 @@ EndedGame >> obtainNameOfTheSpaceshipWithTheHigherPosition [
 EndedGame >> playTurn: aGame [
 	Error signal: 'You Cannot Throw, The Game Ended'.
 ]
+
+{ #category : 'as yet unclassified' }
+EndedGame >> throw: aCard to: aDefendingPlayer by: anAttackingPlayer [
+
+	self error: 'You cannot throw a card when the game is ended'
+]

@@ -23,7 +23,7 @@ Position >> < aPosition [
 
 { #category : 'comparing' }
 Position >> = aPosition [
-	^(numberOfSquare == aPosition numberOfSquares) and: (lap == aPosition lap)
+	^ (numberOfSquare == aPosition numberOfSquares) and: [ lap == aPosition lap ].
 ]
 
 { #category : 'actions' }

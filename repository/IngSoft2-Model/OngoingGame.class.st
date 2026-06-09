@@ -5,7 +5,8 @@ Class {
 		'board',
 		'dices',
 		'spaceships',
-		'currentShift'
+		'currentShift',
+		'lastEffect'
 	],
 	#category : 'IngSoft2-Model',
 	#package : 'IngSoft2-Model'
@@ -18,13 +19,12 @@ OngoingGame class >> withDices: someDices andBoard: aBoard andSpaceships: spaceS
 
 { #category : 'actions' }
 OngoingGame >> applyEffect: aGame [
-	| currentPlayer |
-	currentPlayer := spaceships at: currentShift.
-	board callEffect: currentPlayer and: spaceships.
-	currentPlayer wrapIfNeeded: board boardSize .
-	self setIfGameEnded: currentPlayer andGame: aGame.
-
-	self incrementCurrentShift
+    | currentPlayer |
+    currentPlayer := spaceships at: currentShift.
+    lastEffect := board callEffect: currentPlayer and: spaceships.
+    currentPlayer wrapIfNeeded: board boardSize.
+    self setIfGameEnded: currentPlayer andGame: aGame.
+    self incrementCurrentShift.
 ]
 
 { #category : 'private' }
@@ -39,6 +39,7 @@ OngoingGame >> initializeWithDices: someDices andBoard: aBoard andSpaceships: sp
 	dices := someDices.
 	spaceships := spaceShips.
 	currentShift := 1.
+	lastEffect := nil.
 ]
 
 { #category : 'testing' }
@@ -89,15 +90,15 @@ OngoingGame >> throw: aCard to: aDefendingPlayer by: anAttackingPlayer [
 	
 	aCard triggerEffectTo: aDefendingPlayer by: anAttackingPlayer .
 "	
-    | internalDefender |
+   | internalDefender |
     ((spaceships at: currentShift) = anAttackingPlayer) 
-        ifFalse: [self error: 'You cannot throw a card when is not your turn'].
+        ifFalse: [ self error: 'You cannot throw a card when is not your turn' ].
     internalDefender := spaceships 
-        detect: [:spaceship | spaceship = aDefendingPlayer]
-        ifNone: [self error: 'You cannot throw a card to an inexistant player'].
+        detect: [ :spaceship | spaceship = aDefendingPlayer ]
+        ifNone: [ self error: 'You cannot throw a card to an inexistant player' ].
     (anAttackingPlayer hasCard: aCard) 
-        ifFalse: [self error: 'You cannot throw a card you dont have'].
-    aCard triggerEffectTo: internalDefender by: anAttackingPlayer.
+        ifFalse: [ self error: 'You cannot throw a card you dont have' ].
+    aCard triggerEffectTo: internalDefender by: anAttackingPlayer andSpaceships: spaceships andLastEffect: lastEffect.
 ]
 
 { #category : 'actions' }

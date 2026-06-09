@@ -7,5 +7,6 @@ Class {
 
 { #category : 'actions' }
 SpeedUpSquare >> triggerEffect: spaceships and: theCurrentSpaceship [
-	theCurrentSpaceship moveForward: 4.
+    theCurrentSpaceship moveForward: 4.
+    ^ self.  "devuelve el casillero como representación del efecto"
 ]

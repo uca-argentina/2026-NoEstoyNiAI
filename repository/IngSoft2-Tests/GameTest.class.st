@@ -1022,7 +1022,7 @@ aGame := RacingTheSpace throwing: aCollectionOfDice playingOn: aCollectionOfSqua
 
 aGame playTurn .
 aGame throw: (OverloadCard new) to: valenSpaceship by: solSpaceship .
-5 timesRepeat: aGame playTurn .
+5 timesRepeat: [aGame playTurn].
 
 aPosition := Position withNumberOfSquare: (20 - 2 -2) andLaps:0. 
 
@@ -1035,24 +1035,90 @@ self assert: (aGame positionOf: 'valen') = aPosition.
 { #category : 'tests' }
 GameTest >> test056WhenASpaceshipRemovesAnOverloadCardThenItNextTheEffectDoesNotAffectAnymore [
 
-| aGame aCollectionOfDice  aCollectionOfSquares aPosition |
-aCollectionOfDice:= OrderedCollection new.
-aCollectionOfDice add: (FixedDie withFixedResults: #(10)).
+	| aGame aCollectionOfDice aCollectionOfSquares aPosition cards vitoSpaceship solSpaceship valenSpaceship aCollectionOfSpaceships |
+	aCollectionOfDice := OrderedCollection new.
+	aCollectionOfDice add: (FixedDie withFixedResults: #( 10 )).
+	aCollectionOfSquares := OrderedCollection new.
+	
+	cards := OrderedCollection new.
+	cards add: OverloadCard new.
+	20 timesRepeat: [ aCollectionOfSquares add: NoEffectSquare new ].
+	vitoSpaceship := Spaceship withName: 'vito' andCards: cards.
+	solSpaceship := Spaceship withName: 'sol' andCards: cards.
+	valenSpaceship := Spaceship withName: 'valen' andCards: cards.
+	aCollectionOfSpaceships := {
+		                           vitoSpaceship.
+		                           solSpaceship.
+		                           valenSpaceship } asOrderedCollection.
+	aGame := RacingTheSpace
+		         throwing: aCollectionOfDice
+		         playingOn: aCollectionOfSquares
+		         by: aCollectionOfSpaceships
+		         withLaps: 1.
+		
+	aGame playTurn.
+	aGame throw: OverloadCard new to: valenSpaceship by: solSpaceship.
+	aGame playTurn.
+	aGame playTurn.
+	aPosition := Position withNumberOfSquare: 8 andLaps: 0.
+	
+	self assert: (aGame positionOf: 'valen') = aPosition
+]
 
-aCollectionOfSquares := OrderedCollection new.
-10 timesRepeat: [aCollectionOfSquares add: NoEffectSquare new].
-aGame := RacingTheSpace throwing: aCollectionOfDice playingOn: aCollectionOfSquares usingSpaceShips: 3 withLaps: 1.
+{ #category : 'tests' }
+GameTest >> test057WhenASpaceshipThrowsASpeedCardToAPlayerThenItsNextThrowingDiceTheOtherPlayerIncreasesByOne [
 
-aGame playTurn . "con playTurn como que termina el turno, si quiere tirar una carta debe hacerlo antes"
-aGame throw: (OverloadCard new) to: 3 by: 2.
-aGame playTurn .
-aGame playTurn.
+	| aCollectionOfDice aCollectionOfSquares cards vitoSpaceship solSpaceship valenSpaceship aCollectionOfSpaceships aGame aPosition |
+	aCollectionOfDice:= OrderedCollection new.
+	aCollectionOfDice add: (FixedDie withFixedResults: #(10)).
+	aCollectionOfSquares:= OrderedCollection new.
+	
+	cards:= OrderedCollection new.
+	cards add: SpeedCard new.
+	
+	vitoSpaceship := Spaceship withName: 'vito' andCards: cards.
+   solSpaceship := Spaceship withName: 'sol' andCards: cards.
+   valenSpaceship := Spaceship withName: 'valen' andCards: cards.
+	aCollectionOfSpaceships := { vitoSpaceship . solSpaceship . valenSpaceship } asOrderedCollection.
+	
+	50 timesRepeat: [ aCollectionOfSquares add: NoEffectSquare new ].
+	aGame := RacingTheSpace throwing: aCollectionOfDice playingOn: aCollectionOfSquares by: aCollectionOfSpaceships withLaps: 1.
+	
+	aGame playTurn.
+	aGame throw: SpeedCard new to: valenSpaceship by: solSpaceship.
+	aGame playTurn.
+	aGame playTurn.
+	aPosition:= Position withNumberOfSquare: 11 andLaps: 0.
+	
+	self assert:(aGame positionOf: 'valen') = aPosition
+]
 
-aPosition := Position withNumberOfSquare: 8 andLaps:0. 
+{ #category : 'tests' }
+GameTest >> test058WhenASpaceshipThrowsAnAccelerationCardThenAllSpaceshipsIncreaseByOne [
 
-self assert: (aGame positionOf: 3) = aPosition.
-
-
-
-
+	| aGame aCollectionOfDice aCollectionOfSquares cards aCollectionOfSpaceships vitoSpaceship solSpaceship valenSpaceship aPosition anAccelerationCard |
+	aCollectionOfDice := OrderedCollection new.
+	aCollectionOfDice add: (FixedDie withFixedResults: #( 10 )).
+	aCollectionOfSquares := OrderedCollection new.
+	anAccelerationCard := AccelerationCard new.
+	cards := OrderedCollection new.
+	cards add: anAccelerationCard.
+	vitoSpaceship := Spaceship withName: 'vito' andCards: cards.
+	solSpaceship := Spaceship withName: 'sol' andCards: cards.
+	valenSpaceship := Spaceship withName: 'valen' andCards: cards.
+	aCollectionOfSpaceships := {vitoSpaceship. solSpaceship. valenSpaceship } asOrderedCollection.
+	50 timesRepeat: [ aCollectionOfSquares add: NoEffectSquare new ].
+	aGame := RacingTheSpace
+		         throwing: aCollectionOfDice
+		         playingOn: aCollectionOfSquares
+		         by: aCollectionOfSpaceships
+		         withLaps: 1.
+	aGame throw: anAccelerationCard to: vitoSpaceship by: vitoSpaceship.
+	aGame playTurn.
+	aGame playTurn.
+	aGame playTurn.
+	aPosition := Position withNumberOfSquare: 11 andLaps: 0.
+	self assert: (aGame positionOf: 'vito') = aPosition.
+	self assert: (aGame positionOf: 'sol') = aPosition.
+	self assert: (aGame positionOf: 'valen') = aPosition
 ]

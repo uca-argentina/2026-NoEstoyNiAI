@@ -140,3 +140,12 @@ RacingTheSpace >> sortSpaceshipsByPosition [
 		                     shipA isAheadOf: shipB ].
 	^ orderedSpaceships
 ]
+
+{ #category : 'as yet unclassified' }
+RacingTheSpace >> throw: aCard to: aDefendingPlayerPosition by: anAttackingPlayerPosition [
+	| defendingPlayer attackingPlayer |
+	defendingPlayer := spaceships at: aDefendingPlayerPosition.
+	attackingPlayer := spaceships at: anAttackingPlayerPosition.
+	
+
+]

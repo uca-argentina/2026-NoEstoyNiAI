@@ -824,3 +824,89 @@ aGame := RacingTheSpace throwing: aCollectionOfDice playingOn:aCollectionOfSquar
 
 self deny: (aGame isEnded).
 ]
+
+{ #category : 'tests' }
+GameTest >> test049WhenAPlayerThrowAOverloadCardWhenIsNotItsTurnThenItCannotBePossible [
+
+| aGame aCollectionOfDice  aCollectionOfSquares |
+aCollectionOfDice:= OrderedCollection new.
+aCollectionOfDice add: (FixedDie withFixedResults: #(10)).
+
+aCollectionOfSquares := OrderedCollection new.
+10 timesRepeat: [aCollectionOfSquares add: NoEffectSquare new].
+aGame := RacingTheSpace throwing: aCollectionOfDice playingOn: aCollectionOfSquares usingSpaceShips: 3 withLaps: 1.
+
+aGame playTurn . "con playTurn como que termina el turno, si quiere tirar una carta debe hacerlo antes"
+
+self should: [ aGame throw: (OverloadCard new) to: 1 by: 3 ] raise: Error withExceptionDo: [ :arg | self assert: arg messageText equals: 'You cannot throw an overload card when is not your turn' ]
+
+
+]
+
+{ #category : 'tests' }
+GameTest >> test050WhenAPlayerThrowAOverloadCardToAnInexistantPlayerThenItCannotBePossible [
+
+| aGame aCollectionOfDice  aCollectionOfSquares |
+aCollectionOfDice:= OrderedCollection new.
+aCollectionOfDice add: (FixedDie withFixedResults: #(10)).
+
+aCollectionOfSquares := OrderedCollection new.
+10 timesRepeat: [aCollectionOfSquares add: NoEffectSquare new].
+aGame := RacingTheSpace throwing: aCollectionOfDice playingOn: aCollectionOfSquares usingSpaceShips: 3 withLaps: 1.
+
+aGame playTurn . "con playTurn como que termina el turno, si quiere tirar una carta debe hacerlo antes"
+
+self should: [ aGame throw: (OverloadCard new) to: 10 by: 3 ] raise: Error withExceptionDo: [ :arg | self assert: arg messageText equals: 'You cannot throw an overload to an inexistant player' ]
+
+
+]
+
+{ #category : 'tests' }
+GameTest >> test051WhenAPlayerThrowAOverloadCardToAPlayerThenItNextThrowingDiceTheOtherPlayerReducesByTwo [
+
+| aGame aCollectionOfDice  aCollectionOfSquares aPosition |
+aCollectionOfDice:= OrderedCollection new.
+aCollectionOfDice add: (FixedDie withFixedResults: #(10)).
+
+aCollectionOfSquares := OrderedCollection new.
+10 timesRepeat: [aCollectionOfSquares add: NoEffectSquare new].
+aGame := RacingTheSpace throwing: aCollectionOfDice playingOn: aCollectionOfSquares usingSpaceShips: 3 withLaps: 1.
+
+aGame playTurn . "con playTurn como que termina el turno, si quiere tirar una carta debe hacerlo antes"
+aGame throw: (OverloadCard new) to: 3 by: 2.
+aGame playTurn .
+aGame playTurn.
+
+aPosition := Position withNumberOfSquare: 8 andLaps:0. 
+
+self assert: (aGame positionOf: 3) = aPosition.
+
+
+
+
+]
+
+{ #category : 'tests' }
+GameTest >> test052WhenAPlayerThrowAOverloadCardToAPlayerThenItNextTheEffectKeepsOnOtherRounds [
+
+| aGame aCollectionOfDice  aCollectionOfSquares aPosition |
+aCollectionOfDice:= OrderedCollection new.
+aCollectionOfDice add: (FixedDie withFixedResults: #(10)).
+
+aCollectionOfSquares := OrderedCollection new.
+10 timesRepeat: [aCollectionOfSquares add: NoEffectSquare new].
+aGame := RacingTheSpace throwing: aCollectionOfDice playingOn: aCollectionOfSquares usingSpaceShips: 3 withLaps: 1.
+
+aGame playTurn . "con playTurn como que termina el turno, si quiere tirar una carta debe hacerlo antes"
+aGame throw: (OverloadCard new) to: 3 by: 2.
+aGame playTurn .
+aGame playTurn.
+
+aPosition := Position withNumberOfSquare: 8 andLaps:0. 
+
+self assert: (aGame positionOf: 3) = aPosition.
+
+
+
+
+]

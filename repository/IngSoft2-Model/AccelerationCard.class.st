@@ -1,6 +1,9 @@
 Class {
 	#name : 'AccelerationCard',
-	#superclass : 'Object',
+	#superclass : 'PermanentCard',
+	#instVars : [
+		'targetSpaceship'
+	],
 	#category : 'IngSoft2-Model',
 	#package : 'IngSoft2-Model'
 }
@@ -10,7 +13,14 @@ AccelerationCard >> = aCard [
 	^ self class = aCard class
 ]
 
-{ #category : 'as yet unclassified' }
-AccelerationCard >> triggerEffectTo: aDefendingSpaceShip by: anAttackingSpaceship andSpaceships: aCollectionOfSpaceships andLastEffect: aLastEffect [
-    aCollectionOfSpaceships do: [ :spaceship | spaceship modifyThrowingBy: 1 ].
+{ #category : 'operations' }
+AccelerationCard >> applyTo: aTarget [
+
+]
+
+{ #category : 'operations' }
+AccelerationCard >> modifierFor: aSpaceship [
+
+    ^ 1
+
 ]

@@ -6,7 +6,8 @@ Class {
 		'dices',
 		'spaceships',
 		'currentShift',
-		'lastEffect'
+		'lastEffect',
+		'permanentCards'
 	],
 	#category : 'IngSoft2-Model',
 	#package : 'IngSoft2-Model'
@@ -15,6 +16,11 @@ Class {
 { #category : 'as yet unclassified' }
 OngoingGame class >> withDices: someDices andBoard: aBoard andSpaceships: spaceShips [
 	^self new initializeWithDices: someDices andBoard: aBoard andSpaceships: spaceShips.
+]
+
+{ #category : 'adding' }
+OngoingGame >> addActivePermanentCard: aCard [
+	permanentCards add: aCard.
 ]
 
 { #category : 'actions' }
@@ -40,6 +46,7 @@ OngoingGame >> initializeWithDices: someDices andBoard: aBoard andSpaceships: sp
 	spaceships := spaceShips.
 	currentShift := 1.
 	lastEffect := nil.
+	permanentCards := OrderedCollection new.
 ]
 
 { #category : 'testing' }
@@ -58,18 +65,24 @@ OngoingGame >> numberOfWinner [
 	
 ]
 
+{ #category : 'as yet unclassified' }
+OngoingGame >> permanentCardsModifierFor: aSpaceship [
+    ^ permanentCards sum: [ :card | card modifierFor: aSpaceship ]
+]
+
 { #category : 'initialization' }
 OngoingGame >> playTurn: aGame [
-	| result currentPlayer |
-	
-	
-	currentPlayer := spaceships at: currentShift.
-	result := self throwDices.
-	currentPlayer moveForward: result.
-	currentPlayer wrapIfNeeded: (board boardSize).
-	currentPlayer applyEffectsFromPermanentCards .
-	self setIfGameEnded: currentPlayer andGame: aGame .
-
+    | diceResult currentPlayer totalResult |
+    
+    currentPlayer := spaceships at: currentShift.
+    
+    diceResult := self throwDices.
+    totalResult := diceResult + (self permanentCardsModifierFor: currentPlayer).
+    
+    currentPlayer moveForward: totalResult.
+    currentPlayer wrapIfNeeded: board boardSize.
+    
+    self setIfGameEnded: currentPlayer andGame: aGame.
 	
 ]
 
@@ -82,16 +95,18 @@ OngoingGame >> setIfGameEnded: currentPlayer andGame: aGame [
 ]
 
 { #category : 'as yet unclassified' }
-OngoingGame >> throw: aCard to: aDefendingPlayer by: anAttackingPlayer [
+OngoingGame >> throw: aCard to: aTargetSpaceship by: anAttackingSpaceship [
    | internalDefender |
-    ((spaceships at: currentShift) = anAttackingPlayer) 
+    ((spaceships at: currentShift) = anAttackingSpaceship) 
         ifFalse: [ self error: 'You cannot throw a card when is not your turn' ].
     internalDefender := spaceships 
-        detect: [ :spaceship | spaceship = aDefendingPlayer ]
+        detect: [ :spaceship | spaceship = aTargetSpaceship ]
         ifNone: [ self error: 'You cannot throw a card to an inexistant player' ].
-    (anAttackingPlayer hasCard: aCard) 
+    (anAttackingSpaceship hasCard: aCard) 
         ifFalse: [ self error: 'You cannot throw a card you dont have' ].
-    aCard triggerEffectTo: internalDefender by: anAttackingPlayer andSpaceships: spaceships andLastEffect: lastEffect.
+	aCard beThrownTo: aTargetSpaceship by: anAttackingSpaceship in: self.
+    "aCard triggerEffectTo: internalDefender by: anAttackingSpaceship andSpaceships: spaceships andLastEffect: lastEffect."
+	
 ]
 
 { #category : 'actions' }

@@ -27,13 +27,6 @@ Spaceship >> = anotherSpaceship [
 	^ anotherSpaceship name = name.
 ]
 
-{ #category : 'as yet unclassified' }
-Spaceship >> applyEffectsFromPermanentCards [
-	| total |
-    total := effectsFromPermanentsCards inject: 0 into: [:acc :each | acc + each].
-    position incrementNumberOfSquaresBy: total.
-]
-
 { #category : 'testing' }
 Spaceship >> hasCard: aCard [
 ^ cards anySatisfy: [ :card | card = aCard ]

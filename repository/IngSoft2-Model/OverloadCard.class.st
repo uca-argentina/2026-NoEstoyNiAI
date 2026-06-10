@@ -1,6 +1,9 @@
 Class {
 	#name : 'OverloadCard',
-	#superclass : 'Object',
+	#superclass : 'PermanentCard',
+	#instVars : [
+		'targetSpaceship'
+	],
 	#category : 'IngSoft2-Model',
 	#package : 'IngSoft2-Model'
 }
@@ -11,6 +14,19 @@ OverloadCard >> = aCard [
 ]
 
 { #category : 'as yet unclassified' }
-OverloadCard >> triggerEffectTo: aDefendingSpaceShip by: anAttackingSpaceship andSpaceships: aCollectionOfSpaceships andLastEffect: aLastEffect [
-    aDefendingSpaceShip modifyThrowingBy: -2.
+OverloadCard >> applyTo: aSpaceship [
+	targetSpaceship ifNotNil: [ self error: 'This card is already applied' ].
+   targetSpaceship := aSpaceship.
+]
+
+{ #category : 'initialization' }
+OverloadCard >> initialize [ 
+	targetSpaceship := nil.
+]
+
+{ #category : 'operations' }
+OverloadCard >> modifierFor: aSpaceship [
+    targetSpaceship = aSpaceship
+        ifTrue: [ ^ -2 ].
+    ^ 0
 ]

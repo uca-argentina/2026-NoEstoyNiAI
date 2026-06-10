@@ -1,0 +1,13 @@
+Class {
+	#name : 'PermanentCard',
+	#superclass : 'Object',
+	#category : 'IngSoft2-Model',
+	#package : 'IngSoft2-Model'
+}
+
+{ #category : 'as yet unclassified' }
+PermanentCard >> beThrownTo: aTargetSpaceship by: anAttackingSpaceship in: aGame [
+
+    self applyTo: aTargetSpaceship.
+    aGame addActivePermanentCard: self.
+]

@@ -8,11 +8,6 @@ Class {
 	#package : 'IngSoft2-Model'
 }
 
-{ #category : 'comparing' }
-AccelerationCard >> = aCard [
-	^ self class = aCard class
-]
-
 { #category : 'operations' }
 AccelerationCard >> applyTo: aTarget [
 

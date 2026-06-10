@@ -11,3 +11,13 @@ PermanentCard >> beThrownTo: aTargetSpaceship by: anAttackingSpaceship in: aGame
     self applyTo: aTargetSpaceship.
     aGame addActivePermanentCard: self.
 ]
+
+{ #category : 'testing' }
+PermanentCard >> canBeThrownBy: aSpaceship in: aGame [
+	 ^aGame isCurrentTurnOf: aSpaceship.
+]
+
+{ #category : 'testing' }
+PermanentCard >> validTarget: aTarget in: aGame [
+    ^aGame isSpaceshipInGame: aTarget.
+]

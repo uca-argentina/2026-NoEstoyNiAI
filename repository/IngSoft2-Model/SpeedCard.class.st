@@ -8,11 +8,6 @@ Class {
 	#package : 'IngSoft2-Model'
 }
 
-{ #category : 'comparing' }
-SpeedCard >> = aCard [
-	^ self class = aCard class
-]
-
 { #category : 'operations' }
 SpeedCard >> applyTo: aSpaceship [
 	targetSpaceship ifNotNil: [ self error: 'This card is already applied' ].

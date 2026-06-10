@@ -50,8 +50,23 @@ OngoingGame >> initializeWithDices: someDices andBoard: aBoard andSpaceships: sp
 ]
 
 { #category : 'testing' }
+OngoingGame >> isCurrentTurnOf: aSpaceship [
+	^(spaceships at: currentShift) = aSpaceship
+]
+
+{ #category : 'testing' }
 OngoingGame >> isEnded [
 	^ false.
+]
+
+{ #category : 'as yet unclassified' }
+OngoingGame >> isPermanentCardInGame: aCard [
+	^permanentCards anySatisfy: [ :card| card == aCard ]
+]
+
+{ #category : 'accessing' }
+OngoingGame >> isSpaceshipInGame: aSpaceship [
+	^spaceships anySatisfy: [ :spaceship | spaceship = aSpaceship ]
 ]
 
 { #category : 'accessing' }
@@ -86,6 +101,11 @@ OngoingGame >> playTurn: aGame [
 	
 ]
 
+{ #category : 'adding' }
+OngoingGame >> removeActivePermanentCard: aCard [
+	permanentCards remove: aCard.
+]
+
 { #category : 'initialization' }
 OngoingGame >> setIfGameEnded: currentPlayer andGame: aGame [
  (currentPlayer laps >= board laps or:(currentPlayer numberOfSquares = board boardSize and: currentPlayer laps = (board laps - 1))) 
@@ -95,16 +115,14 @@ OngoingGame >> setIfGameEnded: currentPlayer andGame: aGame [
 ]
 
 { #category : 'as yet unclassified' }
-OngoingGame >> throw: aCard to: aTargetSpaceship by: anAttackingSpaceship [
-   | internalDefender |
-    ((spaceships at: currentShift) = anAttackingSpaceship) 
-        ifFalse: [ self error: 'You cannot throw a card when is not your turn' ].
-    internalDefender := spaceships 
-        detect: [ :spaceship | spaceship = aTargetSpaceship ]
-        ifNone: [ self error: 'You cannot throw a card to an inexistant player' ].
+OngoingGame >> throw: aCard to: aTarget by: anAttackingSpaceship [
+ 
+    (aCard canBeThrownBy: anAttackingSpaceship in: self) ifFalse:  [ self error: 'You cannot throw a card when is not your turn' ].
+    (aCard validTarget: aTarget in: self) ifFalse: [self error: 'You cannot throw a card to an inexistent target' ].
     (anAttackingSpaceship hasCard: aCard) 
         ifFalse: [ self error: 'You cannot throw a card you dont have' ].
-	aCard beThrownTo: aTargetSpaceship by: anAttackingSpaceship in: self.
+	anAttackingSpaceship removeCard: aCard.
+	aCard beThrownTo: aTarget by: anAttackingSpaceship in: self.
     "aCard triggerEffectTo: internalDefender by: anAttackingSpaceship andSpaceships: spaceships andLastEffect: lastEffect."
 	
 ]

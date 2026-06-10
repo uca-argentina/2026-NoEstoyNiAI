@@ -13,7 +13,7 @@ Class {
 
 { #category : 'as yet unclassified' }
 Spaceship class >> withName: aName andCards: someCards [ 
-	^ self new initializeWithName: aName andPosition: (Position withNumberOfSquare: 0 andLaps: 0) andCards: someCards.
+	^ self new initializeWithName: aName andPosition: (Position withNumberOfSquare: 0 andLaps: 0) andCards: someCards copy.
 	
 ]
 
@@ -29,7 +29,7 @@ Spaceship >> = anotherSpaceship [
 
 { #category : 'testing' }
 Spaceship >> hasCard: aCard [
-^ cards anySatisfy: [ :card | card = aCard ]
+	^ cards anySatisfy: [ :card | card == aCard ]
 ]
 
 { #category : 'initialization' }
@@ -37,7 +37,6 @@ Spaceship >> initializeWithName: aName andPosition: aPosition andCards: someCard
 	name := aName .
 	position := aPosition .
 	cards := someCards .
-	effectsFromPermanentsCards := OrderedCollection new.
 ]
 
 { #category : 'testing' }
@@ -78,6 +77,11 @@ Spaceship >> numberOfSquares [
 { #category : 'accessing' }
 Spaceship >> position [
 	^ position position.
+]
+
+{ #category : 'testing' }
+Spaceship >> removeCard: aCard [
+	cards remove: aCard.
 ]
 
 { #category : 'initialization' }

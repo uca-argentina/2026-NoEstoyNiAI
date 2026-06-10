@@ -8,11 +8,6 @@ Class {
 	#package : 'IngSoft2-Model'
 }
 
-{ #category : 'comparing' }
-OverloadCard >> = aCard [
-	^ self class = aCard class
-]
-
 { #category : 'as yet unclassified' }
 OverloadCard >> applyTo: aSpaceship [
 	targetSpaceship ifNotNil: [ self error: 'This card is already applied' ].

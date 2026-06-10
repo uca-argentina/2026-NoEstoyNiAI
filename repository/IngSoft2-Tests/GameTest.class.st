@@ -828,14 +828,15 @@ self deny: (aGame isEnded).
 { #category : 'tests' }
 GameTest >> test049WhenAPSpaceshipTriesThrowACardWhenIsNotItsTurnThenItCannotBePossible [
 
-| aGame aCollectionOfDice  aCollectionOfSquares cards aCollectionOfSpaceships vitoSpaceship solSpaceship valenSpaceship |
+| aGame aCollectionOfDice  aCollectionOfSquares cards aCollectionOfSpaceships vitoSpaceship solSpaceship valenSpaceship aCard |
 aCollectionOfDice:= OrderedCollection new.
 aCollectionOfDice add: (FixedDie withFixedResults: #(10)).
 
 aCollectionOfSquares := OrderedCollection new.
-cards := OrderedCollection new.
-cards add: OverloadCard new.
-cards add: OverloadCard new.
+
+aCard := OverloadCard new.
+cards := {aCard . aCard}asOrderedCollection.
+
 
 vitoSpaceship := Spaceship withName: 'vito' andCards: cards.
 solSpaceship := Spaceship withName: 'sol' andCards: cards.
@@ -848,22 +849,21 @@ aGame := RacingTheSpace throwing: aCollectionOfDice playingOn: aCollectionOfSqua
 
 aGame playTurn. 
 
-self should: [ aGame throw: OverloadCard to: vitoSpaceship by: valenSpaceship ] raise: Error withExceptionDo: [ :arg | self assert: arg messageText equals: 'You cannot throw a card when is not your turn' ]
+self should: [ aGame throw: aCard to: vitoSpaceship by: valenSpaceship ] raise: Error withExceptionDo: [ :arg | self assert: arg messageText equals: 'You cannot throw a card when is not your turn' ]
 
 
 ]
 
 { #category : 'tests' }
-GameTest >> test050WhenASpaceshipTriesToThrowACardToAnInexistantPlayerThenItCannotBePossible [
+GameTest >> test050WhenASpaceshipTriesToThrowACardToAnInexistentPlayerThenItCannotBePossible [
 
-| aGame aCollectionOfDice  aCollectionOfSquares cards aCollectionOfSpaceships vitoSpaceship  |
+| aGame aCollectionOfDice  aCollectionOfSquares cards aCollectionOfSpaceships vitoSpaceship  aCard |
 aCollectionOfDice:= OrderedCollection new.
 aCollectionOfDice add: (FixedDie withFixedResults: #(10)).
 
 aCollectionOfSquares := OrderedCollection new.
-cards := OrderedCollection new.
-cards add: OverloadCard new.
-cards add: OverloadCard new.
+aCard := OverloadCard new.
+cards := {aCard . aCard}asOrderedCollection.
 
 vitoSpaceship := Spaceship withName: 'vito' andCards: cards.
 
@@ -874,7 +874,7 @@ aCollectionOfSpaceships := { vitoSpaceship  } asOrderedCollection .
 aGame := RacingTheSpace throwing: aCollectionOfDice playingOn: aCollectionOfSquares by: aCollectionOfSpaceships  withLaps: 1.
 
 
-self should: [ aGame throw: OverloadCard to: (Spaceship withName: 'valen' andCards: cards) by: vitoSpaceship ] raise: Error withExceptionDo: [ :arg | self assert: arg messageText equals: 'You cannot throw a card to an inexistant player' ]
+self should: [ aGame throw: aCard to: (Spaceship withName: 'valen' andCards: cards) by: vitoSpaceship ] raise: Error withExceptionDo: [ :arg | self assert: arg messageText equals: 'You cannot throw a card to an inexistent target' ]
 
 
 
@@ -883,11 +883,14 @@ self should: [ aGame throw: OverloadCard to: (Spaceship withName: 'valen' andCar
 { #category : 'tests' }
 GameTest >> test051WhenASpaceshipTriesToThrowACardThatIsNotInHisHandThenItCannotThrowIt [
 
-| aGame aCollectionOfDice  aCollectionOfSquares cards aCollectionOfSpaceships vitoSpaceship  solSpaceship |
+| aGame aCollectionOfDice  aCollectionOfSquares cards aCollectionOfSpaceships vitoSpaceship  solSpaceship aCard |
 aCollectionOfDice:= OrderedCollection new.
 aCollectionOfDice add: (FixedDie withFixedResults: #(10)).
 
 aCollectionOfSquares := OrderedCollection new.
+aCard := OverloadCard new.
+
+
 cards := OrderedCollection new.
 cards add: SpeedCard new.
 
@@ -901,7 +904,7 @@ aCollectionOfSpaceships := { vitoSpaceship . solSpaceship } asOrderedCollection 
 
 aGame := RacingTheSpace throwing: aCollectionOfDice playingOn: aCollectionOfSquares by: aCollectionOfSpaceships  withLaps: 1.
 
-self should: [ aGame throw: (OverloadCard new) to: solSpaceship by: vitoSpaceship ] raise: Error withExceptionDo: [ :arg | self assert: arg messageText equals: 'You cannot throw a card you dont have' ]
+self should: [ aGame throw: aCard to: solSpaceship by: vitoSpaceship ] raise: Error withExceptionDo: [ :arg | self assert: arg messageText equals: 'You cannot throw a card you dont have' ]
 
 
 
@@ -935,14 +938,13 @@ self should: [RacingTheSpace throwing: aCollectionOfDice playingOn: aCollectionO
 { #category : 'tests' }
 GameTest >> test053WhenASpaceShipsTriesToThrowACardAtAnEndedGameThenItCannotBePosible [
 
-| aGame aCollectionOfDice  aCollectionOfSquares cards aCollectionOfSpaceships vitoSpaceship  solSpaceship |
+| aGame aCollectionOfDice  aCollectionOfSquares cards aCollectionOfSpaceships vitoSpaceship  solSpaceship aCard |
 aCollectionOfDice:= OrderedCollection new.
 aCollectionOfDice add: (FixedDie withFixedResults: #(10)).
 
 aCollectionOfSquares := OrderedCollection new.
-cards := OrderedCollection new.
-cards add: SpeedCard new.
-
+aCard := OverloadCard new.
+cards := {aCard . aCard}asOrderedCollection.
 
 vitoSpaceship := Spaceship withName: 'vito' andCards: cards.
 solSpaceship := Spaceship withName: 'sol' andCards: cards.
@@ -955,7 +957,7 @@ aGame := RacingTheSpace throwing: aCollectionOfDice playingOn: aCollectionOfSqua
 
 aGame playTurn .
 
-self should: [ aGame throw: (SpeedCard ) to: solSpaceship by: vitoSpaceship ] raise: Error withExceptionDo: [ :arg | self assert: arg messageText equals: 'You cannot throw a card when the game is ended' ]
+self should: [ aGame throw: aCard to: solSpaceship by: vitoSpaceship ] raise: Error withExceptionDo: [ :arg | self assert: arg messageText equals: 'You cannot throw a card when the game is ended' ]
 
 
 
@@ -967,14 +969,14 @@ self should: [ aGame throw: (SpeedCard ) to: solSpaceship by: vitoSpaceship ] ra
 { #category : 'tests' }
 GameTest >> test054WhenAnOverloadCardIsThrownToAPlayerThenThatPlayersNextDiceThrowIsReducedByTwo [
 
-| aGame aCollectionOfDice  aCollectionOfSquares cards aCollectionOfSpaceships vitoSpaceship solSpaceship valenSpaceship aPosition |
+| aGame aCollectionOfDice  aCollectionOfSquares cards aCollectionOfSpaceships vitoSpaceship solSpaceship valenSpaceship aPosition aCard |
 aCollectionOfDice:= OrderedCollection new.
 aCollectionOfDice add: (FixedDie withFixedResults: #(10)).
 
 aCollectionOfSquares := OrderedCollection new.
-cards := OrderedCollection new.
-cards add: OverloadCard new.
-cards add: OverloadCard new.
+aCard := OverloadCard new.
+cards := {aCard . aCard}asOrderedCollection.
+
 
 vitoSpaceship := Spaceship withName: 'vito' andCards: cards.
 solSpaceship := Spaceship withName: 'sol' andCards: cards.
@@ -986,7 +988,7 @@ aCollectionOfSpaceships := { vitoSpaceship . solSpaceship . valenSpaceship } asO
 aGame := RacingTheSpace throwing: aCollectionOfDice playingOn: aCollectionOfSquares by: aCollectionOfSpaceships  withLaps: 1.
 
 aGame playTurn .
-aGame throw: (OverloadCard new) to: valenSpaceship by: solSpaceship .
+aGame throw: aCard to: valenSpaceship by: solSpaceship .
 aGame playTurn .
 aGame playTurn.
 
@@ -1002,14 +1004,14 @@ self assert: (aGame positionOf: 'valen') = aPosition.
 { #category : 'tests' }
 GameTest >> test055WhenASpaceshipThrowsAnOverloadCardToAPlayerThenTheEffectKeepsOnOtherRounds [
 
-| aGame aCollectionOfDice  aCollectionOfSquares cards aCollectionOfSpaceships vitoSpaceship solSpaceship valenSpaceship aPosition |
+| aGame aCollectionOfDice  aCollectionOfSquares cards aCollectionOfSpaceships vitoSpaceship solSpaceship valenSpaceship aPosition aCard |
 aCollectionOfDice:= OrderedCollection new.
 aCollectionOfDice add: (FixedDie withFixedResults: #(10)).
 
 aCollectionOfSquares := OrderedCollection new.
-cards := OrderedCollection new.
-cards add: OverloadCard new.
-cards add: OverloadCard new.
+aCard := OverloadCard new.
+cards := {aCard . aCard}asOrderedCollection.
+
 
 vitoSpaceship := Spaceship withName: 'vito' andCards: cards.
 solSpaceship := Spaceship withName: 'sol' andCards: cards.
@@ -1021,7 +1023,7 @@ aCollectionOfSpaceships := { vitoSpaceship . solSpaceship . valenSpaceship } asO
 aGame := RacingTheSpace throwing: aCollectionOfDice playingOn: aCollectionOfSquares by: aCollectionOfSpaceships  withLaps: 1.
 
 aGame playTurn .
-aGame throw: (OverloadCard new) to: valenSpaceship by: solSpaceship .
+aGame throw: aCard to: valenSpaceship by: solSpaceship .
 5 timesRepeat: [aGame playTurn].
 
 aPosition := Position withNumberOfSquare: (20 - 2 -2) andLaps:0. 
@@ -1068,13 +1070,14 @@ GameTest >> test056NOWhenASpaceshipRemovesAnOverloadCardThenItNextTheEffectDoesN
 { #category : 'tests' }
 GameTest >> test057WhenASpeedCardIsThrownToAPlayerThenThatPlayersNextsDiceThrowsIncreaseByOne [
 
-	| aCollectionOfDice aCollectionOfSquares cards vitoSpaceship solSpaceship valenSpaceship aCollectionOfSpaceships aGame aPosition |
+	| aCollectionOfDice aCollectionOfSquares cards vitoSpaceship solSpaceship valenSpaceship aCollectionOfSpaceships aGame aPosition aCard |
 	aCollectionOfDice:= OrderedCollection new.
 	aCollectionOfDice add: (FixedDie withFixedResults: #(10)).
 	aCollectionOfSquares:= OrderedCollection new.
 	
-	cards:= OrderedCollection new.
-	cards add: SpeedCard new.
+	aCard := SpeedCard new.
+	cards := {aCard . aCard}asOrderedCollection.
+
 	
 	vitoSpaceship := Spaceship withName: 'vito' andCards: cards.
    solSpaceship := Spaceship withName: 'sol' andCards: cards.
@@ -1086,7 +1089,7 @@ GameTest >> test057WhenASpeedCardIsThrownToAPlayerThenThatPlayersNextsDiceThrows
 	aGame := RacingTheSpace throwing: aCollectionOfDice playingOn: aCollectionOfSquares by: aCollectionOfSpaceships withLaps: 1.
 	
 	aGame playTurn.
-	aGame throw: SpeedCard new to: valenSpaceship by: solSpaceship.
+	aGame throw: aCard to: valenSpaceship by: solSpaceship.
 	6 timesRepeat: [aGame playTurn].
 	
 	aPosition:= Position withNumberOfSquare: 22 andLaps: 0.
@@ -1121,4 +1124,120 @@ GameTest >> test058WhenAnAccelerationCardIsThrownThenAllSpaceshipsIncreaseTheirN
 	self assert: (aGame positionOf: 'vito') = aPosition.
 	self assert: (aGame positionOf: 'sol') = aPosition.
 	self assert: (aGame positionOf: 'valen') = aPosition
+]
+
+{ #category : 'tests' }
+GameTest >> test059WhenASpaceshipThrowsACardThenTheCardIsRemovedFromItsHand [
+    | aGame aCollectionOfDice  aCollectionOfSquares cards aCollectionOfSpaceships vitoSpaceship solSpaceship valenSpaceship  aCard |
+    
+	aCollectionOfDice:= OrderedCollection new.
+	aCollectionOfDice add: (FixedDie withFixedResults: #(10)).
+	
+	cards := OrderedCollection new.
+	aCard:=  OverloadCard new.
+	cards add: aCard.
+
+	vitoSpaceship := Spaceship withName: 'vito' andCards: cards.
+	solSpaceship := Spaceship withName: 'sol' andCards: cards.
+	valenSpaceship := Spaceship withName: 'valen' andCards: cards.
+	aCollectionOfSpaceships := { vitoSpaceship . solSpaceship . valenSpaceship } asOrderedCollection .
+	
+	aCollectionOfSquares := OrderedCollection new.
+	11 timesRepeat: [aCollectionOfSquares add: NoEffectSquare new].
+
+	aGame := RacingTheSpace throwing: aCollectionOfDice playingOn: aCollectionOfSquares by: aCollectionOfSpaceships  withLaps: 1.
+
+	aGame throw: aCard to: valenSpaceship by: vitoSpaceship .
+	self deny: (vitoSpaceship hasCard: aCard).
+
+
+
+    
+    
+]
+
+{ #category : 'tests' }
+GameTest >> test060WhenASpaceshipThrowsAnInstantCardOutsideItsTurnThenItCanBeThrown [
+    | aGame aCollectionOfDice speedCard vitoSpaceship solSpaceship valenSpaceship 
+      aCollectionOfSpaceships aCollectionOfSquares cancellationCard vitosCards valensCards |
+
+    aCollectionOfDice := OrderedCollection new.
+    aCollectionOfDice add: (FixedDie withFixedResults: #(10)).
+    
+    speedCard := SpeedCard new.
+    cancellationCard := CancellationCard new.
+    
+    vitosCards := { speedCard } asOrderedCollection.
+    valensCards := { cancellationCard } asOrderedCollection.
+
+    vitoSpaceship := Spaceship withName: 'vito' andCards: vitosCards.
+    solSpaceship := Spaceship withName: 'sol' andCards: OrderedCollection new.
+    valenSpaceship := Spaceship withName: 'valen' andCards: valensCards.
+    
+    aCollectionOfSpaceships := { vitoSpaceship. solSpaceship. valenSpaceship } asOrderedCollection.
+    
+    aCollectionOfSquares := OrderedCollection new.
+    11 timesRepeat: [ aCollectionOfSquares add: NoEffectSquare new ].
+
+    aGame := RacingTheSpace
+        throwing: aCollectionOfDice
+        playingOn: aCollectionOfSquares
+        by: aCollectionOfSpaceships
+        withLaps: 1.
+
+    aGame throw: speedCard to: valenSpaceship by: vitoSpaceship.
+    
+    self
+        shouldnt: [ aGame throw: cancellationCard to: speedCard by: valenSpaceship ]
+        raise: Error.
+]
+
+{ #category : 'tests' }
+GameTest >> test061WhenACancellationCardRemovesASpecificCardThenTheCardsEffectIsNotAppliedAnymore [
+
+    | aGame aCollectionOfDice speedCard cancellationCard 
+      vitoSpaceship solSpaceship valenSpaceship 
+      aCollectionOfSpaceships aCollectionOfSquares 
+      vitosCards solCards valensCards valenPositionAfterSpeed valenPositionAfterCancellation |
+
+    aCollectionOfDice := OrderedCollection new.
+    aCollectionOfDice add: (FixedDie withFixedResults: #(10)).
+
+    speedCard := SpeedCard new.
+    cancellationCard := CancellationCard new.
+
+    vitosCards := { speedCard } asOrderedCollection.
+    solCards := { cancellationCard } asOrderedCollection.
+    valensCards := OrderedCollection new.
+
+    vitoSpaceship := Spaceship withName: 'vito' andCards: vitosCards.
+    solSpaceship := Spaceship withName: 'sol' andCards: solCards.
+    valenSpaceship := Spaceship withName: 'valen' andCards: valensCards.
+
+    aCollectionOfSpaceships := { vitoSpaceship. solSpaceship. valenSpaceship } asOrderedCollection.
+
+    aCollectionOfSquares := OrderedCollection new.
+    40 timesRepeat: [ aCollectionOfSquares add: NoEffectSquare new ].
+
+    aGame := RacingTheSpace
+        throwing: aCollectionOfDice
+        playingOn: aCollectionOfSquares
+        by: aCollectionOfSpaceships
+        withLaps: 2.
+
+    aGame throw: speedCard to: valenSpaceship by: vitoSpaceship.
+
+    3 timesRepeat: [aGame playTurn]. 
+   
+    valenPositionAfterSpeed := Position withNumberOfSquare: 11 andLaps: 0.
+
+    self assert: (aGame positionOf: 'valen') = valenPositionAfterSpeed .
+
+    aGame throw: cancellationCard to: speedCard by: solSpaceship.
+
+    3 timesRepeat: [aGame playTurn]. 
+
+    valenPositionAfterCancellation := Position withNumberOfSquare: 21 andLaps: 0.
+
+    self assert: (aGame positionOf: 'valen') = valenPositionAfterCancellation.
 ]

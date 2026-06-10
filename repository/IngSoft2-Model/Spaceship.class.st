@@ -49,11 +49,6 @@ Spaceship >> laps [
 	^ position lap.
 ]
 
-{ #category : 'as yet unclassified' }
-Spaceship >> modifyThrowingBy: aNumber [
-	effectsFromPermanentsCards add: aNumber .
-]
-
 { #category : 'actions' }
 Spaceship >> moveBackwards: aNumberOfSquares [ 
 	position decrementNumberOfSquaresBy: aNumberOfSquares

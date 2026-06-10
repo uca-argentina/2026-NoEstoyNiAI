@@ -165,12 +165,6 @@ RacingTheSpace >> sortSpaceshipsByPosition [
 ]
 
 { #category : 'accessing' }
-RacingTheSpace >> spaceships [
-
-	^ spaceships
-]
-
-{ #category : 'accessing' }
 RacingTheSpace >> spaceships: anObject [
 
 	^ spaceships := anObject

@@ -15,8 +15,3 @@ InstantCard >> beThrownTo: aTarget by: anAttackingSpaceship in: aGame [
 InstantCard >> canBeThrownBy: aSpaceship in: aGame [
 	 ^true.
 ]
-
-{ #category : 'testing' }
-InstantCard >> validTarget: aTarget in: aGame [
-    ^aGame isPermanentCardInGame: aTarget.
-]

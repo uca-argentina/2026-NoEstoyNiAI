@@ -5,7 +5,12 @@ Class {
 	#package : 'IngSoft2-Model'
 }
 
-{ #category : 'comparing' }
-RepeatCard >> = aCard [
-	^ self class = aCard class
+{ #category : 'testing' }
+RepeatCard >> applyEffectTo: aSpaceship by: anAttackingSpaceship in: aGame [
+    
+]
+
+{ #category : 'testing' }
+RepeatCard >> validTarget: aTarget in: aGame [
+    ^aGame isSpaceshipInGame: aTarget.
 ]

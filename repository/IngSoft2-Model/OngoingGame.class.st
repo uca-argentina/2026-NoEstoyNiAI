@@ -123,8 +123,7 @@ OngoingGame >> throw: aCard to: aTarget by: anAttackingSpaceship [
         ifFalse: [ self error: 'You cannot throw a card you dont have' ].
 	anAttackingSpaceship removeCard: aCard.
 	aCard beThrownTo: aTarget by: anAttackingSpaceship in: self.
-    "aCard triggerEffectTo: internalDefender by: anAttackingSpaceship andSpaceships: spaceships andLastEffect: lastEffect."
-	
+    	
 ]
 
 { #category : 'actions' }

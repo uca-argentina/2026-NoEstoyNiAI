@@ -1241,3 +1241,42 @@ GameTest >> test061WhenACancellationCardRemovesASpecificCardThenTheCardsEffectIs
 
     self assert: (aGame positionOf: 'valen') = valenPositionAfterCancellation.
 ]
+
+{ #category : 'tests' }
+GameTest >> test062WhenASpaceshipThrowsARepeatCardAndNobodyRolledDicesThenItHasNoEffect [
+
+    | aGame aCollectionOfDice repeatCard
+      vitoSpaceship solSpaceship valenSpaceship
+      aCollectionOfSpaceships aCollectionOfSquares
+      vitosCards solCards valensCards expectedValenPosition |
+
+    aCollectionOfDice := OrderedCollection new.
+    aCollectionOfDice add: (FixedDie withFixedResults: #(10)).
+
+    repeatCard := RepeatCard new.
+
+    vitosCards := OrderedCollection new.
+    solCards := OrderedCollection new.
+    valensCards := { repeatCard } asOrderedCollection.
+
+    vitoSpaceship := Spaceship withName: 'vito' andCards: vitosCards.
+    solSpaceship := Spaceship withName: 'sol' andCards: solCards.
+    valenSpaceship := Spaceship withName: 'valen' andCards: valensCards.
+
+    aCollectionOfSpaceships := { vitoSpaceship. solSpaceship. valenSpaceship } asOrderedCollection.
+
+    aCollectionOfSquares := OrderedCollection new.
+    40 timesRepeat: [ aCollectionOfSquares add: NoEffectSquare new ].
+
+    aGame := RacingTheSpace
+        throwing: aCollectionOfDice
+        playingOn: aCollectionOfSquares
+        by: aCollectionOfSpaceships
+        withLaps: 2.
+
+    aGame throw: repeatCard to: valenSpaceship by: valenSpaceship.
+
+    expectedValenPosition := Position withNumberOfSquare: 0 andLaps: 0.
+
+    self assert: ((aGame positionOf: 'valen') = expectedValenPosition).
+]

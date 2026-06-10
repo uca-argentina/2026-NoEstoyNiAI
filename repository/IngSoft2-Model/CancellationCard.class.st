@@ -10,3 +10,8 @@ CancellationCard >> applyEffectTo: aPermanentCard by: anAttackingSpaceship in: a
 
     aGame removeActivePermanentCard: aPermanentCard.
 ]
+
+{ #category : 'testing' }
+CancellationCard >> validTarget: aTarget in: aGame [
+    ^aGame isPermanentCardInGame: aTarget.
+]

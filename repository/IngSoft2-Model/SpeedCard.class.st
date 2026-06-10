@@ -11,16 +11,6 @@ SpeedCard >> = aCard [
 ]
 
 { #category : 'as yet unclassified' }
-SpeedCard >> triggerEffectTo: aDefendingSpaceShip by: anAttackingWizard [
-	aDefendingSpaceShip modifyThrowingBy: 1.
-]
-
-{ #category : 'as yet unclassified' }
-SpeedCard >> triggerEffectTo: aDefendingSpaceShip by: anAttackingSpaceship andSpaceships: aCollectionOfSpaceships [
-    aDefendingSpaceShip modifyThrowingBy: 1.
-]
-
-{ #category : 'as yet unclassified' }
 SpeedCard >> triggerEffectTo: aDefendingSpaceShip by: anAttackingSpaceship andSpaceships: aCollectionOfSpaceships andLastEffect: aLastEffect [
     aDefendingSpaceShip modifyThrowingBy: 1.
 ]

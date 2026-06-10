@@ -83,13 +83,6 @@ OngoingGame >> setIfGameEnded: currentPlayer andGame: aGame [
 
 { #category : 'as yet unclassified' }
 OngoingGame >> throw: aCard to: aDefendingPlayer by: anAttackingPlayer [
-"
-	((spaceships at: currentShift) = anAttackingPlayer) ifFalse: [self error: 'You cannot throw a card when is not your turn'].
-	(spaceships anySatisfy: [:spaceship | spaceship = aDefendingPlayer]) ifFalse: [self error: 'You cannot throw a card to an inexistant player'].
-	(anAttackingPlayer hasCard: aCard) ifFalse: [ self error: 'You cannot throw a card you dont have' ].
-	
-	aCard triggerEffectTo: aDefendingPlayer by: anAttackingPlayer .
-"	
    | internalDefender |
     ((spaceships at: currentShift) = anAttackingPlayer) 
         ifFalse: [ self error: 'You cannot throw a card when is not your turn' ].

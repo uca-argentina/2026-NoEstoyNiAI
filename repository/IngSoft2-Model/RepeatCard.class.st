@@ -7,7 +7,7 @@ Class {
 
 { #category : 'testing' }
 RepeatCard >> applyEffectTo: aSpaceship by: anAttackingSpaceship in: aGame [
-    
+    aGame repeatLastEffectOn: aSpaceship.
 ]
 
 { #category : 'testing' }

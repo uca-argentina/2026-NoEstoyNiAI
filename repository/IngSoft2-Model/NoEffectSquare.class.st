@@ -11,8 +11,8 @@ NoEffectSquare class >> initialize [
 
 { #category : 'actions' }
 NoEffectSquare >> triggerEffect: spaceships and: theCurrentSpaceship [
-
 	theCurrentSpaceship moveForward: 0.
+	 ^ self.
 	
 
 ]

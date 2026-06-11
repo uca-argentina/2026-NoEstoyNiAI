@@ -1266,7 +1266,7 @@ GameTest >> test062WhenASpaceshipThrowsARepeatCardAndNobodyRolledDicesThenItHasN
     aCollectionOfSpaceships := { vitoSpaceship. solSpaceship. valenSpaceship } asOrderedCollection.
 
     aCollectionOfSquares := OrderedCollection new.
-    40 timesRepeat: [ aCollectionOfSquares add: NoEffectSquare new ].
+    11 timesRepeat: [ aCollectionOfSquares add: NoEffectSquare new ].
 
     aGame := RacingTheSpace
         throwing: aCollectionOfDice
@@ -1279,4 +1279,240 @@ GameTest >> test062WhenASpaceshipThrowsARepeatCardAndNobodyRolledDicesThenItHasN
     expectedValenPosition := Position withNumberOfSquare: 0 andLaps: 0.
 
     self assert: ((aGame positionOf: 'valen') = expectedValenPosition).
+]
+
+{ #category : 'tests' }
+GameTest >> test063WhenASpaceshipThrowsARepeatCardAndLastEffectWasSpeedupEffectThenTheTargetSpaceshipPositionIsAffected [
+    | aGame aCollectionOfDice repeatCard
+      vitoSpaceship solSpaceship valenSpaceship
+      aCollectionOfSpaceships aCollectionOfSquares
+      vitosCards solCards valensCards expectedValenPosition |
+
+    aCollectionOfDice := OrderedCollection new.
+    aCollectionOfDice add: (FixedDie withFixedResults: #(10)).
+
+    repeatCard := RepeatCard new.
+
+    vitosCards := OrderedCollection new.
+    solCards := OrderedCollection new.
+    valensCards := { repeatCard } asOrderedCollection.
+
+    vitoSpaceship := Spaceship withName: 'vito' andCards: vitosCards.
+    solSpaceship := Spaceship withName: 'sol' andCards: solCards.
+    valenSpaceship := Spaceship withName: 'valen' andCards: valensCards.
+
+    aCollectionOfSpaceships := { vitoSpaceship. solSpaceship. valenSpaceship } asOrderedCollection.
+
+    aCollectionOfSquares := OrderedCollection new.
+    9 timesRepeat: [ aCollectionOfSquares add: NoEffectSquare new ].
+	 aCollectionOfSquares add: SpeedUpSquare new.
+	 10 timesRepeat: [ aCollectionOfSquares add: NoEffectSquare new ].
+
+    aGame := RacingTheSpace
+        throwing: aCollectionOfDice
+        playingOn: aCollectionOfSquares
+        by: aCollectionOfSpaceships
+        withLaps: 2.
+	 
+	 aGame playTurn.
+    aGame throw: repeatCard to: valenSpaceship by: valenSpaceship.
+
+    expectedValenPosition := Position withNumberOfSquare: 4 andLaps: 0.
+
+    self assert: ((aGame positionOf: 'valen') = expectedValenPosition).
+]
+
+{ #category : 'tests' }
+GameTest >> test064WhenASpaceshipThrowsARepeatCardAndLastEffectWasWormHoleEffectThenTheTargetSpaceshipPositionIsAffected [
+    | aGame aCollectionOfDice repeatCard
+      vitoSpaceship solSpaceship valenSpaceship
+      aCollectionOfSpaceships aCollectionOfSquares
+      vitosCards solCards valensCards expectedVitoPosition |
+
+    aCollectionOfDice := OrderedCollection new.
+    aCollectionOfDice add: (FixedDie withFixedResults: #(10)).
+
+    repeatCard := RepeatCard new.
+
+    vitosCards := OrderedCollection new.
+    solCards := OrderedCollection new.
+    valensCards := { repeatCard } asOrderedCollection.
+
+    vitoSpaceship := Spaceship withName: 'vito' andCards: vitosCards.
+    solSpaceship := Spaceship withName: 'sol' andCards: solCards.
+    valenSpaceship := Spaceship withName: 'valen' andCards: valensCards.
+
+    aCollectionOfSpaceships := { vitoSpaceship. solSpaceship. valenSpaceship } asOrderedCollection.
+
+    aCollectionOfSquares := OrderedCollection new.
+    9 timesRepeat: [ aCollectionOfSquares add: NoEffectSquare new ].
+	 aCollectionOfSquares add: WormHoleSquare new.
+	 10 timesRepeat: [ aCollectionOfSquares add: NoEffectSquare new ].
+
+    aGame := RacingTheSpace
+        throwing: aCollectionOfDice
+        playingOn: aCollectionOfSquares
+        by: aCollectionOfSpaceships
+        withLaps: 2.
+	 
+	 aGame playTurn.
+    aGame throw: repeatCard to: vitoSpaceship by: valenSpaceship.
+
+    expectedVitoPosition := Position withNumberOfSquare: 2 andLaps: 0.
+
+    self assert: ((aGame positionOf: 'vito') = expectedVitoPosition).
+]
+
+{ #category : 'tests' }
+GameTest >> test065WhenASpaceshipThrowsARepeatCardAndLastEffectWasMoonWalkEffectThenAllButTheTargetSpaceshipPositionsAreAffected [
+    | aGame aCollectionOfDice repeatCard
+      vitoSpaceship solSpaceship valenSpaceship
+      aCollectionOfSpaceships aCollectionOfSquares
+      vitosCards solCards valensCards expectedVitoPosition expectedSolPosition expectedValenPosition |
+
+    aCollectionOfDice := OrderedCollection new.
+    aCollectionOfDice add: (FixedDie withFixedResults: #(9 12 10)).
+
+    repeatCard := RepeatCard new.
+
+    vitosCards := OrderedCollection new.
+    solCards := OrderedCollection new.
+    valensCards := { repeatCard } asOrderedCollection.
+
+    vitoSpaceship := Spaceship withName: 'vito' andCards: vitosCards.
+    solSpaceship := Spaceship withName: 'sol' andCards: solCards.
+    valenSpaceship := Spaceship withName: 'valen' andCards: valensCards.
+
+    aCollectionOfSpaceships := { vitoSpaceship. solSpaceship. valenSpaceship } asOrderedCollection.
+
+    aCollectionOfSquares := OrderedCollection new.
+    9 timesRepeat: [ aCollectionOfSquares add: NoEffectSquare new ].
+	 aCollectionOfSquares add: (MoonWalkSquare withN: 2).
+	 15 timesRepeat: [ aCollectionOfSquares add: NoEffectSquare new ].
+
+    aGame := RacingTheSpace
+        throwing: aCollectionOfDice
+        playingOn: aCollectionOfSquares
+        by: aCollectionOfSpaceships
+        withLaps: 2.
+	 
+	 3 timesRepeat: [aGame playTurn].
+	expectedVitoPosition := Position withNumberOfSquare: 7 andLaps: 0.
+	 expectedSolPosition := Position withNumberOfSquare: 10 andLaps: 0.
+	 expectedValenPosition := Position withNumberOfSquare: 10 andLaps: 0.
+
+    self assert: ((aGame positionOf: 'vito') = expectedVitoPosition).
+	self assert: ((aGame positionOf: 'sol') = expectedSolPosition ).
+	self assert: ((aGame positionOf: 'valen') = expectedValenPosition ).
+	
+    aGame throw: repeatCard to: valenSpaceship by: valenSpaceship.
+
+    expectedVitoPosition := Position withNumberOfSquare: 5 andLaps: 0.
+	 expectedSolPosition := Position withNumberOfSquare: 8 andLaps: 0.
+	 expectedValenPosition := Position withNumberOfSquare: 10 andLaps: 0.
+
+    self assert: ((aGame positionOf: 'vito') = expectedVitoPosition).
+	self assert: ((aGame positionOf: 'sol') = expectedSolPosition ).
+	self assert: ((aGame positionOf: 'valen') = expectedValenPosition ).
+	
+
+
+
+]
+
+{ #category : 'tests' }
+GameTest >> test066WhenASpaceshipThrowsARepeatCardAndLastEffectWasHyperJumpEffectThenTheTargetSpaceshipPositionIsAffected [
+    | aGame aCollectionOfDice repeatCard
+      vitoSpaceship solSpaceship valenSpaceship
+      aCollectionOfSpaceships aCollectionOfSquares
+      vitosCards solCards valensCards expectedValenPosition |
+
+    aCollectionOfDice := OrderedCollection new.
+    aCollectionOfDice add: (FixedDie withFixedResults: #(9 12 10)).
+
+    repeatCard := RepeatCard new.
+
+    vitosCards := OrderedCollection new.
+    solCards := OrderedCollection new.
+    valensCards := { repeatCard } asOrderedCollection.
+
+    vitoSpaceship := Spaceship withName: 'vito' andCards: vitosCards.
+    solSpaceship := Spaceship withName: 'sol' andCards: solCards.
+    valenSpaceship := Spaceship withName: 'valen' andCards: valensCards.
+
+    aCollectionOfSpaceships := { vitoSpaceship. solSpaceship. valenSpaceship } asOrderedCollection.
+
+    aCollectionOfSquares := OrderedCollection new.
+    9 timesRepeat: [ aCollectionOfSquares add: NoEffectSquare new ].
+	 aCollectionOfSquares add: (HyperJumpSquare withParsecs: { 4 . 5 . 2 }asOrderedCollection andRelation: 2).
+	 5 timesRepeat: [ aCollectionOfSquares add: NoEffectSquare new ].
+
+    aGame := RacingTheSpace
+        throwing: aCollectionOfDice
+        playingOn: aCollectionOfSquares
+        by: aCollectionOfSpaceships
+        withLaps: 2.
+	 
+	 3 timesRepeat: [aGame playTurn].
+	 expectedValenPosition := Position withNumberOfSquare: 5 andLaps: 1.
+	self assert: ((aGame positionOf: 'valen') = expectedValenPosition ).
+	
+    aGame throw: repeatCard to: valenSpaceship by: valenSpaceship.
+
+	 expectedValenPosition := Position withNumberOfSquare: 13 andLaps: 1.
+	self assert: ((aGame positionOf: 'valen') = expectedValenPosition ).
+	
+
+
+
+]
+
+{ #category : 'tests' }
+GameTest >> test067WhenASpaceshipThrowsARepeatCardAndLastEffectWasAtomicBombEffectThenAllSpaceshipPositionsAreAffected [
+    | aGame aCollectionOfDice repeatCard
+      vitoSpaceship solSpaceship valenSpaceship
+      aCollectionOfSpaceships aCollectionOfSquares
+      vitosCards solCards valensCards expectedValenPosition expectedVitoPosition expectedSolPosition |
+
+    aCollectionOfDice := OrderedCollection new.
+    aCollectionOfDice add: (FixedDie withFixedResults: #(9 12 10)).
+
+    repeatCard := RepeatCard new.
+
+    vitosCards := OrderedCollection new.
+    solCards := OrderedCollection new.
+    valensCards := { repeatCard } asOrderedCollection.
+
+    vitoSpaceship := Spaceship withName: 'vito' andCards: vitosCards.
+    solSpaceship := Spaceship withName: 'sol' andCards: solCards.
+    valenSpaceship := Spaceship withName: 'valen' andCards: valensCards.
+
+    aCollectionOfSpaceships := { vitoSpaceship. solSpaceship. valenSpaceship } asOrderedCollection.
+
+    aCollectionOfSquares := OrderedCollection new.
+    9 timesRepeat: [ aCollectionOfSquares add: NoEffectSquare new ].
+	 aCollectionOfSquares add: AtomicBombSquare new.
+	 5 timesRepeat: [ aCollectionOfSquares add: NoEffectSquare new ].
+
+    aGame := RacingTheSpace
+        throwing: aCollectionOfDice
+        playingOn: aCollectionOfSquares
+        by: aCollectionOfSpaceships
+        withLaps: 2.
+	 
+	 3 timesRepeat: [aGame playTurn].
+	
+    aGame throw: repeatCard to: vitoSpaceship by: valenSpaceship.
+    expectedVitoPosition := Position withNumberOfSquare: 1 andLaps: 0.
+	 expectedSolPosition := Position withNumberOfSquare: 1 andLaps: 0.
+	 expectedValenPosition := Position withNumberOfSquare: 1 andLaps: 0.
+	 
+	 self assert: ((aGame positionOf: 'vito') = expectedVitoPosition).
+	self assert: ((aGame positionOf: 'sol') = expectedSolPosition ).
+	self assert: ((aGame positionOf: 'valen') = expectedValenPosition ).
+
+ 
+
+
+
 ]

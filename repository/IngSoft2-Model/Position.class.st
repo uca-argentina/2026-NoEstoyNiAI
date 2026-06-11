@@ -90,7 +90,7 @@ Position >> wrapIfNeeded: aBoardSize [
 		numberOfSquare := aBoardSize + numberOfSquare
 	].
 
-	(numberOfSquare < 1 and: [ lap = 0 ]) ifTrue: [
+	(numberOfSquare < 0 and: [ lap = 0 ]) ifTrue: [
 		numberOfSquare := 1
 	].
 ]

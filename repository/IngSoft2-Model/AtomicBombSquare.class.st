@@ -8,4 +8,5 @@ Class {
 { #category : 'actions' }
 AtomicBombSquare >> triggerEffect: spaceships and: theCurrentSpaceship [
 	spaceships do: [ :spaceship | spaceship resetToBeginning ].
+	 ^ self.
 ]

@@ -45,7 +45,7 @@ OngoingGame >> initializeWithDices: someDices andBoard: aBoard andSpaceships: sp
 	dices := someDices.
 	spaceships := spaceShips.
 	currentShift := 1.
-	lastEffect := nil.
+	lastEffect := NoEffectSquare new.
 	permanentCards := OrderedCollection new.
 ]
 
@@ -104,6 +104,14 @@ OngoingGame >> playTurn: aGame [
 { #category : 'adding' }
 OngoingGame >> removeActivePermanentCard: aCard [
 	permanentCards remove: aCard.
+]
+
+{ #category : 'actions' }
+OngoingGame >> repeatLastEffectOn: aSpaceship [ 
+	| currentSpaceship |
+	currentSpaceship := spaceships detect: [:spaceship | spaceship = aSpaceship ].
+	lastEffect triggerEffect: spaceships and: currentSpaceship .
+	currentSpaceship wrapIfNeeded: board boardSize.
 ]
 
 { #category : 'initialization' }

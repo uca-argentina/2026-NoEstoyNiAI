@@ -8,4 +8,5 @@ Class {
 { #category : 'actions' }
 WormHoleSquare >> triggerEffect: spaceships and: theCurrentSpaceship [
 	theCurrentSpaceship moveBackwards: 4.
+	 ^ self.
 ]

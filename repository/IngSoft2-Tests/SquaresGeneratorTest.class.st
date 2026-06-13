@@ -303,3 +303,24 @@ SquaresGeneratorTest >> test015WhenCreatingGeneratorWithValidValuesThenGenerator
 
 	self assert: generator class equals: SquaresGenerator.
 ]
+
+{ #category : 'testing fixed' }
+SquaresGeneratorTest >> test016WhenRandomFallsInCardGeneratorSquareRangeThenAllGeneratedSquaresCardsGeneratorSquares [
+
+	| generator squares |
+
+	generator := FixedSquaresGenerator
+		withNumberOfSquares: 4
+		random: 0.35
+		moonWalkN: 3
+		hyperJumpParsecs: #(10 8 6 4)
+		hyperJumpRelation: 2.
+
+	squares := generator generate.
+
+	self assert: squares size equals: 4.
+
+	squares do: [ :square |
+		self assert: square class equals: CardGeneratorSquare 
+	].
+]

@@ -47,7 +47,9 @@ SquaresGenerator >> generateSquare [
 
 	randomNumber := random next.
 
-	randomNumber <= 0.40 ifTrue: [^ NoEffectSquare new].
+	randomNumber <= 0.30 ifTrue: [^ NoEffectSquare new].
+	
+	randomNumber <= 0.40 ifTrue: [^ CardGeneratorSquare new].
 
 	randomNumber <= 0.60 ifTrue: [^ WormHoleSquare new].
 

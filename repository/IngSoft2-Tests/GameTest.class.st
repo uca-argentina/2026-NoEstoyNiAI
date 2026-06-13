@@ -1516,3 +1516,33 @@ GameTest >> test067WhenASpaceshipThrowsARepeatCardAndLastEffectWasAtomicBombEffe
 
 
 ]
+
+{ #category : 'tests' }
+GameTest >> test068WhenASpaceshipIsCreatedWithCardsGeneratorThenTheSpaceshipCanPlay [
+
+ | aGame aCollectionOfDice vitoSpaceship  aCollectionOfSpaceships aCollectionOfSquares vitosCards   expectedVitoPosition |
+
+    aCollectionOfDice := OrderedCollection new.
+    aCollectionOfDice add: (FixedDie withFixedResults: #(1)).  
+	
+	vitosCards := CardsGenerator withNumberOfCards: 2.
+	vitoSpaceship := Spaceship withName: 'vito' andCards: vitosCards.
+
+
+    aCollectionOfSpaceships := { vitoSpaceship} asOrderedCollection.
+
+    aCollectionOfSquares := OrderedCollection new.
+    9 timesRepeat: [ aCollectionOfSquares add: NoEffectSquare new ].
+
+    aGame := RacingTheSpace
+        throwing: aCollectionOfDice
+        playingOn: aCollectionOfSquares
+        by: aCollectionOfSpaceships
+        withLaps: 2.
+
+	aGame playTurn.
+
+    expectedVitoPosition := Position withNumberOfSquare: 1 andLaps: 0.
+
+    self assert: ((aGame positionOf: 'vito') = expectedVitoPosition).
+]

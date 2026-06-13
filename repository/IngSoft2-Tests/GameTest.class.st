@@ -1608,5 +1608,5 @@ GameTest >> test071WhenASpaceshipMovesToACardsGeneratorSquareThenItGetsACard [
 
 	aGame playTurn.
 	
-    self assert: ( (aGame cardsOf: 'vito') size  = 3).
+    self assert: ( (aGame numberOfCardsOf: 'vito')  = 3).
 ]

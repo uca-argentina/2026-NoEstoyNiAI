@@ -53,16 +53,6 @@ RacingTheSpace class >> throwing: aCollectionOfDices playingOn: aCollectionOfSqu
 	
 ]
 
-{ #category : 'accessing' }
-RacingTheSpace >> cardsOf: aSpaceshipName [
-
-	| spaceship |
-	spaceship := self detectSpaceship: aSpaceshipName.
-	^spaceship cards.
-	
-	
-]
-
 { #category : 'private' }
 RacingTheSpace >> detectSpaceship: aSpaceshipName [
 
@@ -90,6 +80,16 @@ RacingTheSpace >> lapOf: aSpaceshipName [
 	| spaceship |
 	spaceship := self detectSpaceship: aSpaceshipName.
 	^ spaceship laps + 1
+]
+
+{ #category : 'accessing' }
+RacingTheSpace >> numberOfCardsOf: aSpaceshipName [
+
+	| spaceship |
+	spaceship := self detectSpaceship: aSpaceshipName.
+	^spaceship cards size.
+	
+	
 ]
 
 { #category : 'accessing' }

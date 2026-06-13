@@ -893,7 +893,7 @@ aCard := OverloadCard new.
 
 cards := OrderedCollection new.
 cards add: SpeedCard new.
-
+cards add: SpeedCard new.
 
 vitoSpaceship := Spaceship withName: 'vito' andCards: cards.
 solSpaceship := Spaceship withName: 'sol' andCards: cards.
@@ -919,6 +919,7 @@ aCollectionOfDice add: (FixedDie withFixedResults: #(10)).
 
 aCollectionOfSquares := OrderedCollection new.
 cards := OrderedCollection new.
+cards add: SpeedCard new.
 cards add: SpeedCard new.
 
 
@@ -1044,6 +1045,7 @@ GameTest >> test056NOWhenASpaceshipRemovesAnOverloadCardThenItNextTheEffectDoesN
 	
 	cards := OrderedCollection new.
 	cards add: OverloadCard new.
+	cards add: SpeedCard new.
 	20 timesRepeat: [ aCollectionOfSquares add: NoEffectSquare new ].
 	vitoSpaceship := Spaceship withName: 'vito' andCards: cards.
 	solSpaceship := Spaceship withName: 'sol' andCards: cards.
@@ -1107,6 +1109,7 @@ GameTest >> test058WhenAnAccelerationCardIsThrownThenAllSpaceshipsIncreaseTheirN
 	anAccelerationCard := AccelerationCard new.
 	cards := OrderedCollection new.
 	cards add: anAccelerationCard.
+	cards add: anAccelerationCard.
 	vitoSpaceship := Spaceship withName: 'vito' andCards: cards.
 	solSpaceship := Spaceship withName: 'sol' andCards: cards.
 	valenSpaceship := Spaceship withName: 'valen' andCards: cards.
@@ -1135,8 +1138,10 @@ GameTest >> test059WhenASpaceshipThrowsACardThenTheCardIsRemovedFromItsHand [
 	
 	cards := OrderedCollection new.
 	aCard:=  OverloadCard new.
+	
 	cards add: aCard.
-
+	cards add: SpeedCard .
+	
 	vitoSpaceship := Spaceship withName: 'vito' andCards: cards.
 	solSpaceship := Spaceship withName: 'sol' andCards: cards.
 	valenSpaceship := Spaceship withName: 'valen' andCards: cards.
@@ -1159,7 +1164,7 @@ GameTest >> test059WhenASpaceshipThrowsACardThenTheCardIsRemovedFromItsHand [
 { #category : 'tests' }
 GameTest >> test060WhenASpaceshipThrowsAnInstantCardOutsideItsTurnThenItCanBeThrown [
     | aGame aCollectionOfDice speedCard vitoSpaceship solSpaceship valenSpaceship 
-      aCollectionOfSpaceships aCollectionOfSquares cancellationCard vitosCards valensCards |
+      aCollectionOfSpaceships aCollectionOfSquares cancellationCard vitosCards valensCards solsCards |
 
     aCollectionOfDice := OrderedCollection new.
     aCollectionOfDice add: (FixedDie withFixedResults: #(10)).
@@ -1167,11 +1172,13 @@ GameTest >> test060WhenASpaceshipThrowsAnInstantCardOutsideItsTurnThenItCanBeThr
     speedCard := SpeedCard new.
     cancellationCard := CancellationCard new.
     
-    vitosCards := { speedCard } asOrderedCollection.
-    valensCards := { cancellationCard } asOrderedCollection.
+    vitosCards := { speedCard . speedCard} asOrderedCollection.
+    valensCards := { cancellationCard . speedCard} asOrderedCollection.
+	solsCards := { cancellationCard . speedCard} asOrderedCollection.
+
 
     vitoSpaceship := Spaceship withName: 'vito' andCards: vitosCards.
-    solSpaceship := Spaceship withName: 'sol' andCards: OrderedCollection new.
+    solSpaceship := Spaceship withName: 'sol' andCards: solsCards.
     valenSpaceship := Spaceship withName: 'valen' andCards: valensCards.
     
     aCollectionOfSpaceships := { vitoSpaceship. solSpaceship. valenSpaceship } asOrderedCollection.
@@ -1206,9 +1213,9 @@ GameTest >> test061WhenACancellationCardRemovesASpecificCardThenTheCardsEffectIs
     speedCard := SpeedCard new.
     cancellationCard := CancellationCard new.
 
-    vitosCards := { speedCard } asOrderedCollection.
-    solCards := { cancellationCard } asOrderedCollection.
-    valensCards := OrderedCollection new.
+    vitosCards := { speedCard . speedCard} asOrderedCollection.
+    solCards := { cancellationCard . speedCard} asOrderedCollection.
+    valensCards := { cancellationCard . speedCard} asOrderedCollection.
 
     vitoSpaceship := Spaceship withName: 'vito' andCards: vitosCards.
     solSpaceship := Spaceship withName: 'sol' andCards: solCards.
@@ -1255,9 +1262,10 @@ GameTest >> test062WhenASpaceshipThrowsARepeatCardAndNobodyRolledDicesThenItHasN
 
     repeatCard := RepeatCard new.
 
-    vitosCards := OrderedCollection new.
-    solCards := OrderedCollection new.
-    valensCards := { repeatCard } asOrderedCollection.
+
+    vitosCards := {  SpeedCard new . SpeedCard new } asOrderedCollection.
+    solCards := { SpeedCard new . SpeedCard new } asOrderedCollection.
+    valensCards := { repeatCard . repeatCard } asOrderedCollection.
 
     vitoSpaceship := Spaceship withName: 'vito' andCards: vitosCards.
     solSpaceship := Spaceship withName: 'sol' andCards: solCards.
@@ -1291,11 +1299,12 @@ GameTest >> test063WhenASpaceshipThrowsARepeatCardAndLastEffectWasSpeedupEffectT
     aCollectionOfDice := OrderedCollection new.
     aCollectionOfDice add: (FixedDie withFixedResults: #(10)).
 
+	
     repeatCard := RepeatCard new.
 
-    vitosCards := OrderedCollection new.
-    solCards := OrderedCollection new.
-    valensCards := { repeatCard } asOrderedCollection.
+    vitosCards := {  SpeedCard new . SpeedCard new } asOrderedCollection.
+    solCards := { SpeedCard new . SpeedCard new } asOrderedCollection.
+    valensCards := { repeatCard . repeatCard } asOrderedCollection.
 
     vitoSpaceship := Spaceship withName: 'vito' andCards: vitosCards.
     solSpaceship := Spaceship withName: 'sol' andCards: solCards.
@@ -1334,9 +1343,9 @@ GameTest >> test064WhenASpaceshipThrowsARepeatCardAndLastEffectWasWormHoleEffect
 
     repeatCard := RepeatCard new.
 
-    vitosCards := OrderedCollection new.
-    solCards := OrderedCollection new.
-    valensCards := { repeatCard } asOrderedCollection.
+    vitosCards := {  SpeedCard new . SpeedCard new } asOrderedCollection.
+    solCards := { SpeedCard new . SpeedCard new } asOrderedCollection.
+    valensCards := { repeatCard . repeatCard } asOrderedCollection.
 
     vitoSpaceship := Spaceship withName: 'vito' andCards: vitosCards.
     solSpaceship := Spaceship withName: 'sol' andCards: solCards.
@@ -1375,9 +1384,9 @@ GameTest >> test065WhenASpaceshipThrowsARepeatCardAndLastEffectWasMoonWalkEffect
 
     repeatCard := RepeatCard new.
 
-    vitosCards := OrderedCollection new.
-    solCards := OrderedCollection new.
-    valensCards := { repeatCard } asOrderedCollection.
+   vitosCards := {  SpeedCard new . SpeedCard new } asOrderedCollection.
+    solCards := { SpeedCard new . SpeedCard new } asOrderedCollection.
+    valensCards := { repeatCard . repeatCard } asOrderedCollection.
 
     vitoSpaceship := Spaceship withName: 'vito' andCards: vitosCards.
     solSpaceship := Spaceship withName: 'sol' andCards: solCards.
@@ -1432,9 +1441,9 @@ GameTest >> test066WhenASpaceshipThrowsARepeatCardAndLastEffectWasHyperJumpEffec
 
     repeatCard := RepeatCard new.
 
-    vitosCards := OrderedCollection new.
-    solCards := OrderedCollection new.
-    valensCards := { repeatCard } asOrderedCollection.
+    vitosCards := {  SpeedCard new . SpeedCard new } asOrderedCollection.
+    solCards := { SpeedCard new . SpeedCard new } asOrderedCollection.
+    valensCards := { repeatCard . repeatCard } asOrderedCollection.
 
     vitoSpaceship := Spaceship withName: 'vito' andCards: vitosCards.
     solSpaceship := Spaceship withName: 'sol' andCards: solCards.
@@ -1479,9 +1488,9 @@ GameTest >> test067WhenASpaceshipThrowsARepeatCardAndLastEffectWasAtomicBombEffe
 
     repeatCard := RepeatCard new.
 
-    vitosCards := OrderedCollection new.
-    solCards := OrderedCollection new.
-    valensCards := { repeatCard } asOrderedCollection.
+    vitosCards := {  SpeedCard new . SpeedCard new } asOrderedCollection.
+    solCards := { SpeedCard new . SpeedCard new } asOrderedCollection.
+    valensCards := { repeatCard . repeatCard } asOrderedCollection.
 
     vitoSpaceship := Spaceship withName: 'vito' andCards: vitosCards.
     solSpaceship := Spaceship withName: 'sol' andCards: solCards.
@@ -1520,13 +1529,13 @@ GameTest >> test067WhenASpaceshipThrowsARepeatCardAndLastEffectWasAtomicBombEffe
 { #category : 'tests' }
 GameTest >> test068WhenASpaceshipIsCreatedWithCardsGeneratorThenTheSpaceshipCanPlay [
 
- | aGame aCollectionOfDice vitoSpaceship  aCollectionOfSpaceships aCollectionOfSquares vitosCards   expectedVitoPosition |
+ | aGame aCollectionOfDice vitoSpaceship  aCollectionOfSpaceships aCollectionOfSquares   expectedVitoPosition generator |
 
     aCollectionOfDice := OrderedCollection new.
     aCollectionOfDice add: (FixedDie withFixedResults: #(1)).  
 	
-	vitosCards := CardsGenerator withNumberOfCards: 2.
-	vitoSpaceship := Spaceship withName: 'vito' andCards: vitosCards.
+	generator := CardsGenerator withNumberOfCards: 2.
+	vitoSpaceship := Spaceship withName: 'vito' andCards: generator generate.
 
 
     aCollectionOfSpaceships := { vitoSpaceship} asOrderedCollection.
@@ -1545,4 +1554,59 @@ GameTest >> test068WhenASpaceshipIsCreatedWithCardsGeneratorThenTheSpaceshipCanP
     expectedVitoPosition := Position withNumberOfSquare: 1 andLaps: 0.
 
     self assert: ((aGame positionOf: 'vito') = expectedVitoPosition).
+]
+
+{ #category : 'tests' }
+GameTest >> test069WhenASpaceshipTriesToBeCreatedWithMoreThanTwoCardsThenItCannotBeCreated [
+
+ |  aCollectionOfDice generator |
+
+    aCollectionOfDice := OrderedCollection new.
+    aCollectionOfDice add: (FixedDie withFixedResults: #(1)).  
+	
+	generator := CardsGenerator withNumberOfCards: 3.
+	self should: [ Spaceship withName: 'vito' andCards: generator generate ] raise: Error withExceptionDo: [:arg | self assert: arg messageText equals: 'You cannot create a spaceship with more than two cards'].
+
+]
+
+{ #category : 'tests' }
+GameTest >> test070WhenASpaceshipTriesToBeCreatedWithLessThanTwoCardsThenItCannotBeCreated [
+
+ |  aCollectionOfDice generator |
+
+    aCollectionOfDice := OrderedCollection new.
+    aCollectionOfDice add: (FixedDie withFixedResults: #(1)).  
+	
+	generator := CardsGenerator withNumberOfCards: 1.
+	self should: [ Spaceship withName: 'vito' andCards: generator generate ] raise: Error withExceptionDo: [:arg | self assert: arg messageText equals: 'You cannot create a spaceship with less than two cards'].
+]
+
+{ #category : 'tests' }
+GameTest >> test071WhenASpaceshipMovesToACardsGeneratorSquareThenItGetsACard [
+
+ | aGame aCollectionOfDice vitoSpaceship  aCollectionOfSpaceships aCollectionOfSquares vitosCards |
+
+    aCollectionOfDice := OrderedCollection new.
+    aCollectionOfDice add: (FixedDie withFixedResults: #(10)).  
+	
+	vitosCards := {  SpeedCard new . SpeedCard new } asOrderedCollection.
+	vitoSpaceship := Spaceship withName: 'vito' andCards: vitosCards.
+
+
+    aCollectionOfSpaceships := { vitoSpaceship} asOrderedCollection.
+
+    aCollectionOfSquares := OrderedCollection new.
+    9 timesRepeat: [ aCollectionOfSquares add: NoEffectSquare new ].
+ 	aCollectionOfSquares add: CardGeneratorSquare new.
+	aCollectionOfSquares add: CardGeneratorSquare new.
+	
+    aGame := RacingTheSpace
+        throwing: aCollectionOfDice
+        playingOn: aCollectionOfSquares
+        by: aCollectionOfSpaceships
+        withLaps: 2.
+
+	aGame playTurn.
+	
+    self assert: ( (aGame cardsOf: 'vito') size  = 3).
 ]

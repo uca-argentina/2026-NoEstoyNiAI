@@ -13,18 +13,36 @@ Class {
 
 { #category : 'as yet unclassified' }
 Spaceship class >> withName: aName andCards: someCards [ 
+	(someCards size > 2) ifTrue: [ self error: 'You cannot create a spaceship with more than two cards' ] .
+	(someCards size < 2) ifTrue: [ self error:  'You cannot create a spaceship with less than two cards'] .
 	^ self new initializeWithName: aName andPosition: (Position withNumberOfSquare: 0 andLaps: 0) andCards: someCards copy.
 	
 ]
 
 { #category : 'as yet unclassified' }
 Spaceship class >> withName: aName andPosition: aPosition [ 
+	
 	^self new initializeWithName: aName andPosition: aPosition andCards: OrderedCollection new.
 ]
 
 { #category : 'comparing' }
 Spaceship >> = anotherSpaceship [
 	^ anotherSpaceship name = name.
+]
+
+{ #category : 'adding' }
+Spaceship >> addCard: aCard [
+	cards add: aCard .
+]
+
+{ #category : 'accessing' }
+Spaceship >> cards [
+	^ cards
+]
+
+{ #category : 'testing' }
+Spaceship >> hasCard [
+	^ cards size > 0.
 ]
 
 { #category : 'testing' }
@@ -62,6 +80,11 @@ Spaceship >> moveForward: aNumberOfSquares [
 { #category : 'accessing' }
 Spaceship >> name [
 	^name.
+]
+
+{ #category : 'as yet unclassified' }
+Spaceship >> numberOfCards [
+	^ cards size .
 ]
 
 { #category : 'accessing' }

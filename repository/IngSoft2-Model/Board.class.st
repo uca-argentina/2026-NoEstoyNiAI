@@ -24,6 +24,7 @@ Board >> boardSize [
 
 { #category : 'actions' }
 Board >> callEffect: currentPlayer and: spaceships [
+
 	^ (squares at: currentPlayer numberOfSquares) triggerEffect: spaceships and: currentPlayer.
 ]
 

@@ -53,6 +53,16 @@ RacingTheSpace class >> throwing: aCollectionOfDices playingOn: aCollectionOfSqu
 	
 ]
 
+{ #category : 'accessing' }
+RacingTheSpace >> cardsOf: aSpaceshipName [
+
+	| spaceship |
+	spaceship := self detectSpaceship: aSpaceshipName.
+	^spaceship cards.
+	
+	
+]
+
 { #category : 'private' }
 RacingTheSpace >> detectSpaceship: aSpaceshipName [
 

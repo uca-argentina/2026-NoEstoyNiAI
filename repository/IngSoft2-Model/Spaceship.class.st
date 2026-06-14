@@ -59,7 +59,9 @@ Spaceship >> initializeWithName: aName andPosition: aPosition andCards: someCard
 
 { #category : 'testing' }
 Spaceship >> isAheadOf: anotherSpaceship [
-	^ anotherSpaceship position <  position
+	"^ anotherSpaceship position <  position"
+	position = anotherSpaceship position ifTrue: [ ^false ].
+	^anotherSpaceship position < position.
 ]
 
 { #category : 'accessing' }

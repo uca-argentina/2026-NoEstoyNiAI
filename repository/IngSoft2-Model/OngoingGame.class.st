@@ -81,7 +81,7 @@ OngoingGame >> permanentCardsModifierFor: aSpaceship [
 
 { #category : 'initialization' }
 OngoingGame >> playTurn: aGame [
-    | diceResult currentPlayer totalResult |
+    | diceResult currentPlayer totalResult ended |
     
     currentPlayer := spaceships at: currentSpaceshipIndex.
     
@@ -91,8 +91,14 @@ OngoingGame >> playTurn: aGame [
     currentPlayer moveForward: totalResult.
     currentPlayer wrapIfNeeded: board boardSize.
     
-    self setIfGameEnded: currentPlayer andGame: aGame.
-	
+    ended := self setIfGameEnded: currentPlayer andGame: aGame.
+    ended ifFalse: [
+        lastEffect := board callEffect: currentPlayer and: spaceships.
+        currentPlayer wrapIfNeeded: board boardSize.
+        self setIfGameEnded: currentPlayer andGame: aGame.
+    ].
+    
+    self incrementCurrentShift.
 ]
 
 { #category : 'adding' }
@@ -110,8 +116,14 @@ OngoingGame >> repeatLastEffectOn: aSpaceship [
 
 { #category : 'initialization' }
 OngoingGame >> setIfGameEnded: currentPlayer andGame: aGame [
- (currentPlayer laps >= board laps or:(currentPlayer numberOfSquares = board boardSize and: currentPlayer laps = (board laps - 1))) 
-	ifTrue: [  aGame setEnded: (EndedGame withSpaceShips: spaceships) ].
+    (currentPlayer laps >= board laps or: [
+        currentPlayer numberOfSquares = board boardSize 
+            and: [ currentPlayer laps = (board laps - 1) ] ])
+        ifTrue: [ 
+            aGame setEnded: (EndedGame withSpaceShips: spaceships).
+            ^ true.
+        ].
+    ^ false.
 	
 
 ]

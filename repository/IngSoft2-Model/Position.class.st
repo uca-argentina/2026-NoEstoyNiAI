@@ -15,10 +15,12 @@ Position class >> withNumberOfSquare: aNumberOfSquare andLaps: aNumberOfLap [
 ]
 
 { #category : 'comparing' }
-Position >> < aPosition [ 
-	 lap < aPosition lap ifTrue: [ ^ true ].
-    lap > aPosition lap ifTrue: [ ^ false ].
-    ^ numberOfSquare <= aPosition numberOfSquares
+Position >> < aPosition [
+	lap = aPosition lap ifTrue: [ ^ numberOfSquare < aPosition numberOfSquares ].
+	"lap < aPosition lap ifTrue: [ ^ true ].
+	lap > aPosition lap ifTrue: [ ^ false ].
+	^ numberOfSquare <= aPosition numberOfSquares"
+	^lap < aPosition lap.
 ]
 
 { #category : 'comparing' }

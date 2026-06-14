@@ -701,7 +701,7 @@ aGame := RacingTheSpace throwing: aCollectionOfDice playingOn:aCollectionOfSquar
 4 timesRepeat: [aGame playTurn].
 
 
-self assert: aGame ranking equals: #(1 2) asOrderedCollection.
+self assert: aGame ranking equals: #(2 1) asOrderedCollection.
 ]
 
 { #category : 'tests' }

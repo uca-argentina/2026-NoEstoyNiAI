@@ -104,7 +104,7 @@ RacingTheSpace >> numberOfCardsOf: aSpaceshipName [
 { #category : 'actions' }
 RacingTheSpace >> playTurn [
 	state playTurn: self.
-	state applyEffect: self.
+	"state applyEffect: self."
 	
 ]
 

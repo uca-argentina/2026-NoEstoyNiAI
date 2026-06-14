@@ -28,11 +28,6 @@ EndedGame >> isEnded [
 ]
 
 { #category : 'ranking' }
-EndedGame >> numberOfWinner [ 
-	^ (self obtainNameOfTheSpaceshipWithTheHigherPosition) name
-]
-
-{ #category : 'ranking' }
 EndedGame >> obtainNameOfTheSpaceshipWithTheHigherPosition [
 
     | maxSpaceship |
@@ -54,4 +49,9 @@ EndedGame >> playTurn: aGame [
 EndedGame >> throw: aCard to: aDefendingPlayer by: anAttackingPlayer [
 
 	self error: 'You cannot throw a card when the game is ended'
+]
+
+{ #category : 'ranking' }
+EndedGame >> winnerName [ 
+	^ (self obtainNameOfTheSpaceshipWithTheHigherPosition) name
 ]

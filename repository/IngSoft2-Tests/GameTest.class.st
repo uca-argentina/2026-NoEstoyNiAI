@@ -210,7 +210,7 @@ GameTest >> test016WhenTheFirstPlayerReachesTheGoalThenTheFirstPlayerIsTheWinner
 	aGame := RacingTheSpace throwing: aCollectionOfDice playingOn: aCollectionOfSquares usingSpaceShips: 1 withLaps: 1.
 	aGame playTurn.
 
-	self assert: aGame numberOfWinner equals: 1
+	self assert: aGame winnerName equals: 1
 ]
 
 { #category : 'tests' }
@@ -226,11 +226,11 @@ aGame := RacingTheSpace throwing: aCollectionOfDice playingOn: aCollectionOfSqua
 aGame playTurn.
 aGame playTurn.
 
-self assert: aGame numberOfWinner equals: 2.
+self assert: aGame winnerName equals: 2.
 ]
 
 { #category : 'tests' }
-GameTest >> test018WhenTheThirdPlayerReachesTheGoalFirtThenTheThirdPlayerIsTheWinner [
+GameTest >> test018WhenTheThirdPlayerReachesTheGoalFisrtThenTheThirdPlayerIsTheWinner [
 
 | aGame aCollectionOfDice aCollectionOfSquares |
 aCollectionOfDice:= OrderedCollection new.
@@ -242,7 +242,7 @@ aCollectionOfSquares := OrderedCollection new.
 aGame := RacingTheSpace throwing: aCollectionOfDice playingOn: aCollectionOfSquares usingSpaceShips: 3 withLaps: 1.
 6 timesRepeat: [aGame playTurn].
 
-self assert: aGame numberOfWinner equals: 3.
+self assert: aGame winnerName equals: 3.
 ]
 
 { #category : 'tests' }
@@ -261,7 +261,7 @@ aGame playTurn.
 aGame playTurn. 
 
 self
-		should: [aGame numberOfWinner ]
+		should: [aGame winnerName ]
 		raise: Error
 		withExceptionDo: [ :error |
 			self
@@ -281,7 +281,7 @@ aCollectionOfSquares := OrderedCollection new.
 aGame := RacingTheSpace throwing: aCollectionOfDice playingOn: aCollectionOfSquares usingSpaceShips: 3 withLaps: 1.
 3 timesRepeat:[aGame playTurn]. 
 
-self assert: aGame showEachSpaceshipNumberOfSquare equals: #(10 28 17) asOrderedCollection .
+self assert: aGame spaceshipPositions equals: #(10 28 17) asOrderedCollection .
 ]
 
 { #category : 'tests' }
@@ -319,7 +319,7 @@ self assert: (aGame positionOf:1) = aPosition .
 ]
 
 { #category : 'tests' }
-GameTest >> test023WhenTheSpaceShipMovesToASpeedUpSquareThenTheSpaceShipMoves4PositionsFowards [
+GameTest >> test023WhenTheSpaceshipMovesToASpeedUpSquareThenTheSpaceshipMoves4PositionsForwards [
 
 | aGame aCollectionOfDice aPosition aCollectionOfSquares |
 aCollectionOfDice:= OrderedCollection new.
@@ -480,11 +480,11 @@ aGame := RacingTheSpace throwing: aCollectionOfDice playingOn:aCollectionOfSquar
 10 timesRepeat: [aGame playTurn].
 
 
-self assert: aGame numberOfWinner equals: 2.
+self assert: aGame winnerName equals: 2.
 ]
 
 { #category : 'tests' }
-GameTest >> test031WhenASpaceshipFinishedTheFirstLapThenTheSpaceshipReturnsToTheFirtsSquareOfTheSeconLap [
+GameTest >> test031WhenASpaceshipFinishedTheFirstLapThenTheSpaceshipReturnsToTheFirtsSquareOfTheSecondLap [
 
 | aGame aCollectionOfDice aPosition aCollectionOfSquares |
 aCollectionOfDice:= OrderedCollection new.
@@ -643,7 +643,7 @@ aCollectionOfPositions := OrderedCollection new.
 aCollectionOfPositions add: aPosition1.
 aCollectionOfPositions add: aPosition2.
 
-self assert: (aGame showEachSpaceshipGamePosition hasEqualElements: aCollectionOfPositions ) .
+self assert: (aGame eachSpaceshipGamePosition hasEqualElements: aCollectionOfPositions ) .
 ]
 
 { #category : 'tests' }
@@ -723,7 +723,7 @@ self assert: aGame ranking equals: #(2 1) asOrderedCollection.
 ]
 
 { #category : 'tests' }
-GameTest >> test044WhenASpaceshipHasToMoveBackwardsMorePositionsThanTheOnesThatHeAdvancedThenItMovesToTheBegginingOfTheBoard [
+GameTest >> test044WhenASpaceshipHasToMoveBackwardsMorePositionsThanTheOnesThatHeAdvancedThenItMovesToTheBeginingOfTheBoard [
 | aGame aCollectionOfDice aPosition aCollectionOfSquares |
 aCollectionOfDice:= OrderedCollection new.
 aCollectionOfDice add: (FixedDie withFixedResults: #(2)).

@@ -5,9 +5,9 @@ Class {
 		'board',
 		'dices',
 		'spaceships',
-		'currentShift',
 		'lastEffect',
-		'permanentCards'
+		'permanentCards',
+		'currentSpaceshipIndex'
 	],
 	#category : 'IngSoft2-Model',
 	#package : 'IngSoft2-Model'
@@ -26,7 +26,7 @@ OngoingGame >> addActivePermanentCard: aCard [
 { #category : 'actions' }
 OngoingGame >> applyEffect: aGame [
     | currentPlayer |
-    currentPlayer := spaceships at: currentShift.
+    currentPlayer := spaceships at: currentSpaceshipIndex.
     lastEffect := board callEffect: currentPlayer and: spaceships.
     currentPlayer wrapIfNeeded: board boardSize.
     self setIfGameEnded: currentPlayer andGame: aGame.
@@ -36,7 +36,7 @@ OngoingGame >> applyEffect: aGame [
 { #category : 'private' }
 OngoingGame >> incrementCurrentShift [
 
-	^ currentShift := currentShift \\ self numberOfPlayers + 1
+	^ currentSpaceshipIndex := currentSpaceshipIndex \\ self numberOfPlayers + 1
 ]
 
 { #category : 'initialization' }
@@ -44,14 +44,14 @@ OngoingGame >> initializeWithDices: someDices andBoard: aBoard andSpaceships: sp
 	board:= aBoard .
 	dices := someDices.
 	spaceships := spaceShips.
-	currentShift := 1.
+	currentSpaceshipIndex := 1.
 	lastEffect := NoEffectSquare new.
 	permanentCards := OrderedCollection new.
 ]
 
 { #category : 'testing' }
 OngoingGame >> isCurrentTurnOf: aSpaceship [
-	^(spaceships at: currentShift) = aSpaceship
+	^(spaceships at: currentSpaceshipIndex) = aSpaceship
 ]
 
 { #category : 'testing' }
@@ -74,12 +74,6 @@ OngoingGame >> numberOfPlayers [
 	^ spaceships size
 ]
 
-{ #category : 'ranking' }
-OngoingGame >> numberOfWinner [ 
-	Error signal: 'There is no winner yet. The game is not finished' 
-	
-]
-
 { #category : 'as yet unclassified' }
 OngoingGame >> permanentCardsModifierFor: aSpaceship [
     ^ permanentCards sum: [ :card | card modifierFor: aSpaceship ]
@@ -89,7 +83,7 @@ OngoingGame >> permanentCardsModifierFor: aSpaceship [
 OngoingGame >> playTurn: aGame [
     | diceResult currentPlayer totalResult |
     
-    currentPlayer := spaceships at: currentShift.
+    currentPlayer := spaceships at: currentSpaceshipIndex.
     
     diceResult := self throwDices.
     totalResult := diceResult + (self permanentCardsModifierFor: currentPlayer).
@@ -142,4 +136,10 @@ OngoingGame >> throwDices [
 	sumOfDices:= dices inject: 0 into: [:sum :dice | sum + dice roll ].
 
 	^sumOfDices .
+]
+
+{ #category : 'ranking' }
+OngoingGame >> winnerName [ 
+	Error signal: 'There is no winner yet. The game is not finished' 
+	
 ]

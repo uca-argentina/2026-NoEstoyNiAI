@@ -61,6 +61,15 @@ RacingTheSpace >> detectSpaceship: aSpaceshipName [
 	^ spaceship
 ]
 
+{ #category : 'accessing' }
+RacingTheSpace >> eachSpaceshipGamePosition [
+	| result |
+	result := OrderedCollection new.
+	spaceships do: [ :spaceship | result add: spaceship position ].
+	^ result
+
+]
+
 { #category : 'initialization' }
 RacingTheSpace >> initializeThrowing: aCollectionOfDices playingOn: board using: someSpaceships andWith: aNumberOfLaps [
 	currentShift := 1.
@@ -90,12 +99,6 @@ RacingTheSpace >> numberOfCardsOf: aSpaceshipName [
 	^spaceship cards size.
 	
 	
-]
-
-{ #category : 'accessing' }
-RacingTheSpace >> numberOfWinner [
-	^state numberOfWinner.
-
 ]
 
 { #category : 'actions' }
@@ -141,27 +144,10 @@ RacingTheSpace >> setEnded: anEndedState [
 ]
 
 { #category : 'accessing' }
-RacingTheSpace >> showEachSpaceshipGamePosition [
-	| result |
-	result := OrderedCollection new.
-	spaceships do: [ :spaceship | result add: spaceship position ].
-	^ result
-
-]
-
-{ #category : 'accessing' }
 RacingTheSpace >> showEachSpaceshipLap [
 	| response |
 	response := OrderedCollection new.
 	spaceships collect: [ :spaceship  | response add: (spaceship laps + 1)].
-	^response.
-]
-
-{ #category : 'accessing' }
-RacingTheSpace >> showEachSpaceshipNumberOfSquare [
-	| response |
-	response := OrderedCollection new.
-	spaceships collect: [ :spaceship  | response add: spaceship numberOfSquares ].
 	^response.
 ]
 
@@ -172,6 +158,14 @@ RacingTheSpace >> sortSpaceshipsByPosition [
 	orderedSpaceships := spaceships asSortedCollection: [ :shipA :shipB |
 		                     shipA isAheadOf: shipB ].
 	^ orderedSpaceships
+]
+
+{ #category : 'accessing' }
+RacingTheSpace >> spaceshipPositions [
+	| response |
+	response := OrderedCollection new.
+	spaceships collect: [ :spaceship  | response add: spaceship numberOfSquares ].
+	^response.
 ]
 
 { #category : 'accessing' }
@@ -188,5 +182,11 @@ RacingTheSpace >> throw: aCard to: aDefendingPlayer by: anAttackingPlayer [
 	
 	
 	
+
+]
+
+{ #category : 'accessing' }
+RacingTheSpace >> winnerName [
+	^state winnerName.
 
 ]

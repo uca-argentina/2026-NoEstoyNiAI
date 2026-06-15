@@ -14,6 +14,12 @@ WormHoleSquare class >> withNumberCards: aNumberOfCards [
 ]
 
 { #category : 'actions' }
+WormHoleSquare >> triggerEffect: aTurnContext [
+    aTurnContext moveCurrentSpaceshipBackwards: 4.
+    ^ self.
+]
+
+{ #category : 'actions' }
 WormHoleSquare >> triggerEffect: spaceships and: theCurrentSpaceship [
 	theCurrentSpaceship moveBackwards: 4.
 	 ^ self.

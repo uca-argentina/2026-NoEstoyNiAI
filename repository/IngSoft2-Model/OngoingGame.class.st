@@ -108,10 +108,11 @@ OngoingGame >> removeActivePermanentCard: aCard [
 
 { #category : 'actions' }
 OngoingGame >> repeatLastEffectOn: aSpaceship [ 
-	| currentSpaceship |
-	currentSpaceship := spaceships detect: [:spaceship | spaceship = aSpaceship ].
-	lastEffect triggerEffect: spaceships and: currentSpaceship .
-	currentSpaceship wrapIfNeeded: board boardSize.
+    | currentSpaceship context |
+    currentSpaceship := spaceships detect: [:spaceship | spaceship = aSpaceship ].
+    context := TurnContext with: spaceships and: currentSpaceship.
+    lastEffect triggerEffect: context.
+    currentSpaceship wrapIfNeeded: board boardSize.
 ]
 
 { #category : 'initialization' }

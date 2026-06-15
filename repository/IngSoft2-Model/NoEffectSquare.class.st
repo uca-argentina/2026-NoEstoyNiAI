@@ -10,6 +10,13 @@ NoEffectSquare class >> initialize [
 ]
 
 { #category : 'actions' }
+NoEffectSquare >> triggerEffect: aTurnContext [
+	 ^ self.
+	
+
+]
+
+{ #category : 'actions' }
 NoEffectSquare >> triggerEffect: spaceships and: theCurrentSpaceship [
 	 ^ self.
 	

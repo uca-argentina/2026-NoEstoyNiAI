@@ -25,6 +25,12 @@ MoonWalkSquare >> initializeWithN: aNumber [
 ]
 
 { #category : 'actions' }
+MoonWalkSquare >> triggerEffect: aTurnContext [
+    aTurnContext moveOtherSpaceshipsBackwards: n.
+    ^ self.
+]
+
+{ #category : 'actions' }
 MoonWalkSquare >> triggerEffect: spaceships and: theCurrentSpaceship [
 
 	| movingSpaceships |

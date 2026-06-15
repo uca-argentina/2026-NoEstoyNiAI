@@ -33,6 +33,15 @@ HyperJumpSquare >> relation [
 ]
 
 { #category : 'actions' }
+HyperJumpSquare >> triggerEffect: aTurnContext [
+    | positionsToAdvance |
+    positionsToAdvance := (parsecs at: currentParsecPosition) * relation.
+    currentParsecPosition := currentParsecPosition \\ parsecs size + 1.
+    aTurnContext moveCurrentSpaceshipForward: positionsToAdvance.
+    ^ self.
+]
+
+{ #category : 'actions' }
 HyperJumpSquare >> triggerEffect: spaceships and: theCurrentSpaceship [
 	|positionsToAdvance|
 	positionsToAdvance := (parsecs at: currentParsecPosition) * relation.

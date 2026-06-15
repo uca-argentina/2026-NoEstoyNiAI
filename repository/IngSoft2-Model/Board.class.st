@@ -24,8 +24,11 @@ Board >> boardSize [
 
 { #category : 'actions' }
 Board >> callEffect: currentPlayer and: spaceships [
+	| context |
+    context := TurnContext with: spaceships and: currentPlayer.
+    ^ (squares at: currentPlayer numberOfSquares) triggerEffect: context.
 
-	^ (squares at: currentPlayer numberOfSquares) triggerEffect: spaceships and: currentPlayer.
+	"^ (squares at: currentPlayer numberOfSquares) triggerEffect: spaceships and: currentPlayer."
 ]
 
 { #category : 'actions' }

@@ -111,7 +111,7 @@ SquaresGeneratorTest >> test005WhenRandomFallsInHyperJumpRangeThenAllGeneratedHy
 	squares do: [ :square |
 		self assert: square class equals: HyperJumpSquare.
 		self assert: square parsecs equals: parsecs.
-		self assert: square relation equals: 2
+		self assert: square parsecsToSquares equals: 2
 	].
 ]
 

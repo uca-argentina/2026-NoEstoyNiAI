@@ -4,7 +4,7 @@ Class {
 	#instVars : [
 		'parsecs',
 		'currentParsecPosition',
-		'relation'
+		'parsecsToSquares'
 	],
 	#category : 'IngSoft2-Model',
 	#package : 'IngSoft2-Model'
@@ -17,8 +17,8 @@ HyperJumpSquare class >> withParsecs: aCollectionOfParsecs andRelation: aRelatio
 
 { #category : 'initialization' }
 HyperJumpSquare >> initializeWithParsecs: aCollectionOfParsecs andRelation: aRelation [
-	parsecs := aCollectionOfParsecs sort: [:parsec1 :parsec2 | parsec1 > parsec2 ].
-	relation := aRelation.
+	parsecs := (aCollectionOfParsecs asSortedCollection: [:a :b | a > b]) asOrderedCollection.
+	parsecsToSquares := aRelation.
 	currentParsecPosition := 1.
 ]
 
@@ -28,14 +28,14 @@ HyperJumpSquare >> parsecs [
 ]
 
 { #category : 'actions' }
-HyperJumpSquare >> relation [ 
-^relation 
+HyperJumpSquare >> parsecsToSquares [ 
+^parsecsToSquares 
 ]
 
 { #category : 'actions' }
 HyperJumpSquare >> triggerEffect: aTurnContext [
     | positionsToAdvance |
-    positionsToAdvance := (parsecs at: currentParsecPosition) * relation.
+    positionsToAdvance := (parsecs at: currentParsecPosition) * parsecsToSquares.
     currentParsecPosition := currentParsecPosition \\ parsecs size + 1.
     aTurnContext moveCurrentSpaceshipForward: positionsToAdvance.
     ^ self.
@@ -44,7 +44,7 @@ HyperJumpSquare >> triggerEffect: aTurnContext [
 { #category : 'actions' }
 HyperJumpSquare >> triggerEffect: spaceships and: theCurrentSpaceship [
 	|positionsToAdvance|
-	positionsToAdvance := (parsecs at: currentParsecPosition) * relation.
+	positionsToAdvance := (parsecs at: currentParsecPosition) * parsecsToSquares.
 	currentParsecPosition := currentParsecPosition \\ parsecs size + 1.
 	theCurrentSpaceship moveForward: positionsToAdvance.
 	 ^ self.

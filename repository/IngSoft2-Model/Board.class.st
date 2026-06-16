@@ -51,5 +51,5 @@ Board >> laps [
 
 { #category : 'as yet unclassified' }
 Board >> parsecsToSquares: aParsecValue [
-    ^ aParsecValue * (squares size / totalParsecs).
+    ^ aParsecValue * (squares size // totalParsecs).
 ]

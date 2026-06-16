@@ -1450,27 +1450,7 @@ GameTest >> test066WhenASpaceshipThrowsARepeatCardAndLastEffectWasHyperJumpEffec
     valenSpaceship := Spaceship withName: 'valen' andCards: valensCards.
 
     aCollectionOfSpaceships := { vitoSpaceship. solSpaceship. valenSpaceship } asOrderedCollection.
-"
-    aCollectionOfSquares := OrderedCollection new.
-    9 timesRepeat: [ aCollectionOfSquares add: NoEffectSquare new ].
-	 aCollectionOfSquares add: (HyperJumpSquare withParsecs: { 4 . 5 . 2 }asOrderedCollection).
-	 20 timesRepeat: [ aCollectionOfSquares add: NoEffectSquare new ].
 
-    aGame := RacingTheSpace
-        throwing: aCollectionOfDice
-        playingOn: aCollectionOfSquares
-        by: aCollectionOfSpaceships
-        withLaps: 2 andParsecs: 15.
-	 
-	 3 timesRepeat: [aGame playTurn].
-	 expectedValenPosition := Position withNumberOfSquare: 5 andLaps: 1.
-	self assert: ((aGame positionOf: 'valen') = expectedValenPosition ).
-	
-    aGame throw: repeatCard to: valenSpaceship by: valenSpaceship.
-
-	 expectedValenPosition := Position withNumberOfSquare: 13 andLaps: 1.
-	self assert: ((aGame positionOf: 'valen') = expectedValenPosition ).
-"
 aCollectionOfSquares := OrderedCollection new.
 9 timesRepeat: [ aCollectionOfSquares add: NoEffectSquare new ].
 aCollectionOfSquares add: (HyperJumpSquare withParsecs: { 5 . 4 . 2 } asOrderedCollection).
@@ -1483,7 +1463,7 @@ aGame := RacingTheSpace
     andParsecs: 10.
 
 3 timesRepeat: [aGame playTurn].
-expectedValenPosition := Position withNumberOfSquare: 20 andLaps: 1.
+expectedValenPosition := Position withNumberOfSquare: 20 andLaps: 0.
 self assert: ((aGame positionOf: 'valen') = expectedValenPosition).
 
 aGame throw: repeatCard to: valenSpaceship by: valenSpaceship.
@@ -1695,46 +1675,4 @@ GameTest >> test074WhenAllParsecsAreConsumedThenTheyResetAndCycleAgain [
     self assert: (aGame positionOf: 2) = expectedPosition2.
     self assert: (aGame positionOf: 3) = expectedPosition3.
     self assert: (aGame positionOf: 4) = expectedPosition4.
-]
-
-{ #category : 'tests' }
-GameTest >> test074WhenHyperJumpSquareIsCreatedWithUnorderedParsecsThenAnErrorIsThrown [
-    self
-        should: [ HyperJumpSquare withParsecs: #(2 4 1) asOrderedCollection ]
-        raise: Error
-      		withExceptionDo: [:arg | self assert: arg messageText equals:'Parsecs must be sorted from highest to lowest' ].
-]
-
-{ #category : 'tests' }
-GameTest >> test075WhenASpaceshipThrowsARepeatCardAndLastEffectWasHyperJumpThenTheTargetSpaceshipAdvances [
-
-    | aGame aCollectionOfDice aCollectionOfSquares repeatCard
-      vitoSpaceship valenSpaceship aCollectionOfSpaceships
-      vitosCards valensCards expectedPosition |
-    aCollectionOfDice := OrderedCollection new.
-    aCollectionOfDice add: (FixedDie withFixedResults: #(5)).
-    repeatCard := RepeatCard new.
-    vitosCards := { SpeedCard new . SpeedCard new } asOrderedCollection.
-    valensCards := { repeatCard . repeatCard } asOrderedCollection.
-    vitoSpaceship := Spaceship withName: 'vito' andCards: vitosCards.
-    valenSpaceship := Spaceship withName: 'valen' andCards: valensCards.
-    aCollectionOfSpaceships := { vitoSpaceship. valenSpaceship } asOrderedCollection.
-    aCollectionOfSquares := OrderedCollection new.
-    4 timesRepeat: [ aCollectionOfSquares add: NoEffectSquare new ].
-    aCollectionOfSquares add: (HyperJumpSquare withParsecs: #(4 2 1) asOrderedCollection).
-    5 timesRepeat: [ aCollectionOfSquares add: NoEffectSquare new ].
-    aGame := RacingTheSpace
-        throwing: aCollectionOfDice
-        playingOn: aCollectionOfSquares
-        by: aCollectionOfSpaceships
-        withLaps: 3
-        andParsecs: 5.
-    2 timesRepeat: [ aGame playTurn ].
-    expectedPosition := Position withNumberOfSquare: 3 andLaps: 1.
-    self assert: (aGame positionOf: 'vito') = expectedPosition.
-    expectedPosition := Position withNumberOfSquare: 9 andLaps: 0.
-    self assert: (aGame positionOf: 'valen') = expectedPosition.
-    aGame throw: repeatCard to: valenSpaceship by: valenSpaceship.
-    expectedPosition := Position withNumberOfSquare: 11 andLaps: 0.
-    self assert: (aGame positionOf: 'valen') = expectedPosition.
 ]

@@ -1,5 +1,5 @@
 Class {
-	#name : 'Dice',
+	#name : 'Die',
 	#superclass : 'Object',
 	#instVars : [
 		'numberOfFaces',
@@ -10,12 +10,12 @@ Class {
 }
 
 { #category : 'accessing' }
-Dice class >> default [
+Die class >> default [
 	^self new initializeWithFaces: 6.
 ]
 
 { #category : 'as yet unclassified' }
-Dice class >> withFaces: numberOfFaces [ 
+Die class >> withFaces: numberOfFaces [ 
 
 	(numberOfFaces isInteger) ifFalse: [Error signal: 'A Dice can not be created with a not integer type of faces'].
 	(numberOfFaces < 4) ifTrue: [Error signal: 'A Dice can not be created with less than 4 faces'].
@@ -26,12 +26,12 @@ Dice class >> withFaces: numberOfFaces [
 ]
 
 { #category : 'initialization' }
-Dice >> initializeWithFaces: aNumberOfFaces [ 
+Die >> initializeWithFaces: aNumberOfFaces [ 
 	numberOfFaces:= aNumberOfFaces.
 	rng:= Random new.
 ]
 
 { #category : 'actions' }
-Dice >> roll [
+Die >> roll [
 	^ (rng nextInteger: numberOfFaces).
 ]

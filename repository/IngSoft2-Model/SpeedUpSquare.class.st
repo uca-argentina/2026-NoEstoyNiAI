@@ -6,6 +6,7 @@ Class {
 }
 
 { #category : 'actions' }
-SpeedUpSquare >> triggerEffect: spaceships and: theCurrentSpaceship [
-	theCurrentSpaceship moveForward: 4.
+SpeedUpSquare >> triggerEffect: aTurnContext [
+    aTurnContext moveCurrentSpaceshipForward: 4.
+    ^ self. 
 ]

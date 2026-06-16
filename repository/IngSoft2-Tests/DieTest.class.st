@@ -1,35 +1,35 @@
 Class {
-	#name : 'DiceTest',
+	#name : 'DieTest',
 	#superclass : 'TestCase',
 	#category : 'IngSoft2-Tests',
 	#package : 'IngSoft2-Tests'
 }
 
 { #category : 'tests' }
-DiceTest >> test001WhenADiceIsThrowThenTheDiceReturnANumberBetween1and6 [
+DieTest >> test001WhenADiceIsThrowThenTheDiceReturnANumberBetween1and6 [
 
  | diceResult aDice |
 
-aDice:= Dice default.
+aDice:= Die default.
 diceResult:= aDice roll.
 self assert: (diceResult between: 1 and: 6).
 ]
 
 { #category : 'tests' }
-DiceTest >> test002WhenADiceIsCreatedWithNFacesAndTheDiceIsThrownThenTheDiceReturnANumberBetween1andN [
+DieTest >> test002WhenADiceIsCreatedWithNFacesAndTheDiceIsThrownThenTheDiceReturnANumberBetween1andN [
 
  | diceResult aDice |
 
-aDice:= Dice withFaces: 4.
+aDice:= Die withFaces: 4.
 diceResult:= aDice roll.
 self assert: (diceResult between: 1 and: 4).
 ]
 
 { #category : 'tests' }
-DiceTest >> test003WhenADiceIsCreatedWithLessThan4FacesThenTheDiceCannotBeCreated [
+DieTest >> test003WhenADiceIsCreatedWithLessThan4FacesThenTheDiceCannotBeCreated [
 
 	self
-		should: [ Dice withFaces: 3 ]
+		should: [ Die withFaces: 3 ]
 		raise: Error
 		withExceptionDo: [ :error |
 			self
@@ -38,10 +38,10 @@ DiceTest >> test003WhenADiceIsCreatedWithLessThan4FacesThenTheDiceCannotBeCreate
 ]
 
 { #category : 'tests' }
-DiceTest >> test004WhenADiceIsCreatedWithAFloatTypeOfFacesThenTheDiceCannotBeCreated [
+DieTest >> test004WhenADiceIsCreatedWithAFloatTypeOfFacesThenTheDiceCannotBeCreated [
 
 	self
-		should: [ Dice withFaces: 5.4 ]
+		should: [ Die withFaces: 5.4 ]
 		raise: Error
 		withExceptionDo: [ :error |
 			self
@@ -50,10 +50,10 @@ DiceTest >> test004WhenADiceIsCreatedWithAFloatTypeOfFacesThenTheDiceCannotBeCre
 ]
 
 { #category : 'tests' }
-DiceTest >> test005WhenADiceIsCreatedWithAStringTypeOfFacesThenTheDiceCannotBeCreated [
+DieTest >> test005WhenADiceIsCreatedWithAStringTypeOfFacesThenTheDiceCannotBeCreated [
 
 	self
-		should: [ Dice withFaces: '5' ]
+		should: [ Die withFaces: '5' ]
 		raise: Error
 		withExceptionDo: [ :error |
 			self

@@ -10,9 +10,8 @@ NoEffectSquare class >> initialize [
 ]
 
 { #category : 'actions' }
-NoEffectSquare >> triggerEffect: spaceships and: theCurrentSpaceship [
-
-	theCurrentSpaceship moveForward: 0.
+NoEffectSquare >> triggerEffect: aTurnContext [
+	 ^ self.
 	
 
 ]

@@ -15,17 +15,17 @@ MoonWalkSquare class >> withN: aNumber [
 ]
 
 { #category : 'initialization' }
+MoonWalkSquare >> distance [	
+	^n.
+]
+
+{ #category : 'initialization' }
 MoonWalkSquare >> initializeWithN: aNumber [
 	n := aNumber.
 ]
 
 { #category : 'actions' }
-MoonWalkSquare >> triggerEffect: spaceships and: theCurrentSpaceship [
-
-	| movingSpaceships |
-	movingSpaceships := spaceships reject: [ :obj |
-		                    obj == theCurrentSpaceship ].
-	
-	movingSpaceships do: [ :spaceship | spaceship moveBackwards: n].
-	theCurrentSpaceship moveForward: 0.
+MoonWalkSquare >> triggerEffect: aTurnContext [
+    aTurnContext moveOtherSpaceshipsBackwards: n.
+    ^ self.
 ]

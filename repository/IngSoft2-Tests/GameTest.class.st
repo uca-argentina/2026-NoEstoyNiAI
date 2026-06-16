@@ -370,10 +370,10 @@ aCollectionOfDice add: (FixedDie withFixedResults: #(10)).
 
 aCollectionOfSquares := OrderedCollection new.
 9 timesRepeat: [aCollectionOfSquares add: NoEffectSquare new].
-aCollectionOfSquares add: (HyperJumpSquare withParsecs: #(2 4 6)asOrderedCollection andRelation: 2).
+aCollectionOfSquares add: (HyperJumpSquare withParsecs: #(6 4 2 )asOrderedCollection ).
 20 timesRepeat: [ aCollectionOfSquares add: NoEffectSquare new ].
 
-aGame := RacingTheSpace throwing: aCollectionOfDice playingOn: aCollectionOfSquares usingSpaceShips: 4 withLaps: 1.
+aGame := RacingTheSpace throwing: aCollectionOfDice playingOn: aCollectionOfSquares usingSpaceShips: 4 withLaps: 1 andParsecs: 15.
 4 timesRepeat:[ aGame playTurn].
 
 aPosition := Position withNumberOfSquare: 22 andLaps:0. 
@@ -818,7 +818,7 @@ aCollectionOfDice:= OrderedCollection new.
 
 aCollectionOfDice add: (FixedDie withFixedResults: #(12)).
 
-aCollectionOfSquares := (SquaresGenerator withNumberOfSquares: 10 moonWalkN: 3 hyperJumpParsecs: #(2 4 6)asOrderedCollection  hyperJumpRelation: 2) generate. 
+aCollectionOfSquares := (SquaresGenerator withNumberOfSquares: 10 moonWalkN: 3 hyperJumpParsecs: #(2 4 6)asOrderedCollection) generate. 
 
 aGame := RacingTheSpace throwing: aCollectionOfDice playingOn:aCollectionOfSquares  usingSpaceShips:1  withLaps:3.
 
@@ -1086,7 +1086,7 @@ GameTest >> test057WhenASpeedCardIsThrownToAPlayerThenThatPlayersNextsDiceThrows
    valenSpaceship := Spaceship withName: 'valen' andCards: cards.
 	aCollectionOfSpaceships := { vitoSpaceship . solSpaceship . valenSpaceship } asOrderedCollection.
 	
-	aCollectionOfSquares := (FixedSquaresGenerator withNumberOfSquares: 50 random:0.1  moonWalkN: 1 hyperJumpParsecs: { 1 . 2 }asOrderedCollection hyperJumpRelation: 2) generate.
+	aCollectionOfSquares := (FixedSquaresGenerator withNumberOfSquares: 50 random:0.1  moonWalkN: 1 hyperJumpParsecs: { 1 . 2 }asOrderedCollection) generate.
 
 	aGame := RacingTheSpace throwing: aCollectionOfDice playingOn: aCollectionOfSquares by: aCollectionOfSpaceships withLaps: 1.
 	
@@ -1450,17 +1450,17 @@ GameTest >> test066WhenASpaceshipThrowsARepeatCardAndLastEffectWasHyperJumpEffec
     valenSpaceship := Spaceship withName: 'valen' andCards: valensCards.
 
     aCollectionOfSpaceships := { vitoSpaceship. solSpaceship. valenSpaceship } asOrderedCollection.
-
+"
     aCollectionOfSquares := OrderedCollection new.
     9 timesRepeat: [ aCollectionOfSquares add: NoEffectSquare new ].
-	 aCollectionOfSquares add: (HyperJumpSquare withParsecs: { 4 . 5 . 2 }asOrderedCollection andRelation: 2).
-	 5 timesRepeat: [ aCollectionOfSquares add: NoEffectSquare new ].
+	 aCollectionOfSquares add: (HyperJumpSquare withParsecs: { 4 . 5 . 2 }asOrderedCollection).
+	 20 timesRepeat: [ aCollectionOfSquares add: NoEffectSquare new ].
 
     aGame := RacingTheSpace
         throwing: aCollectionOfDice
         playingOn: aCollectionOfSquares
         by: aCollectionOfSpaceships
-        withLaps: 2.
+        withLaps: 2 andParsecs: 15.
 	 
 	 3 timesRepeat: [aGame playTurn].
 	 expectedValenPosition := Position withNumberOfSquare: 5 andLaps: 1.
@@ -1470,7 +1470,25 @@ GameTest >> test066WhenASpaceshipThrowsARepeatCardAndLastEffectWasHyperJumpEffec
 
 	 expectedValenPosition := Position withNumberOfSquare: 13 andLaps: 1.
 	self assert: ((aGame positionOf: 'valen') = expectedValenPosition ).
-	
+"
+aCollectionOfSquares := OrderedCollection new.
+9 timesRepeat: [ aCollectionOfSquares add: NoEffectSquare new ].
+aCollectionOfSquares add: (HyperJumpSquare withParsecs: { 5 . 4 . 2 } asOrderedCollection).
+10 timesRepeat: [ aCollectionOfSquares add: NoEffectSquare new ].
+aGame := RacingTheSpace
+    throwing: aCollectionOfDice
+    playingOn: aCollectionOfSquares
+    by: aCollectionOfSpaceships
+    withLaps: 3
+    andParsecs: 10.
+
+3 timesRepeat: [aGame playTurn].
+expectedValenPosition := Position withNumberOfSquare: 20 andLaps: 1.
+self assert: ((aGame positionOf: 'valen') = expectedValenPosition).
+
+aGame throw: repeatCard to: valenSpaceship by: valenSpaceship.
+expectedValenPosition := Position withNumberOfSquare: 8 andLaps: 1.
+self assert: ((aGame positionOf: 'valen') = expectedValenPosition).	
 
 
 
@@ -1609,4 +1627,114 @@ GameTest >> test071WhenASpaceshipMovesToACardsGeneratorSquareThenItGetsACard [
 	aGame playTurn.
 	
     self assert: ( (aGame numberOfCardsOf: 'vito')  = 3).
+]
+
+{ #category : 'tests' }
+GameTest >> test072WhenASpaceshipLandsOnHyperJumpSquareThenItAdvancesTheCorrespondingParsecs [
+    | aGame aCollectionOfDice aCollectionOfSquares expectedPosition |
+    aCollectionOfDice := OrderedCollection new.
+    aCollectionOfDice add: (FixedDie withFixedResults: #(5)).
+    aCollectionOfSquares := OrderedCollection new.
+    4 timesRepeat: [ aCollectionOfSquares add: NoEffectSquare new ].
+    aCollectionOfSquares add: (HyperJumpSquare withParsecs: #(4 2 1) asOrderedCollection).
+    5 timesRepeat: [ aCollectionOfSquares add: NoEffectSquare new ].
+    aGame := RacingTheSpace
+        throwing: aCollectionOfDice
+        playingOn: aCollectionOfSquares
+        usingSpaceShips: 1
+        withLaps: 3
+        andParsecs: 5.
+    aGame playTurn.
+    expectedPosition := Position withNumberOfSquare: 3 andLaps: 1.
+    self assert: (aGame positionOf: 1) = expectedPosition.
+]
+
+{ #category : 'tests' }
+GameTest >> test073WhenTwoSpaceshipsLandOnHyperJumpSquareThenTheyConsumeParsecsInOrder [
+    | aGame aCollectionOfDice aCollectionOfSquares expectedPosition1 expectedPosition2 |
+    aCollectionOfDice := OrderedCollection new.
+    aCollectionOfDice add: (FixedDie withFixedResults: #(5)).
+    aCollectionOfSquares := OrderedCollection new.
+    4 timesRepeat: [ aCollectionOfSquares add: NoEffectSquare new ].
+    aCollectionOfSquares add: (HyperJumpSquare withParsecs: #(4 2 1) asOrderedCollection).
+    5 timesRepeat: [ aCollectionOfSquares add: NoEffectSquare new ].
+    aGame := RacingTheSpace
+        throwing: aCollectionOfDice
+        playingOn: aCollectionOfSquares
+        usingSpaceShips: 2
+        withLaps: 3
+        andParsecs: 5.
+    2 timesRepeat: [ aGame playTurn ].
+    expectedPosition1 := Position withNumberOfSquare: 3 andLaps: 1.
+    expectedPosition2 := Position withNumberOfSquare: 9 andLaps: 0.
+    self assert: (aGame positionOf: 1) = expectedPosition1.
+    self assert: (aGame positionOf: 2) = expectedPosition2.
+]
+
+{ #category : 'tests' }
+GameTest >> test074WhenAllParsecsAreConsumedThenTheyResetAndCycleAgain [
+    | aGame aCollectionOfDice aCollectionOfSquares expectedPosition1 expectedPosition2 expectedPosition3 expectedPosition4 |
+    aCollectionOfDice := OrderedCollection new.
+    aCollectionOfDice add: (FixedDie withFixedResults: #(5)).
+    aCollectionOfSquares := OrderedCollection new.
+    4 timesRepeat: [ aCollectionOfSquares add: NoEffectSquare new ].
+    aCollectionOfSquares add: (HyperJumpSquare withParsecs: #(4 2 1) asOrderedCollection).
+    5 timesRepeat: [ aCollectionOfSquares add: NoEffectSquare new ].
+    aGame := RacingTheSpace
+        throwing: aCollectionOfDice
+        playingOn: aCollectionOfSquares
+        usingSpaceShips: 4
+        withLaps: 5
+        andParsecs: 5.
+    4 timesRepeat: [ aGame playTurn ].
+    expectedPosition1 := Position withNumberOfSquare: 3 andLaps: 1.
+    expectedPosition2 := Position withNumberOfSquare: 9 andLaps: 0.
+    expectedPosition3 := Position withNumberOfSquare: 7 andLaps: 0.
+    expectedPosition4 := Position withNumberOfSquare: 3 andLaps: 1.
+    self assert: (aGame positionOf: 1) = expectedPosition1.
+    self assert: (aGame positionOf: 2) = expectedPosition2.
+    self assert: (aGame positionOf: 3) = expectedPosition3.
+    self assert: (aGame positionOf: 4) = expectedPosition4.
+]
+
+{ #category : 'tests' }
+GameTest >> test074WhenHyperJumpSquareIsCreatedWithUnorderedParsecsThenAnErrorIsThrown [
+    self
+        should: [ HyperJumpSquare withParsecs: #(2 4 1) asOrderedCollection ]
+        raise: Error
+      		withExceptionDo: [:arg | self assert: arg messageText equals:'Parsecs must be sorted from highest to lowest' ].
+]
+
+{ #category : 'tests' }
+GameTest >> test075WhenASpaceshipThrowsARepeatCardAndLastEffectWasHyperJumpThenTheTargetSpaceshipAdvances [
+
+    | aGame aCollectionOfDice aCollectionOfSquares repeatCard
+      vitoSpaceship valenSpaceship aCollectionOfSpaceships
+      vitosCards valensCards expectedPosition |
+    aCollectionOfDice := OrderedCollection new.
+    aCollectionOfDice add: (FixedDie withFixedResults: #(5)).
+    repeatCard := RepeatCard new.
+    vitosCards := { SpeedCard new . SpeedCard new } asOrderedCollection.
+    valensCards := { repeatCard . repeatCard } asOrderedCollection.
+    vitoSpaceship := Spaceship withName: 'vito' andCards: vitosCards.
+    valenSpaceship := Spaceship withName: 'valen' andCards: valensCards.
+    aCollectionOfSpaceships := { vitoSpaceship. valenSpaceship } asOrderedCollection.
+    aCollectionOfSquares := OrderedCollection new.
+    4 timesRepeat: [ aCollectionOfSquares add: NoEffectSquare new ].
+    aCollectionOfSquares add: (HyperJumpSquare withParsecs: #(4 2 1) asOrderedCollection).
+    5 timesRepeat: [ aCollectionOfSquares add: NoEffectSquare new ].
+    aGame := RacingTheSpace
+        throwing: aCollectionOfDice
+        playingOn: aCollectionOfSquares
+        by: aCollectionOfSpaceships
+        withLaps: 3
+        andParsecs: 5.
+    2 timesRepeat: [ aGame playTurn ].
+    expectedPosition := Position withNumberOfSquare: 3 andLaps: 1.
+    self assert: (aGame positionOf: 'vito') = expectedPosition.
+    expectedPosition := Position withNumberOfSquare: 9 andLaps: 0.
+    self assert: (aGame positionOf: 'valen') = expectedPosition.
+    aGame throw: repeatCard to: valenSpaceship by: valenSpaceship.
+    expectedPosition := Position withNumberOfSquare: 11 andLaps: 0.
+    self assert: (aGame positionOf: 'valen') = expectedPosition.
 ]

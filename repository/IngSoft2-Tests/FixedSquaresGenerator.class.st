@@ -5,7 +5,6 @@ Class {
 		'numberOfSquares',
 		'random',
 		'hyperJumpParsecs',
-		'hyperJumpRelation',
 		'moonWalkN'
 	],
 	#category : 'IngSoft2-Tests',
@@ -13,22 +12,19 @@ Class {
 }
 
 { #category : 'as yet unclassified' }
-FixedSquaresGenerator class >> withNumberOfSquares: aNumberOfSquares random: aRandomNumber moonWalkN: aMoonWalkN hyperJumpParsecs: someParsecs hyperJumpRelation: aRelation [
+FixedSquaresGenerator class >> withNumberOfSquares: aNumberOfSquares random: aRandomNumber moonWalkN: aMoonWalkN hyperJumpParsecs: someParsecs [
 
 	aNumberOfSquares < 0 ifTrue: [self error: 'Number of squares cannot be negative'].
 
 	(aRandomNumber < 0 or: [ aRandomNumber > 1 ]) ifTrue: [self error: 'Random number must be between 0 and 1'].
 
 	aMoonWalkN <= 0 ifTrue: [self error: 'MoonWalk N must be positive'].
-
-	(aRelation isInteger not or: [ aRelation <= 0 ]) ifTrue: [self error: 'HyperJump relation must be a positive integer'].
 	
 	^ self new
 		initializeWithNumberOfSquares: aNumberOfSquares
 		random: aRandomNumber
 		moonWalkN: aMoonWalkN
-		hyperJumpParsecs: someParsecs
-		hyperJumpRelation: aRelation
+		hyperJumpParsecs: someParsecs.
 ]
 
 { #category : 'translating' }
@@ -59,17 +55,16 @@ FixedSquaresGenerator >> generateSquare [
 
 	randomNumber <= 0.90 ifTrue: [^ MoonWalkSquare withN: moonWalkN ].
 
-	randomNumber <= 0.98 ifTrue: [^ HyperJumpSquare  withParsecs: hyperJumpParsecs andRelation: hyperJumpRelation].
+	randomNumber <= 0.98 ifTrue: [^ HyperJumpSquare  withParsecs: hyperJumpParsecs].
 
 	^ AtomicBombSquare new
 ]
 
 { #category : 'initialization' }
-FixedSquaresGenerator >> initializeWithNumberOfSquares: aNumberOfSquares random: aRandomNumber moonWalkN: aMoonWalkN hyperJumpParsecs: someParsecs hyperJumpRelation: aRelation [
+FixedSquaresGenerator >> initializeWithNumberOfSquares: aNumberOfSquares random: aRandomNumber moonWalkN: aMoonWalkN hyperJumpParsecs: someParsecs [
 
 	numberOfSquares := aNumberOfSquares.
 	random := aRandomNumber.
 	moonWalkN := aMoonWalkN.
 	hyperJumpParsecs := someParsecs.
-	hyperJumpRelation := aRelation.
 ]

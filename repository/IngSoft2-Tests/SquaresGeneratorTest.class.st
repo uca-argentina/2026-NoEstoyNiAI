@@ -15,7 +15,7 @@ SquaresGeneratorTest >> test001WhenRandomFallsInNoEffectRangeThenAllGeneratedSqu
 		random: 0.1
 		moonWalkN: 3
 		hyperJumpParsecs: #(10 8 6 4)
-		hyperJumpRelation: 2.
+.
 
 	squares := generator generate.
 
@@ -36,7 +36,7 @@ SquaresGeneratorTest >> test002WhenRandomFallsInWormHoleRangeThenAllGeneratedSqu
 		random: 0.5
 		moonWalkN: 3
 		hyperJumpParsecs: #(10 8 6 4)
-		hyperJumpRelation: 2.
+.
 
 	squares := generator generate.
 
@@ -57,7 +57,7 @@ SquaresGeneratorTest >> test003WhenRandomFallsInSpeedUpRangeThenAllGeneratedSqua
 		random: 0.7
 		moonWalkN: 3
 		hyperJumpParsecs: #(10 8 6 4)
-		hyperJumpRelation: 2.
+		.
 
 	squares := generator generate.
 
@@ -78,7 +78,7 @@ SquaresGeneratorTest >> test004WhenRandomFallsInMoonWalkRangeThenAllGeneratedMoo
 		random: 0.85
 		moonWalkN: 4
 		hyperJumpParsecs: #(10 8 6 4)
-		hyperJumpRelation: 2.
+		.
 
 	squares := generator generate.
 
@@ -91,7 +91,7 @@ SquaresGeneratorTest >> test004WhenRandomFallsInMoonWalkRangeThenAllGeneratedMoo
 ]
 
 { #category : 'testing fixed' }
-SquaresGeneratorTest >> test005WhenRandomFallsInHyperJumpRangeThenAllGeneratedHyperJumpSquaresUseGivenParsecsAndRelation [
+SquaresGeneratorTest >> test005WhenRandomFallsInHyperJumpRangeThenAllGeneratedHyperJumpSquaresUseGivenParsecs [
 
 	| generator squares parsecs |
 
@@ -102,7 +102,7 @@ SquaresGeneratorTest >> test005WhenRandomFallsInHyperJumpRangeThenAllGeneratedHy
 		random: 0.95
 		moonWalkN: 3
 		hyperJumpParsecs: parsecs
-		hyperJumpRelation: 2.
+		.
 
 	squares := generator generate.
 
@@ -111,7 +111,7 @@ SquaresGeneratorTest >> test005WhenRandomFallsInHyperJumpRangeThenAllGeneratedHy
 	squares do: [ :square |
 		self assert: square class equals: HyperJumpSquare.
 		self assert: square parsecs equals: parsecs.
-		self assert: square parsecsToSquares equals: 2
+
 	].
 ]
 
@@ -125,7 +125,7 @@ SquaresGeneratorTest >> test006WhenRandomFallsInAtomicBombRangeThenAllGeneratedS
 		random: 0.99
 		moonWalkN: 3
 		hyperJumpParsecs: #(10 8 6 4)
-		hyperJumpRelation: 2.
+		.
 
 	squares := generator generate.
 
@@ -145,7 +145,7 @@ SquaresGeneratorTest >> test007WhenCreatingGeneratorWithNegativeNumberOfSquaresT
 				withNumberOfSquares: -1
 				moonWalkN: 3
 				hyperJumpParsecs: #(10 8 6 4)
-				hyperJumpRelation: 2
+				
 		]
 		raise: Error
 		withExceptionDo: [ :error |
@@ -165,7 +165,7 @@ SquaresGeneratorTest >> test008WhenCreatingGeneratorWithRandomLowerThanZeroThenT
 				random: -0.1
 				moonWalkN: 3
 				hyperJumpParsecs: #(10 8 6 4)
-				hyperJumpRelation: 2
+				
 		]
 		raise: Error
 		withExceptionDo: [ :error |
@@ -185,7 +185,7 @@ SquaresGeneratorTest >> test009WhenCreatingGeneratorWithRandomGreaterThanOneThen
 				random: 1.1
 				moonWalkN: 3
 				hyperJumpParsecs: #(10 8 6 4)
-				hyperJumpRelation: 2
+				
 		]
 		raise: Error
 		withExceptionDo: [ :error |
@@ -204,7 +204,7 @@ SquaresGeneratorTest >> test010WhenCreatingGeneratorWithZeroMoonWalkNThenTheSqua
 				withNumberOfSquares: 10
 				moonWalkN: 0
 				hyperJumpParsecs: #(10 8 6 4)
-				hyperJumpRelation: 2
+				
 		]
 		raise: Error
 		withExceptionDo: [ :error |
@@ -223,70 +223,13 @@ SquaresGeneratorTest >> test011WhenCreatingGeneratorWithNegativeMoonWalkNThenThe
 				withNumberOfSquares: 10
 				moonWalkN: -3
 				hyperJumpParsecs: #(10 8 6 4)
-				hyperJumpRelation: 2
+				
 		]
 		raise: Error
 		withExceptionDo: [ :error |
 			self
 				assert: error messageText
 				equals: 'MoonWalk N must be positive'
-		].
-]
-
-{ #category : 'testing non fixed' }
-SquaresGeneratorTest >> test012WhenCreatingGeneratorWithZeroHyperJumpRelationThenTheSquaresCannotBeCreated [
-
-	self
-		should: [
-			SquaresGenerator
-				withNumberOfSquares: 10
-				moonWalkN: 3
-				hyperJumpParsecs: #(10 8 6 4)
-				hyperJumpRelation: 0
-		]
-		raise: Error
-		withExceptionDo: [ :error |
-			self
-				assert: error messageText
-				equals: 'HyperJump relation must be a positive integer'
-		].
-]
-
-{ #category : 'testing non fixed' }
-SquaresGeneratorTest >> test013WhenCreatingGeneratorWithNegativeHyperJumpRelationThenTheSquaresCannotBeCreated [
-
-	self
-		should: [
-			SquaresGenerator
-				withNumberOfSquares: 10
-				moonWalkN: 3
-				hyperJumpParsecs: #(10 8 6 4)
-				hyperJumpRelation: -2
-		]
-		raise: Error
-		withExceptionDo: [ :error |
-			self
-				assert: error messageText
-				equals: 'HyperJump relation must be a positive integer'
-		].
-]
-
-{ #category : 'testing non fixed' }
-SquaresGeneratorTest >> test014WhenCreatingGeneratorWithNonIntegerHyperJumpRelationThenTheSquaresCannotBeCreated [
-
-	self
-		should: [
-			SquaresGenerator
-				withNumberOfSquares: 10
-				moonWalkN: 3
-				hyperJumpParsecs: #(10 8 6 4)
-				hyperJumpRelation: 2.5
-		]
-		raise: Error
-		withExceptionDo: [ :error |
-			self
-				assert: error messageText
-				equals: 'HyperJump relation must be a positive integer'
 		].
 ]
 
@@ -299,7 +242,7 @@ SquaresGeneratorTest >> test015WhenCreatingGeneratorWithValidValuesThenGenerator
 		withNumberOfSquares: 10
 		moonWalkN: 3
 		hyperJumpParsecs: #(10 8 6 4)
-		hyperJumpRelation: 2.
+	.
 
 	self assert: generator class equals: SquaresGenerator.
 ]
@@ -314,7 +257,7 @@ SquaresGeneratorTest >> test016WhenRandomFallsInCardGeneratorSquareRangeThenAllG
 		random: 0.35
 		moonWalkN: 3
 		hyperJumpParsecs: #(10 8 6 4)
-		hyperJumpRelation: 2.
+.
 
 	squares := generator generate.
 

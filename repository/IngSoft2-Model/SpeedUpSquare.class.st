@@ -10,9 +10,3 @@ SpeedUpSquare >> triggerEffect: aTurnContext [
     aTurnContext moveCurrentSpaceshipForward: 4.
     ^ self. 
 ]
-
-{ #category : 'actions' }
-SpeedUpSquare >> triggerEffect: spaceships and: theCurrentSpaceship [
-    theCurrentSpaceship moveForward: 4.
-    ^ self.  
-]

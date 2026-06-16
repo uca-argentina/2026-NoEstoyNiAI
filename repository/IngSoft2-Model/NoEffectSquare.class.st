@@ -15,10 +15,3 @@ NoEffectSquare >> triggerEffect: aTurnContext [
 	
 
 ]
-
-{ #category : 'actions' }
-NoEffectSquare >> triggerEffect: spaceships and: theCurrentSpaceship [
-	 ^ self.
-	
-
-]

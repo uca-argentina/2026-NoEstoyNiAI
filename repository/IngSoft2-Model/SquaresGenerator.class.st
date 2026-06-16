@@ -4,7 +4,6 @@ Class {
 	#instVars : [
 		'numberOfSquares',
 		'hyperJumpParsecs',
-		'hyperJumpRelation',
 		'moonWalkN',
 		'random'
 	],
@@ -13,19 +12,16 @@ Class {
 }
 
 { #category : 'as yet unclassified' }
-SquaresGenerator class >> withNumberOfSquares: aNumberOfSquares moonWalkN: aMoonWalkN hyperJumpParsecs: someParsecs hyperJumpRelation: aRelation [
+SquaresGenerator class >> withNumberOfSquares: aNumberOfSquares moonWalkN: aMoonWalkN hyperJumpParsecs: someParsecs [
 
 	aNumberOfSquares < 0 ifTrue: [self error: 'Number of squares cannot be negative'].
 
 	aMoonWalkN <= 0 ifTrue: [self error: 'MoonWalk N must be positive'].
 
-	(aRelation isInteger not or: [ aRelation <= 0 ]) ifTrue: [self error: 'HyperJump relation must be a positive integer'].
-
 	^ self new
 		initializeWithNumberOfSquares: aNumberOfSquares
 		moonWalkN: aMoonWalkN
 		hyperJumpParsecs: someParsecs
-		hyperJumpRelation: aRelation
 ]
 
 { #category : 'translating' }
@@ -57,17 +53,16 @@ SquaresGenerator >> generateSquare [
 
 	randomNumber <= 0.90 ifTrue: [^ MoonWalkSquare withN: moonWalkN ].
 
-	randomNumber <= 0.98 ifTrue: [^ HyperJumpSquare  withParsecs: hyperJumpParsecs andRelation: hyperJumpRelation].
+	randomNumber <= 0.98 ifTrue: [^ HyperJumpSquare  withParsecs: hyperJumpParsecs].
 
 	^ AtomicBombSquare new
 ]
 
 { #category : 'initialization' }
-SquaresGenerator >> initializeWithNumberOfSquares: aNumberOfSquares moonWalkN: aMoonWalkN hyperJumpParsecs: someParsecs hyperJumpRelation: aRelation [
+SquaresGenerator >> initializeWithNumberOfSquares: aNumberOfSquares moonWalkN: aMoonWalkN hyperJumpParsecs: someParsecs [
 	
 	numberOfSquares := aNumberOfSquares.
 	random := Random  new.
 	moonWalkN := aMoonWalkN.
 	hyperJumpParsecs := someParsecs.
-	hyperJumpRelation := aRelation.
 ]

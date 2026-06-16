@@ -33,7 +33,22 @@ RacingTheSpace class >> throwing: aCollectionOfDice playingOn: aCollectionOfSqua
 	numberOfLaps < 1 ifTrue: [ Error signal: 'You Cannot Create a Game With Less Than 1 lap' ].
 	(aCollectionOfSpaceships anySatisfy: [ :ship | (aCollectionOfSpaceships count: [ :other | other name = ship name ]) > 1]) ifTrue: [self error: 'You cannot create two spaceships with the same name'].
 	
-	board := Board withSquares: aCollectionOfSquares andLaps: numberOfLaps .
+	board := Board withSquares: aCollectionOfSquares andLaps: numberOfLaps.
+	
+	
+	^ self new initializeThrowing: aCollectionOfDice playingOn: board using: aCollectionOfSpaceships deepCopy andWith: numberOfLaps
+]
+
+{ #category : 'as yet unclassified' }
+RacingTheSpace class >> throwing: aCollectionOfDice playingOn: aCollectionOfSquares by: aCollectionOfSpaceships withLaps: numberOfLaps andParsecs: numberOfParsecs [
+	| board |
+	aCollectionOfSquares size < 2 ifTrue: [ Error signal: 'You Cannot Create A Game With Less Than 2 Squares' ].
+	aCollectionOfDice isEmpty ifTrue: [ Error signal: 'You Cannot Create A Game With No Dices' ].
+	aCollectionOfSpaceships isEmpty ifTrue: [ Error signal: 'You Cannot Create A Game With Less Than 1 Player'].
+	numberOfLaps < 1 ifTrue: [ Error signal: 'You Cannot Create a Game With Less Than 1 lap' ].
+	(aCollectionOfSpaceships anySatisfy: [ :ship | (aCollectionOfSpaceships count: [ :other | other name = ship name ]) > 1]) ifTrue: [self error: 'You cannot create two spaceships with the same name'].
+	
+	board := Board withSquares: aCollectionOfSquares andLaps: numberOfLaps andParsecs: numberOfParsecs.
 	
 	
 	^ self new initializeThrowing: aCollectionOfDice playingOn: board using: aCollectionOfSpaceships deepCopy andWith: numberOfLaps
@@ -49,6 +64,20 @@ RacingTheSpace class >> throwing: aCollectionOfDices playingOn: aCollectionOfSqu
 	spaceships := self createSpaceships: aNumberOfSpaceships.
 	
 	board := Board withSquares: aCollectionOfSquares andLaps: aNumberOfLaps .
+	^self new initializeThrowing: aCollectionOfDices playingOn: board using: spaceships andWith: aNumberOfLaps.
+	
+]
+
+{ #category : 'as yet unclassified' }
+RacingTheSpace class >> throwing: aCollectionOfDices playingOn: aCollectionOfSquares usingSpaceShips: aNumberOfSpaceships withLaps: aNumberOfLaps andParsecs: numberOfParsecs [
+	| board spaceships |
+	aCollectionOfSquares size < 2 ifTrue: [ Error signal: 'You Cannot Create A Game With Less Than 2 Squares' ].
+	aCollectionOfDices isEmpty ifTrue: [ Error signal: 'You Cannot Create A Game With No Dices' ].
+	aNumberOfSpaceships < 1 ifTrue: [ Error signal: 'You Cannot Create A Game With Less Than 1 Player'].
+	aNumberOfLaps < 1 ifTrue: [ Error signal: 'You Cannot Create a Game With Less Than 1 lap' ].
+	spaceships := self createSpaceships: aNumberOfSpaceships.
+	
+	board := Board withSquares: aCollectionOfSquares andLaps: aNumberOfLaps andParsecs: numberOfParsecs.
 	^self new initializeThrowing: aCollectionOfDices playingOn: board using: spaceships andWith: aNumberOfLaps.
 	
 ]

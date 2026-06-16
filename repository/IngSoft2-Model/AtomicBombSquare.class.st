@@ -10,9 +10,3 @@ AtomicBombSquare >> triggerEffect: aTurnContext [
     aTurnContext moveAllSpaceshipsToStart.
     ^ self.
 ]
-
-{ #category : 'actions' }
-AtomicBombSquare >> triggerEffect: spaceships and: theCurrentSpaceship [
-	spaceships do: [ :spaceship | spaceship resetToBeginning ].
-	 ^ self.
-]

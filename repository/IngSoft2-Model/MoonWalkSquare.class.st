@@ -29,14 +29,3 @@ MoonWalkSquare >> triggerEffect: aTurnContext [
     aTurnContext moveOtherSpaceshipsBackwards: n.
     ^ self.
 ]
-
-{ #category : 'actions' }
-MoonWalkSquare >> triggerEffect: spaceships and: theCurrentSpaceship [
-
-	| movingSpaceships |
-	movingSpaceships := spaceships reject: [ :obj |
-		                    obj == theCurrentSpaceship ].
-	
-	movingSpaceships do: [ :spaceship | spaceship moveBackwards: n].
-	 ^ self.
-]

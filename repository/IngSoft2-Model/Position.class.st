@@ -74,7 +74,7 @@ Position >> wrapIfNeeded: aBoardSize [
 
 	| lapsToAdd newSquare |
 
-	numberOfSquare > aBoardSize ifTrue: [
+	numberOfSquare >= aBoardSize ifTrue: [
 		lapsToAdd := numberOfSquare // aBoardSize.
 		newSquare := numberOfSquare \\ aBoardSize.
 

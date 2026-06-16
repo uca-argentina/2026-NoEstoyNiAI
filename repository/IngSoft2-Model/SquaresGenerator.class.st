@@ -5,7 +5,8 @@ Class {
 		'numberOfSquares',
 		'hyperJumpParsecs',
 		'moonWalkN',
-		'random'
+		'random',
+		'units'
 	],
 	#category : 'IngSoft2-Model',
 	#package : 'IngSoft2-Model'
@@ -53,16 +54,16 @@ SquaresGenerator >> generateSquare [
 
 	randomNumber <= 0.90 ifTrue: [^ MoonWalkSquare withN: moonWalkN ].
 
-	randomNumber <= 0.98 ifTrue: [^ HyperJumpSquare  withParsecs: hyperJumpParsecs].
+	randomNumber <= 0.98 ifTrue: [^ HyperJumpSquare  withUnits: units].
 
 	^ AtomicBombSquare new
 ]
 
 { #category : 'initialization' }
-SquaresGenerator >> initializeWithNumberOfSquares: aNumberOfSquares moonWalkN: aMoonWalkN hyperJumpParsecs: someParsecs [
+SquaresGenerator >> initializeWithNumberOfSquares: aNumberOfSquares moonWalkN: aMoonWalkN hyperJumpParsecs: someUnits [
 	
 	numberOfSquares := aNumberOfSquares.
 	random := Random  new.
 	moonWalkN := aMoonWalkN.
-	hyperJumpParsecs := someParsecs.
+	units := someUnits .
 ]

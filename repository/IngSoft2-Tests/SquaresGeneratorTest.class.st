@@ -95,7 +95,8 @@ SquaresGeneratorTest >> test005WhenRandomFallsInHyperJumpRangeThenAllGeneratedHy
 
 	| generator squares parsecs |
 
-	parsecs := #(10 8 6 4) asOrderedCollection .
+	parsecs := { Parsec withValue:10 . Parsec withValue:8 . Parsec withValue: 6 . Parsec withValue:4 } asOrderedCollection .
+	
 
 	generator := FixedSquaresGenerator
 		withNumberOfSquares: 2
@@ -110,7 +111,7 @@ SquaresGeneratorTest >> test005WhenRandomFallsInHyperJumpRangeThenAllGeneratedHy
 
 	squares do: [ :square |
 		self assert: square class equals: HyperJumpSquare.
-		self assert: square parsecs equals: parsecs.
+		self assert: square parsecs equals: {10 . 8 . 6 . 4} asOrderedCollection .
 
 	].
 ]

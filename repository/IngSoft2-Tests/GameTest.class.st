@@ -370,7 +370,8 @@ aCollectionOfDice add: (FixedDie withFixedResults: #(10)).
 
 aCollectionOfSquares := OrderedCollection new.
 9 timesRepeat: [aCollectionOfSquares add: NoEffectSquare new].
-aCollectionOfSquares add: (HyperJumpSquare withParsecs: #(6 4 2 )asOrderedCollection ).
+aCollectionOfSquares add: ( HyperJumpSquare withUnits: { Parsec withValue:6 . Parsec withValue:4 . Parsec withValue:2 }).
+
 20 timesRepeat: [ aCollectionOfSquares add: NoEffectSquare new ].
 
 aGame := RacingTheSpace throwing: aCollectionOfDice playingOn: aCollectionOfSquares usingSpaceShips: 4 withLaps: 1 andParsecs: 15.
@@ -818,7 +819,7 @@ aCollectionOfDice:= OrderedCollection new.
 
 aCollectionOfDice add: (FixedDie withFixedResults: #(12)).
 
-aCollectionOfSquares := (SquaresGenerator withNumberOfSquares: 10 moonWalkN: 3 hyperJumpParsecs: #(2 4 6)asOrderedCollection) generate. 
+aCollectionOfSquares := (SquaresGenerator withNumberOfSquares: 10 moonWalkN: 3 hyperJumpParsecs: {(Parsec withValue:6) . (Parsec withValue:4) .  (Parsec withValue:2)}asOrderedCollection) generate. 
 
 aGame := RacingTheSpace throwing: aCollectionOfDice playingOn:aCollectionOfSquares  usingSpaceShips:1  withLaps:3.
 
@@ -1453,7 +1454,8 @@ GameTest >> test066WhenASpaceshipThrowsARepeatCardAndLastEffectWasHyperJumpEffec
 
 aCollectionOfSquares := OrderedCollection new.
 9 timesRepeat: [ aCollectionOfSquares add: NoEffectSquare new ].
-aCollectionOfSquares add: (HyperJumpSquare withParsecs: { 5 . 4 . 2 } asOrderedCollection).
+
+aCollectionOfSquares add: ( HyperJumpSquare withUnits: { Parsec withValue:5 . Parsec withValue:4 . Parsec withValue:2 } ).
 10 timesRepeat: [ aCollectionOfSquares add: NoEffectSquare new ].
 aGame := RacingTheSpace
     throwing: aCollectionOfDice
@@ -1616,7 +1618,7 @@ GameTest >> test072WhenASpaceshipLandsOnHyperJumpSquareThenItAdvancesTheCorrespo
     aCollectionOfDice add: (FixedDie withFixedResults: #(5)).
     aCollectionOfSquares := OrderedCollection new.
     4 timesRepeat: [ aCollectionOfSquares add: NoEffectSquare new ].
-    aCollectionOfSquares add: (HyperJumpSquare withParsecs: #(4 2 1) asOrderedCollection).
+	aCollectionOfSquares add: ( HyperJumpSquare withUnits: { Parsec withValue:4 . Parsec withValue:2 . Parsec withValue:1 } ).
     5 timesRepeat: [ aCollectionOfSquares add: NoEffectSquare new ].
     aGame := RacingTheSpace
         throwing: aCollectionOfDice
@@ -1636,7 +1638,8 @@ GameTest >> test073WhenTwoSpaceshipsLandOnHyperJumpSquareThenTheyConsumeParsecsI
     aCollectionOfDice add: (FixedDie withFixedResults: #(5)).
     aCollectionOfSquares := OrderedCollection new.
     4 timesRepeat: [ aCollectionOfSquares add: NoEffectSquare new ].
-    aCollectionOfSquares add: (HyperJumpSquare withParsecs: #(4 2 1) asOrderedCollection).
+    
+aCollectionOfSquares add: ( HyperJumpSquare withUnits: { Parsec withValue:4 . Parsec withValue:2 . Parsec withValue:1 } ).
     5 timesRepeat: [ aCollectionOfSquares add: NoEffectSquare new ].
     aGame := RacingTheSpace
         throwing: aCollectionOfDice
@@ -1658,7 +1661,7 @@ GameTest >> test074WhenAllParsecsAreConsumedThenTheyResetAndCycleAgain [
     aCollectionOfDice add: (FixedDie withFixedResults: #(5)).
     aCollectionOfSquares := OrderedCollection new.
     4 timesRepeat: [ aCollectionOfSquares add: NoEffectSquare new ].
-    aCollectionOfSquares add: (HyperJumpSquare withParsecs: #(4 2 1) asOrderedCollection).
+    aCollectionOfSquares add: ( HyperJumpSquare withUnits: { Parsec withValue:4 . Parsec withValue:2 . Parsec withValue:1 } ).
     5 timesRepeat: [ aCollectionOfSquares add: NoEffectSquare new ].
     aGame := RacingTheSpace
         throwing: aCollectionOfDice
@@ -1675,4 +1678,68 @@ GameTest >> test074WhenAllParsecsAreConsumedThenTheyResetAndCycleAgain [
     self assert: (aGame positionOf: 2) = expectedPosition2.
     self assert: (aGame positionOf: 3) = expectedPosition3.
     self assert: (aGame positionOf: 4) = expectedPosition4.
+]
+
+{ #category : 'tests' }
+GameTest >> test075WhenHyperJumpSquareReceivesMixedUnitsThenItConvertsAndAdvancesCorrectly [
+    | aGame aCollectionOfDice aCollectionOfSquares expectedPosition |
+    aCollectionOfDice := OrderedCollection new.
+    aCollectionOfDice add: (FixedDie withFixedResults: #(5)).
+    aCollectionOfSquares := OrderedCollection new.
+    4 timesRepeat: [ aCollectionOfSquares add: NoEffectSquare new ].
+    aCollectionOfSquares add: (HyperJumpSquare withUnits: { Parsec withValue: 4. LightYear withValue: 3. Parsec withValue: 1 } asOrderedCollection).
+    5 timesRepeat: [ aCollectionOfSquares add: NoEffectSquare new ].
+    aGame := RacingTheSpace
+        throwing: aCollectionOfDice
+        playingOn: aCollectionOfSquares
+        usingSpaceShips: 1
+        withLaps: 3
+        andParsecs: 5.
+    aGame playTurn.
+    expectedPosition := Position withNumberOfSquare: 3 andLaps: 1.
+    self assert: (aGame positionOf: 1) = expectedPosition.
+
+]
+
+{ #category : 'tests' }
+GameTest >> test076WhenHyperJumpSquareReceivesOnlyLightYearsThenItConvertsAndAdvancesCorrectly [
+    | aGame aCollectionOfDice aCollectionOfSquares expectedPosition |
+    aCollectionOfDice := OrderedCollection new.
+    aCollectionOfDice add: (FixedDie withFixedResults: #(5)).
+    aCollectionOfSquares := OrderedCollection new.
+    4 timesRepeat: [ aCollectionOfSquares add: NoEffectSquare new ].
+    aCollectionOfSquares add: (HyperJumpSquare withUnits: { LightYear withValue: 12. LightYear withValue: 6. LightYear withValue: 3 } asOrderedCollection).
+    5 timesRepeat: [ aCollectionOfSquares add: NoEffectSquare new ].
+    aGame := RacingTheSpace
+        throwing: aCollectionOfDice
+        playingOn: aCollectionOfSquares
+        usingSpaceShips: 1
+        withLaps: 3
+        andParsecs: 5.
+    aGame playTurn.
+    expectedPosition := Position withNumberOfSquare: 3 andLaps: 1.
+    self assert: (aGame positionOf: 1) = expectedPosition.
+
+]
+
+{ #category : 'tests' }
+GameTest >> test077WhenTwoSpaceshipsLandOnHyperJumpWithMixedUnitsThenTheyConsumeInOrder [
+    | aGame aCollectionOfDice aCollectionOfSquares expectedPosition1 expectedPosition2 |
+    aCollectionOfDice := OrderedCollection new.
+    aCollectionOfDice add: (FixedDie withFixedResults: #(5)).
+    aCollectionOfSquares := OrderedCollection new.
+    4 timesRepeat: [ aCollectionOfSquares add: NoEffectSquare new ].
+    aCollectionOfSquares add: (HyperJumpSquare withUnits: { Parsec withValue: 4. LightYear withValue: 3. Parsec withValue: 1 } asOrderedCollection).
+    5 timesRepeat: [ aCollectionOfSquares add: NoEffectSquare new ].
+    aGame := RacingTheSpace
+        throwing: aCollectionOfDice
+        playingOn: aCollectionOfSquares
+        usingSpaceShips: 2
+        withLaps: 3
+        andParsecs: 5.
+    2 timesRepeat: [ aGame playTurn ].
+    expectedPosition1 := Position withNumberOfSquare: 3 andLaps: 1.
+    expectedPosition2 := Position withNumberOfSquare: 7 andLaps: 0.
+    self assert: (aGame positionOf: 1) = expectedPosition1.
+    self assert: (aGame positionOf: 2) = expectedPosition2.
 ]

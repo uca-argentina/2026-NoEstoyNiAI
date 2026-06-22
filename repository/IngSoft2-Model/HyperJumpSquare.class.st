@@ -13,14 +13,23 @@ Class {
 HyperJumpSquare class >> withParsecs: aCollectionOfParsecs [
 	
   
-	^self new initializeWithParsecs: aCollectionOfParsecs sort reverse.
-	
+	^self new initializeWithUnits: aCollectionOfParsecs sort reverse.
+	 
 
 ]
 
+{ #category : 'as yet unclassified' }
+HyperJumpSquare class >> withUnits: aCollectionOfUnits [
+    ^ self new initializeWithUnits: aCollectionOfUnits.
+]
+
 { #category : 'initialization' }
-HyperJumpSquare >> initializeWithParsecs: aCollectionOfParsecs [
-	 parsecs :=  aCollectionOfParsecs.
+HyperJumpSquare >> initializeWithUnits: aCollectionOfUnits [
+    | convertedParsecs |
+    convertedParsecs := (aCollectionOfUnits collect: [:unit | unit asParsecs]) asOrderedCollection.
+    (convertedParsecs = (convertedParsecs asSortedCollection: [:a :b | a > b]) asOrderedCollection)
+        ifFalse: [ Error signal: 'Parsecs must be sorted from highest to lowest' ].
+    parsecs := convertedParsecs.
     currentParsecPosition := 1.
 ]
 

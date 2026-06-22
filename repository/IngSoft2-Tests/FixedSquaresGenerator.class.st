@@ -4,8 +4,8 @@ Class {
 	#instVars : [
 		'numberOfSquares',
 		'random',
-		'hyperJumpParsecs',
-		'moonWalkN'
+		'moonWalkN',
+		'units'
 	],
 	#category : 'IngSoft2-Tests',
 	#package : 'IngSoft2-Tests'
@@ -55,16 +55,15 @@ FixedSquaresGenerator >> generateSquare [
 
 	randomNumber <= 0.90 ifTrue: [^ MoonWalkSquare withN: moonWalkN ].
 
-	randomNumber <= 0.98 ifTrue: [^ HyperJumpSquare  withParsecs: hyperJumpParsecs].
+	randomNumber <= 0.98 ifTrue: [^ HyperJumpSquare  withUnits: units].
 
 	^ AtomicBombSquare new
 ]
 
 { #category : 'initialization' }
 FixedSquaresGenerator >> initializeWithNumberOfSquares: aNumberOfSquares random: aRandomNumber moonWalkN: aMoonWalkN hyperJumpParsecs: someParsecs [
-
 	numberOfSquares := aNumberOfSquares.
 	random := aRandomNumber.
 	moonWalkN := aMoonWalkN.
-	hyperJumpParsecs := someParsecs.
+	units := someParsecs.
 ]
